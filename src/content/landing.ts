@@ -585,7 +585,7 @@ export const limits = {
     },
     {
       q: 'What can the agent do without asking me?',
-      a: 'Inside your corridor: sell part of the collateral to repay debt, move the loan to another market you approved, or exit the market if you allowed it. It cannot increase your debt on this venue, apart from 0.000001 USDC of rounding when it moves the loan.', // README l.11, l.25, l.43; FLOW l.49 (fact 7 wording)
+      a: 'Inside your corridor: sell part of the collateral to repay debt, move the loan to another market you approved, or exit the market if you allowed it. It cannot increase your debt on this venue, apart from up to 0.000002 USDC of rounding when it moves the loan.', // README l.11, l.25, l.43; FLOW l.49 (fact 7 wording)
     },
     {
       q: 'What happens if the agent is offline?',
@@ -727,7 +727,7 @@ export const agentDoc = {
   agentCanIntro: 'The agent acts only inside your corridor (limits you set: how low your LTV may go, how much it may sell per day, whether it may move your loan or exit). LTV means how much you owe versus what your collateral is worth. Its key can call three actions:', // COPY l.9, l.55; PRD 4 l.91
   agentCannot: [
     'It cannot send your money anywhere: none of its actions names a recipient, and everything it does pays back into your own loan.', // COPY l.7
-    'It cannot increase your debt on this venue, apart from 0.000001 USDC of rounding when it moves the loan.', // README l.25, l.49 (one loan-token unit of rounding)
+    'It cannot increase your debt on this venue, apart from up to 0.000002 USDC of rounding when it moves the loan.', // README l.25, l.49 (up to two loan-token units of rounding)
     'It cannot sell past the floor you set at the oracle price; a fill better than the oracle can end a few hundredths of a point under it.', // README l.40, l.49
     'It cannot act more than 10 minutes after you revoke it; revoking takes one signature.', // COPY l.14
   ],
