@@ -1,0 +1,8 @@
+---
+import { agentSection, links } from '../content/landing.ts';
+---
+<section id={agentSection.id} class="section">
+  <h2>{agentSection.h2}</h2>
+  <p class="mt-4">{agentSection.text}</p>
+  <p class="mt-4"><a href={links.agents} class="btn" data-agent-open>{agentSection.button}</a></p>
+</section>

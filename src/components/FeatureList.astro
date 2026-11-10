@@ -1,0 +1,14 @@
+---
+// The items of one area, each with its chip, in status order (PRD 4 l.72).
+import { featuresOf, type Group } from '../content/landing.ts';
+import StatusChip from './StatusChip.astro';
+interface Props { group: Group }
+const items = featuresOf(Astro.props.group);
+---
+<ul class="features">
+  {items.map((f) => (
+    <li data-feature={f.id}>
+      <StatusChip status={f.status} /> <span>{f.text}</span>
+    </li>
+  ))}
+</ul>

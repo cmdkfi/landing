@@ -1,0 +1,16 @@
+---
+import { limits } from '../content/landing.ts';
+---
+<section id={limits.id} class="section">
+  <h2>{limits.h2}</h2>
+  <ul class="mt-4 list-dash">{limits.honesty.map((h) => <li>{h}</li>)}</ul>
+  <h3 class="mt-8">{limits.faqHeading}</h3>
+  <dl class="mt-4 space-y-4">
+    {limits.faq.map((item) => (
+      <div>
+        <dt class="font-bold">{item.q}</dt>
+        <dd class="mt-1">{item.a}</dd>
+      </div>
+    ))}
+  </dl>
+</section>

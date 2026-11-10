@@ -1,0 +1,14 @@
+---
+import { problem } from '../content/landing.ts';
+---
+<section id={problem.id} class="section">
+  <h2>{problem.h2}</h2>
+  {problem.blocks.map((b) => (
+    <div class="mt-6">
+      <h3>{b.title}</h3>
+      <p class="mt-2">{b.text}</p>
+      {b.facts.length > 0 && <ul class="mt-2 list-dash text-fg-muted">{b.facts.map((f) => <li>{f}</li>)}</ul>}
+    </div>
+  ))}
+  <p class="mt-6">{problem.closing}</p>
+</section>

@@ -1,0 +1,8 @@
+---
+// Evidence box: fixed wording from copy-rules (PRD 5.5, 5.6).
+interface Props { label: string; lines: string[] }
+const { label, lines } = Astro.props;
+---
+<aside class="box mt-6" aria-label={label}>
+  <ul class="list-dash">{lines.map((l) => <li>{l}</li>)}</ul>
+</aside>

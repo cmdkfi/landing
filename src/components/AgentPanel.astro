@@ -1,0 +1,45 @@
+---
+// "Ask your agent" content (PRD 8.3): the dialog on / and the page /agents render this one component.
+// Copy buttons start hidden and are shown by src/scripts/agent.ts, so nothing dead shows with JavaScript off.
+import { agentPanel, prompt, links } from '../content/landing.ts';
+interface Props { level: 1 | 2; inDialog?: boolean }
+const { level, inDialog = false } = Astro.props;
+const Heading = level === 1 ? 'h1' : 'h2';
+const q = encodeURIComponent(prompt);
+---
+<div class="agent-panel space-y-5" data-agent-panel data-copied={agentPanel.copied} data-failed={agentPanel.copyFailed}>
+  <Heading id="agent-panel-title" class={level === 1 ? 'text-2xl font-bold' : ''}>{agentPanel.heading}</Heading>
+  <p>{agentPanel.intro}</p>
+
+  <p class="flex flex-wrap gap-3">
+    <a class="btn" href={links.claudeChatPrefix + q} target="_blank" rel="noopener noreferrer">{agentPanel.claude}<span class="sr-only"> {agentPanel.newTab}</span></a>
+    <a class="btn" href={links.chatgptChatPrefix + q} target="_blank" rel="noopener noreferrer">{agentPanel.chatgpt}<span class="sr-only"> {agentPanel.newTab}</span></a>
+  </p>
+
+  <div class="space-y-2">
+    <p>{agentPanel.copyPromptFor}</p>
+    <label for="agent-prompt" class="block text-sm text-fg-muted">{agentPanel.promptLabel}</label>
+    <textarea id="agent-prompt" class="prompt-box" rows="6" readonly data-prompt>{prompt}</textarea>
+    <p class="flex flex-wrap items-center gap-3">
+      <button type="button" class="btn" data-copy="prompt" hidden>{agentPanel.copyPrompt}</button>
+      <span class="text-sm" role="status" data-copy-status></span>
+    </p>
+  </div>
+
+  <div class="space-y-2">
+    <p>{agentPanel.copyFullFor}</p>
+    <p class="flex flex-wrap items-center gap-3">
+      <button type="button" class="btn" data-copy="full" data-src={links.llmsFull} hidden>{agentPanel.copyFull}</button>
+      <a href={links.llmsFull}>{agentPanel.fullLink}</a>
+      <span class="text-sm" role="status" data-copy-status></span>
+    </p>
+  </div>
+
+  <p class="text-sm text-fg-muted">{agentPanel.note}</p>
+
+  {inDialog && (
+    <form method="dialog">
+      <button type="submit" class="btn">{agentPanel.close}</button>
+    </form>
+  )}
+</div>

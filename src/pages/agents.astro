@@ -1,0 +1,12 @@
+---
+// /agents: the dialog's content as a normal page (PRD 8.3). The href of every entry point; works without JavaScript.
+import Base from '../layouts/Base.astro';
+import AgentPanel from '../components/AgentPanel.astro';
+import { agentsPage } from '../content/landing.ts';
+---
+<Base title={agentsPage.title} description={agentsPage.description} page="agents">
+  <div class="wrap py-10">
+    <AgentPanel level={1} />
+    <p class="mt-8"><a href="/">{agentsPage.back}</a></p>
+  </div>
+</Base>

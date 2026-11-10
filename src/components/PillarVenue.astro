@@ -1,0 +1,11 @@
+---
+import { venue } from '../content/landing.ts';
+import FeatureList from './FeatureList.astro';
+import Evidence from './Evidence.astro';
+---
+<section id={venue.id} class="section">
+  <h2>{venue.h2}</h2>
+  <FeatureList group="venue-risk" />
+  <Evidence label={venue.evidenceLabel} lines={venue.evidence} />
+  <p class="mt-6">{venue.limit}</p>
+</section>

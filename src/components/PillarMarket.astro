@@ -1,0 +1,12 @@
+---
+import { market } from '../content/landing.ts';
+import FeatureList from './FeatureList.astro';
+import Evidence from './Evidence.astro';
+---
+<section id={market.id} class="section">
+  <h2>{market.h2}</h2>
+  <FeatureList group="market" />
+  <Evidence label={market.evidenceLabel} lines={market.evidence} />
+  <p class="mt-6">{market.honesty}</p>
+  <p class="mt-4"><a href={market.link.href}>{market.link.label}</a></p>
+</section>

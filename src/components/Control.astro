@@ -1,0 +1,11 @@
+---
+import { control } from '../content/landing.ts';
+import FeatureList from './FeatureList.astro';
+---
+<section id={control.id} class="section">
+  <h2>{control.h2}</h2>
+  <FeatureList group="control" />
+  <p class="mt-4 text-sm text-fg-muted">{control.ltvNote}</p>
+  <p class="mt-6">{control.honesty}</p>
+  <p class="mt-4"><a href={control.link.href}>{control.link.label}</a></p>
+</section>

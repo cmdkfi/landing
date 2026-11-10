@@ -1,0 +1,33 @@
+---
+// Every item on the page grouped by status, live first (PRD 5.12). Generated from the feature list.
+import { statusSection, statusOrder, statusLabel, features, groupLabel, groupOrder } from '../content/landing.ts';
+import StatusChip from './StatusChip.astro';
+const byStatus = statusOrder.map((s) => ({
+  status: s,
+  items: groupOrder.flatMap((g) => features.filter((f) => f.status === s && f.group === g)),
+}));
+---
+<section id={statusSection.id} class="section">
+  <h2>{statusSection.h2}</h2>
+  <div class="table-scroll mt-4">
+    <table class="status-table">
+      <caption class="sr-only">{statusSection.caption}</caption>
+      <thead>
+        <tr><th scope="col">{statusSection.columns.status}</th><th scope="col">{statusSection.columns.item}</th><th scope="col">{statusSection.columns.area}</th></tr>
+      </thead>
+      {byStatus.map((b) => (
+        <tbody>
+          <tr class="group-row"><th scope="rowgroup" colspan="3">{statusLabel[b.status]}</th></tr>
+          {b.items.map((f) => (
+            <tr data-status-row={f.id}>
+              <td><StatusChip status={f.status} /></td>
+              <td>{f.title}</td>
+              <td class="text-fg-muted">{groupLabel[f.group]}</td>
+            </tr>
+          ))}
+        </tbody>
+      ))}
+    </table>
+  </div>
+  <p class="mt-4 text-sm text-fg-muted">{statusSection.footnote}</p>
+</section>

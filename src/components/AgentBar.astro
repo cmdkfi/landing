@@ -1,0 +1,13 @@
+---
+// The slim bar (PRD 8.3). Hidden in the markup; src/scripts/agent.ts shows it after the hero leaves the viewport.
+import { agentBar } from '../content/landing.ts';
+---
+<div class="agent-bar" data-agent-bar data-storage-key={agentBar.storageKey} hidden>
+  <div class="wrap flex flex-wrap items-center gap-x-4 gap-y-2 py-2">
+    <p class="text-sm">{agentBar.text}</p>
+    <div class="ml-auto flex items-center gap-3">
+      <button type="button" class="btn" data-agent-open>{agentBar.button}</button>
+      <button type="button" class="btn" data-agent-bar-close>{agentBar.close}</button>
+    </div>
+  </div>
+</div>

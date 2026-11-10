@@ -1,0 +1,14 @@
+---
+import { assets, groupLabel } from '../content/landing.ts';
+import FeatureList from './FeatureList.astro';
+---
+<section id={assets.id} class="section">
+  <h2>{assets.h2}</h2>
+  {assets.grids.map((g) => (
+    <div class="mt-6">
+      <h3>{groupLabel[g]}</h3>
+      <FeatureList group={g} />
+    </div>
+  ))}
+  <p class="mt-6 text-sm text-fg-muted">{assets.note}</p>
+</section>

@@ -1,0 +1,12 @@
+---
+import { hero } from '../content/landing.ts';
+import TestnetActions from './TestnetActions.astro';
+---
+<section id={hero.id} class="section">
+  <h1 class="text-2xl font-bold leading-snug">{hero.h1}</h1>
+  <p class="mt-4">{hero.sub}</p>
+  <div class="mt-6"><TestnetActions sandbox /></div>
+  <ul class="mt-6 list-dash">
+    {hero.proof.map((p) => <li>{p}</li>)}
+  </ul>
+</section>

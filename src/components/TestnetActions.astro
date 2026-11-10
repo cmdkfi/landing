@@ -1,0 +1,15 @@
+---
+// Primary action(s) with the testnet line next to them (PRD 4 l.86) and the desktop caption (PRD 7 l.269).
+import { links, cta, testnetLine, desktopCaption, hero } from '../content/landing.ts';
+interface Props { sandbox?: boolean }
+const { sandbox = false } = Astro.props;
+---
+<div class="actions">
+  <p class="flex flex-wrap gap-3">
+    <a href={links.testnet} class="btn btn-primary">{cta.openTestnet}</a>
+    {sandbox && <a href={links.sandbox} class="btn">{cta.sandbox}</a>}
+  </p>
+  {sandbox && <p class="text-sm text-fg-muted">{hero.sandboxCaption}</p>}
+  <p class="text-sm text-fg-muted">{testnetLine}</p>
+  <p class="text-sm text-fg-muted desktop-caption">{desktopCaption}</p>
+</div>

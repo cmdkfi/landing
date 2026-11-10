@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "landing",
+  "compatibility_date": "2026-11-01",
+  // Static site (Astro → ./dist). No Worker script: every request is served
+  // straight from the asset store. Deployed by Cloudflare Workers Builds on
+  // push to main (Git integration configured in the Cloudflare dashboard).
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

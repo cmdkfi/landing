@@ -1,0 +1,37 @@
+---
+// The landing: fourteen sections in PRD 5 order (5.2–5.15); header and footer come from the layout.
+import Base from '../layouts/Base.astro';
+import { meta } from '../content/landing.ts';
+import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
+import ForWhom from '../components/ForWhom.astro';
+import PillarMarket from '../components/PillarMarket.astro';
+import PillarVenue from '../components/PillarVenue.astro';
+import Assets from '../components/Assets.astro';
+import Control from '../components/Control.astro';
+import Strategies from '../components/Strategies.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Proof from '../components/Proof.astro';
+import StatusTable from '../components/StatusTable.astro';
+import Limits from '../components/Limits.astro';
+import AgentSection from '../components/AgentSection.astro';
+import FinalAction from '../components/FinalAction.astro';
+---
+<Base title={meta.title} description={meta.description} page="index">
+  <div class="wrap">
+    <Hero />
+    <Problem />
+    <ForWhom />
+    <PillarMarket />
+    <PillarVenue />
+    <Assets />
+    <Control />
+    <Strategies />
+    <HowItWorks />
+    <Proof />
+    <StatusTable />
+    <Limits />
+    <AgentSection />
+    <FinalAction />
+  </div>
+</Base>

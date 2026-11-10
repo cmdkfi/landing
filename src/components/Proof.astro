@@ -1,0 +1,12 @@
+---
+import { proof } from '../content/landing.ts';
+---
+<section id={proof.id} class="section">
+  <h2>{proof.h2}</h2>
+  <ul class="mt-4 space-y-3">
+    {proof.links.map((l) => (
+      <li><a href={l.href}>{l.label}</a><br /><span class="text-fg-muted">{l.line}</span></li>
+    ))}
+  </ul>
+  <p class="mt-6">{proof.builtOn}</p>
+</section>

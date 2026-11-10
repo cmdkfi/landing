@@ -1,0 +1,73 @@
+---
+// Head, meta, noindex, header, footer, the "Ask your agent" bar and dialog (PRD 9). Copy comes from landing.ts.
+import '../styles/global.css';
+import { header, footer, links, cta, testnetLine, meta } from '../content/landing.ts';
+import AgentPanel from '../components/AgentPanel.astro';
+import AgentBar from '../components/AgentBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  // 'index' carries the bar and the dialog; other pages link to /agents and to /#anchors.
+  page: 'index' | 'agents';
+}
+const { title, description, page } = Astro.props;
+const onIndex = page === 'index';
+const anchorBase = onIndex ? '' : '/';
+---
+<!doctype html>
+<html lang={meta.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="min-h-dvh">
+    <header class="site-header">
+      <div class="wrap flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
+        <a href="/" class="font-bold no-underline" aria-label={header.brandLabel}>{header.brand}</a>
+        <nav aria-label={header.navLabel} class="nav-anchors">
+          <ul class="flex flex-wrap gap-x-4 gap-y-1">
+            {header.anchors.map((a) => <li><a href={anchorBase + a.href}>{a.label}</a></li>)}
+          </ul>
+        </nav>
+        <div class="ml-auto flex flex-wrap items-center gap-x-4 gap-y-2">
+          <a href={links.agents} data-agent-open>{cta.askAgent}</a>
+          <a href={links.testnet} class="btn btn-primary">{cta.openTestnet}</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap py-8 space-y-3 text-sm">
+        <p class="font-bold">{footer.brand}</p>
+        <nav aria-label={footer.linksLabel}>
+          <ul class="flex flex-wrap gap-x-4 gap-y-1">
+            {footer.links.map((l) => <li><a href={l.href} data-agent-open={l.agent ? '' : undefined}>{l.label}</a></li>)}
+          </ul>
+        </nav>
+        <p class="text-fg-muted">{testnetLine}</p>
+        <p class="text-fg-muted">{footer.insurance}</p>
+        <p class="text-fg-muted">{footer.copyright}</p>
+      </div>
+    </footer>
+
+    {onIndex && (
+      <dialog class="agent-dialog" data-agent-dialog aria-labelledby="agent-panel-title">
+        <AgentPanel level={2} inDialog />
+      </dialog>
+    )}
+    {onIndex && <AgentBar />}
+
+    <script>
+      import '../scripts/agent.ts';
+    </script>
+  </body>
+</html>

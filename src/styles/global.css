@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0b0b0c;
+  --fg: #f2f2f0;
+  --fg-muted: #8a8a85;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f7f4;
+    --fg: #121214;
+    --fg-muted: #6b6b66;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 1rem;
+  }
+  body {
+    font-family: var(--font-mono);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+  a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  :focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  h3 {
+    font-weight: 700;
+  }
+}
+
+/* Layout utilities only (PRD 9: one column, about 720 px, chips as bordered text). Visual design comes later. */
+@layer components {
+  .wrap {
+    max-width: 720px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  .section {
+    padding-block: 2.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--fg-muted) 40%, transparent);
+  }
+  .section:first-child {
+    border-top: 0;
+  }
+  .site-header {
+    border-bottom: 1px solid color-mix(in srgb, var(--fg-muted) 40%, transparent);
+  }
+  .site-footer {
+    border-top: 1px solid color-mix(in srgb, var(--fg-muted) 40%, transparent);
+  }
+  /* Under 720 px the anchors collapse (PRD 5.1). */
+  @media (max-width: 719.98px) {
+    .nav-anchors {
+      display: none;
+    }
+  }
+  /* The testnet app is desktop only, gated below 960 px (cmdk-app FR-16): caption on narrow screens (PRD 7). */
+  @media (min-width: 960px) {
+    .desktop-caption {
+      display: none;
+    }
+  }
+  .btn {
+    display: inline-block;
+    border: 1px solid var(--fg);
+    padding: 0.4rem 0.9rem;
+    text-decoration: none;
+    background: transparent;
+    color: var(--fg);
+    font: inherit;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .chip {
+    display: inline-block;
+    border: 1px solid var(--fg-muted);
+    padding: 0 0.4rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    vertical-align: 0.1em;
+  }
+  .chip[data-chip="live"] {
+    border-color: var(--fg);
+  }
+  .features {
+    margin-top: 1rem;
+  }
+  .features li {
+    margin-top: 0.6rem;
+  }
+  .list-dash li {
+    padding-left: 1.2em;
+    text-indent: -1.2em;
+    margin-top: 0.4rem;
+  }
+  .list-dash li::before {
+    content: "– ";
+  }
+  .box {
+    border: 1px solid color-mix(in srgb, var(--fg-muted) 60%, transparent);
+    padding: 0.75rem 1rem;
+  }
+  .table-scroll {
+    overflow-x: auto;
+  }
+  .status-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .status-table th,
+  .status-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.4rem 0.75rem 0.4rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--fg-muted) 30%, transparent);
+  }
+  .status-table .group-row th {
+    padding-top: 1.2rem;
+  }
+  .status-table td:first-child {
+    white-space: nowrap;
+  }
+  .agent-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 10;
+    background: var(--bg);
+    border-top: 1px solid var(--fg-muted);
+  }
+  .agent-bar[hidden] {
+    display: none;
+  }
+  .agent-dialog {
+    width: min(640px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 1.25rem;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--fg-muted);
+  }
+  .agent-dialog::backdrop {
+    background: rgb(0 0 0 / 0.6);
+  }
+  .prompt-box {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-size: 0.875rem;
+    padding: 0.5rem;
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--fg-muted);
+    resize: vertical;
+  }
+}

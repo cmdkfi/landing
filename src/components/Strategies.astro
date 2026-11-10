@@ -1,0 +1,9 @@
+---
+import { strategies } from '../content/landing.ts';
+import FeatureList from './FeatureList.astro';
+---
+<section id={strategies.id} class="section">
+  <h2>{strategies.h2}</h2>
+  <p class="mt-4">{strategies.intro}</p>
+  <FeatureList group="strategy" />
+</section>

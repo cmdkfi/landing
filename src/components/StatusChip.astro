@@ -1,0 +1,7 @@
+---
+// A status chip: bordered text, never colour alone (PRD 4, 11).
+import { statusLabel, type Status } from '../content/landing.ts';
+interface Props { status: Status }
+const { status } = Astro.props;
+---
+<span class="chip" data-chip={status}>{statusLabel[status]}</span>
