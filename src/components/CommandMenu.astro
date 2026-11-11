@@ -1,5 +1,5 @@
 ---
-import { commandMenu, header, links, cta, testnetLine, desktopCaption } from '../content/landing.ts';
+import { commandMenu, header, links, cta, testnetLine, walletBrowserCaption } from '../content/landing.ts';
 interface Props { onIndex: boolean }
 const { onIndex } = Astro.props;
 ---
@@ -17,6 +17,6 @@ const { onIndex } = Astro.props;
     <p class="eyebrow command-label">{commandMenu.sections}</p>
     <ul class="command-links">{header.anchors.map((item) => <li><a href={(onIndex ? '' : '/') + item.href}>{item.label}<span aria-hidden="true">↓</span></a></li>)}</ul>
   </nav>
-  <div class="command-notes"><p>{testnetLine}</p><p class="desktop-caption">{desktopCaption}</p></div>
+  <div class="command-notes"><p>{testnetLine}</p><p class="wallet-browser-caption">{walletBrowserCaption}</p></div>
   <p id="command-hint" class="command-hint">{commandMenu.hint}</p>
 </dialog>

@@ -15,9 +15,10 @@ All copy lives in `src/content/landing.ts`; `/llms.txt` and `/llms-full.txt` are
 
 ## Visual design
 
-The responsive light layout follows the approved `../design-proposals/full-light-v3/`
-proposal. The landing and agent page share its palette, local font, cards and buttons.
-The app still requires a desktop browser; the mobile landing retains that notice.
+The responsive light layout uses a warm canvas, white panels, charcoal type and green accents.
+The landing and agent page share the app’s palette, local font, cards and buttons.
+Phone guidance directs users to a wallet’s built-in browser and marks mobile signing
+as experimental, with real-device testing pending. The sandbox needs no wallet.
 The feature directory supports search and status filters; native disclosures and the
 complete feature inventory remain available without JavaScript.
 With JavaScript enabled, Cmd+K / Ctrl+K opens quick navigation on both pages.
@@ -35,3 +36,7 @@ Automatic on push to `main`. The repo is connected to Cloudflare Workers Builds
 (Git integration in the Cloudflare dashboard). Build command `pnpm run build`,
 deploy command `npx wrangler deploy`. `dist/` is gitignored; Cloudflare builds it.
 No GitHub Actions workflow and no manual wrangler step.
+
+## Coordinated app release
+
+Merge and deploy [app PR #85](https://github.com/cmdkfi/cmdk-app/pull/85) before this landing change. It removes the desktop gate and adds the responsive sandbox. Mobile signing remains experimental until an open/sign/close rehearsal is recorded on a real phone in a wallet browser. The browser guidance on the landing, command menu and agent documents uses the same qualification.

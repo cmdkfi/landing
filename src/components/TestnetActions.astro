@@ -1,5 +1,5 @@
 ---
-import { links, cta, testnetLine, desktopCaption, hero } from '../content/landing.ts';
+import { links, cta, testnetLine, walletBrowserCaption, hero } from '../content/landing.ts';
 interface Props { sandbox?: boolean }
 const { sandbox = false } = Astro.props;
 ---
@@ -11,6 +11,6 @@ const { sandbox = false } = Astro.props;
   <div class="action-notes">
     {sandbox && <p>{hero.sandboxCaption}</p>}
     <p>{testnetLine}</p>
-    <p class="desktop-caption">{desktopCaption}</p>
+    <p class="wallet-browser-caption">{walletBrowserCaption}</p>
   </div>
 </div>

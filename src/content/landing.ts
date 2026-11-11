@@ -82,8 +82,8 @@ export const links = {
 // Required near every primary action (PRD 4 l.86). Facts: README l.3 (testnet, unaudited); COPY l.51 (no real money).
 export const testnetLine = 'Runs on NEAR testnet and Base Sepolia. Unaudited. No real money.'; // PRD 4 l.86
 
-// Shown under testnet-app buttons on narrow screens (PRD 7 l.269). FLOW l.77 (D9) and l.274 (FR-16): gate below 960 px.
-export const desktopCaption = 'The testnet app needs a desktop browser.';
+// App PR #85 replaces the old viewport gate. Phone signing is experimental until a real-device rehearsal.
+export const walletBrowserCaption = 'On phones, open the app inside a wallet browser. Mobile signing is experimental; device testing is pending.';
 
 export const honesty = {
   insurance: 'Protection is risk management, not insurance. A dip that recovers costs you something.', // COPY l.62
@@ -431,7 +431,7 @@ export const hero = {
   ],
 };
 
-// Approved A Light visual proposal (design-proposals/full-light-v3), implemented 11 Nov 2026.
+// A Light design: warm canvas, white panels, charcoal type and green accents; shared with the app.
 // Presentation labels live here too; the feature inventory and machine-readable claims above stay unchanged.
 export const visual = {
   brand: '⌘K cmdk',
@@ -781,7 +781,7 @@ export const agentDoc = {
     'cmdk lets you borrow USDC against what you hold. An AI agent keeps the loan away from liquidation while you are away, inside limits you set, and it cannot move your money. Every feature in llms-full.txt carries its status: Live on testnet, Production release, Roadmap or Exploring.', // PRD 5.2; D4; COPY l.7; PRD 4
   llmsLinks: {
     full: 'The whole product in one file: what is live, what is planned, limits, risks, FAQ.',
-    testnet: 'The testnet app (desktop browser, Base Sepolia).', // FLOW l.15
+    testnet: 'The testnet app (Base Sepolia; experimental phone signing inside a wallet browser, device testing pending).', // cmdkfi/cmdk-app PR #85: responsive layout; mobile signing rehearsal pending
     repo: 'Code, research and evidence (MIT).', // README l.204
   },
   headings: {
@@ -827,8 +827,8 @@ export const agentDoc = {
   ],
   // Part 9.
   tryIt: [
-    'Open the testnet app: a desktop browser, a browser wallet (for example MetaMask or Rabby) on Base Sepolia, and some Base Sepolia ETH. Testnet ETH is free from public faucets.', // FLOW l.15, l.86, l.162, l.170
-    'Or run a market crash in the sandbox: no wallet needed; a simulated wallet and a simulated protocol, nothing touches Base Sepolia or NEAR. It also needs a desktop browser.', // FLOW l.370, l.392, l.274
+    'Open the testnet app with a browser wallet (for example MetaMask or Rabby) on Base Sepolia and some Base Sepolia ETH. On a phone, use the wallet’s built-in browser; mobile signing is experimental and device testing is pending. Testnet ETH is free from public faucets.', // FLOW l.86, l.162, l.170; cmdkfi/cmdk-app PR #85 (mobile rehearsal pending)
+    'Or run a market crash in the sandbox: no wallet needed; a simulated wallet and a simulated protocol, nothing touches Base Sepolia or NEAR. The sandbox works on desktop and mobile.', // FLOW l.370, l.392; cmdkfi/cmdk-app PR #85 (responsive sandbox)
   ],
   // Part 11.
   instructions: [

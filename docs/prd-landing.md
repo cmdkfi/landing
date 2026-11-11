@@ -410,3 +410,7 @@ scripts/
 - An X handle, when it exists, goes into the footer.
 - `check-copy.sh` in prime has a fixed file list; the landing gets its own port (section 10). If the rule table changes in prime, the port is updated by hand.
 - "Exploring" is a new status, not in `build-scope.md`. If it should be recorded there, that needs a line in the team's decision log.
+
+## 11 November 2026: responsive app update
+
+The desktop-only requirement in sections 7, 8 and the risk table is superseded by app PR #85. Deploy that app change before landing PR #1. The sandbox supports desktop and mobile. Phone signing requires a wallet’s built-in browser and remains experimental, with a real-device rehearsal pending; use that qualification in the command menu, mobile caption and agent instructions.

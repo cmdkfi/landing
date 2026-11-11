@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { header, footer, links, cta, testnetLine, desktopCaption, meta, visual, commandMenu } from '../content/landing.ts';
+import { header, footer, links, cta, testnetLine, walletBrowserCaption, meta, visual, commandMenu } from '../content/landing.ts';
 import CommandMenu from '../components/CommandMenu.astro';
 import AgentPanel from '../components/AgentPanel.astro';
 import AgentBar from '../components/AgentBar.astro';
@@ -26,7 +26,7 @@ const anchorBase = onIndex ? '' : '/';
         <div class="header-actions"><button class="command-trigger" type="button" data-command-open hidden aria-label={commandMenu.label} title={commandMenu.label} aria-haspopup="dialog" aria-controls="command-menu" aria-keyshortcuts="Meta+k Control+k"><kbd data-shortcut data-other={commandMenu.otherShortcut}>{commandMenu.macShortcut}</kbd></button><a class="header-agent" href={links.agents} data-agent-open>{cta.askAgent}</a><a href={links.testnet} class="btn btn-primary">{cta.openTestnet}</a></div>
         <details class="mobile-menu" data-mobile-menu>
           <summary>{visual.menu}<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.5" /></svg></summary>
-          <nav aria-label={header.navLabel}><button class="command-mobile-trigger" type="button" data-command-open hidden aria-haspopup="dialog" aria-controls="command-menu">{commandMenu.label}<kbd data-shortcut data-other={commandMenu.otherShortcut}>{commandMenu.macShortcut}</kbd></button><ul>{header.anchors.map((item) => <li><a href={anchorBase + item.href}>{item.label}</a></li>)}<li><a href={links.agents} data-agent-open>{cta.askAgent}</a></li></ul><p class="small muted">{testnetLine}</p><p class="small muted">{desktopCaption}</p></nav>
+          <nav aria-label={header.navLabel}><button class="command-mobile-trigger" type="button" data-command-open hidden aria-haspopup="dialog" aria-controls="command-menu">{commandMenu.label}<kbd data-shortcut data-other={commandMenu.otherShortcut}>{commandMenu.macShortcut}</kbd></button><ul>{header.anchors.map((item) => <li><a href={anchorBase + item.href}>{item.label}</a></li>)}<li><a href={links.agents} data-agent-open>{cta.askAgent}</a></li></ul><p class="small muted">{testnetLine}</p><p class="small muted">{walletBrowserCaption}</p></nav>
         </details>
       </div>
     </header>
