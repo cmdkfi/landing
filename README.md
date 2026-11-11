@@ -34,7 +34,9 @@ copy actions and routing. Regenerate the file preview after each build.
 
 Automatic on push to `main`. The repo is connected to Cloudflare Workers Builds
 (Git integration in the Cloudflare dashboard). Build command `pnpm run build`,
-deploy command `npx wrangler deploy`. `dist/` is gitignored; Cloudflare builds it.
+production deploy command `npx wrangler deploy`. Pull-request builds run `npx wrangler preview`,
+which requires the `previews: {}` opt-in in `wrangler.jsonc`; static assets and compatibility settings
+stay at the top level. `dist/` is gitignored; Cloudflare builds it.
 No GitHub Actions workflow and no manual wrangler step.
 
 ## Coordinated app release
