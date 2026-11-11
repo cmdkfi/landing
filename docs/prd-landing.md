@@ -413,4 +413,4 @@ scripts/
 
 ## 11 November 2026: responsive app update
 
-The desktop-only requirement in sections 7, 8 and the risk table is superseded by app PR #85. Deploy that app change before landing PR #1. The sandbox supports desktop and mobile. Phone signing requires a wallet’s built-in browser and remains experimental, with a real-device rehearsal pending; use that qualification in the command menu, mobile caption and agent instructions.
+The desktop-only requirement in sections 7, 8 and the risk table stands for the testnet flow (app PR #85 lifted it on 11 Nov; app PR #89 restored it the same day, because MetaMask Mobile's in-app browser fails the first signature, MetaMask/metamask-mobile#39052). The sandbox supports desktop and mobile; phones get the sandbox. The command menu, the mobile caption and the agent instructions say so.

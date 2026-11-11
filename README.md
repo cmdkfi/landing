@@ -17,8 +17,8 @@ All copy lives in `src/content/landing.ts`; `/llms.txt` and `/llms-full.txt` are
 
 The responsive light layout uses a warm canvas, white panels, charcoal type and green accents.
 The landing and agent page share the app’s palette, local font, cards and buttons.
-Phone guidance directs users to a wallet’s built-in browser and marks mobile signing
-as experimental, with real-device testing pending. The sandbox needs no wallet.
+Phone guidance says the testnet flow runs on a desktop browser and offers the sandbox on
+phones (app PR #89, 11 Nov 2026). The sandbox needs no wallet.
 The feature directory supports search and status filters; native disclosures and the
 complete feature inventory remain available without JavaScript.
 With JavaScript enabled, Cmd+K / Ctrl+K opens quick navigation on both pages.
@@ -41,4 +41,4 @@ No GitHub Actions workflow and no manual wrangler step.
 
 ## Coordinated app release
 
-Merge and deploy [app PR #85](https://github.com/cmdkfi/cmdk-app/pull/85) before this landing change. It removes the desktop gate and adds the responsive sandbox. Mobile signing remains experimental until an open/sign/close rehearsal is recorded on a real phone in a wallet browser. The browser guidance on the landing, command menu and agent documents uses the same qualification.
+History: app PR #85 (11 Nov) removed the desktop gate and this landing described phone signing as experimental; app PR #89 (11 Nov, deployed before this change) made the testnet flow desktop-only again and gives phones the sandbox, because MetaMask Mobile's in-app browser fails the first signature (MetaMask/metamask-mobile#39052). The landing, the command menu and the agent documents say the same.

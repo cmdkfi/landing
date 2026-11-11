@@ -82,8 +82,8 @@ export const links = {
 // Required near every primary action (PRD 4 l.86). Facts: README l.3 (testnet, unaudited); COPY l.51 (no real money).
 export const testnetLine = 'Runs on NEAR testnet and Base Sepolia. Unaudited. No real money.'; // PRD 4 l.86
 
-// App PR #85 replaces the old viewport gate. Phone signing is experimental until a real-device rehearsal.
-export const walletBrowserCaption = 'On phones, open the app inside a wallet browser. Mobile signing is experimental; device testing is pending.';
+// App PR #89 (11 Nov): the testnet flow is desktop-only; on a phone the app offers the sandbox (MetaMask Mobile's browser fails the first signature, MetaMask/metamask-mobile#39052).
+export const walletBrowserCaption = 'The testnet flow runs on a desktop browser with a wallet extension. On a phone, try the sandbox.';
 
 export const honesty = {
   insurance: 'Protection is risk management, not insurance. A dip that recovers costs you something.', // COPY l.62
@@ -781,7 +781,7 @@ export const agentDoc = {
     'cmdk lets you borrow USDC against what you hold. An AI agent keeps the loan away from liquidation while you are away, inside limits you set, and it cannot move your money. Every feature in llms-full.txt carries its status: Live on testnet, Production release, Roadmap or Exploring.', // PRD 5.2; D4; COPY l.7; PRD 4
   llmsLinks: {
     full: 'The whole product in one file: what is live, what is planned, limits, risks, FAQ.',
-    testnet: 'The testnet app (Base Sepolia; experimental phone signing inside a wallet browser, device testing pending).', // cmdkfi/cmdk-app PR #85: responsive layout; mobile signing rehearsal pending
+    testnet: 'The testnet app (Base Sepolia; a desktop browser with a wallet extension; on a phone, the sandbox).', // cmdkfi/cmdk-app PR #89: desktop-only testnet flow, sandbox on phones
     repo: 'Code, research and evidence (MIT).', // README l.204
   },
   headings: {
@@ -827,7 +827,7 @@ export const agentDoc = {
   ],
   // Part 9.
   tryIt: [
-    'Open the testnet app with a browser wallet (for example MetaMask or Rabby) on Base Sepolia and some Base Sepolia ETH. On a phone, use the wallet’s built-in browser; mobile signing is experimental and device testing is pending. Testnet ETH is free from public faucets.', // FLOW l.86, l.162, l.170; cmdkfi/cmdk-app PR #85 (mobile rehearsal pending)
+    'Open the testnet app with a browser wallet (for example MetaMask or Rabby) on Base Sepolia and some Base Sepolia ETH. On a phone the testnet flow is not offered; the app shows the sandbox instead (inside MetaMask Mobile’s browser the first signature fails: MetaMask/metamask-mobile#39052). Testnet ETH is free from public faucets.', // FLOW l.86, l.162, l.170; cmdkfi/cmdk-app PR #85 (mobile rehearsal pending)
     'Or run a market crash in the sandbox: no wallet needed; a simulated wallet and a simulated protocol, nothing touches Base Sepolia or NEAR. The sandbox works on desktop and mobile.', // FLOW l.370, l.392; cmdkfi/cmdk-app PR #85 (responsive sandbox)
   ],
   // Part 11.
