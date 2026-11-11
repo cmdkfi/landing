@@ -1,33 +1,21 @@
 ---
-// Every item on the page grouped by status, live first (PRD 5.12). Generated from the feature list.
-import { statusSection, statusOrder, statusLabel, features, groupLabel, groupOrder } from '../content/landing.ts';
+import { statusSection, statusOrder, statusLabel, features, groupLabel, groupOrder, visual } from '../content/landing.ts';
 import StatusChip from './StatusChip.astro';
-const byStatus = statusOrder.map((s) => ({
-  status: s,
-  items: groupOrder.flatMap((g) => features.filter((f) => f.status === s && f.group === g)),
-}));
+const byStatus = statusOrder.map((status) => ({ status, items: groupOrder.flatMap((group) => features.filter((f) => f.status === status && f.group === group)) }));
 ---
-<section id={statusSection.id} class="section">
-  <h2>{statusSection.h2}</h2>
-  <div class="table-scroll mt-4">
-    <table class="status-table">
-      <caption class="sr-only">{statusSection.caption}</caption>
-      <thead>
-        <tr><th scope="col">{statusSection.columns.status}</th><th scope="col">{statusSection.columns.item}</th><th scope="col">{statusSection.columns.area}</th></tr>
-      </thead>
-      {byStatus.map((b) => (
-        <tbody>
-          <tr class="group-row"><th scope="rowgroup" colspan="3">{statusLabel[b.status]}</th></tr>
-          {b.items.map((f) => (
-            <tr data-status-row={f.id}>
-              <td><StatusChip status={f.status} /></td>
-              <td>{f.title}</td>
-              <td class="text-fg-muted">{groupLabel[f.group]}</td>
-            </tr>
-          ))}
-        </tbody>
-      ))}
-    </table>
-  </div>
-  <p class="mt-4 text-sm text-fg-muted">{statusSection.footnote}</p>
+<section id={statusSection.id} class="directory-section">
+  <details class="disclosure" data-directory-disclosure>
+    <summary>{visual.directoryTitle}</summary>
+    <p class="small muted">{visual.directoryIntro}</p>
+    <div class="directory-controls" data-directory-controls hidden>
+      <label class="sr-only" for="feature-search">{visual.directorySearch}</label>
+      <input type="search" id="feature-search" data-feature-search placeholder={visual.directorySearch} autocomplete="off" />
+      <div class="filter-buttons" role="group" aria-label={visual.directoryFilter}><button type="button" data-status-filter="all" aria-pressed="true">{visual.all}</button>{statusOrder.map((s) => <button type="button" data-status-filter={s} aria-pressed="false">{statusLabel[s]}</button>)}</div>
+      <p class="small muted" role="status" data-feature-count data-suffix={visual.results}></p>
+    </div>
+    <div class="table-scroll"><table class="status-table"><caption class="sr-only">{statusSection.caption}</caption><thead><tr><th scope="col">{statusSection.columns.item}</th><th scope="col">{statusSection.columns.area}</th><th scope="col">{statusSection.columns.status}</th></tr></thead>
+      {byStatus.map((block) => <tbody data-status-group={block.status}><tr class="group-row"><th scope="rowgroup" colspan="3">{statusLabel[block.status]}</th></tr>{block.items.map((f) => <tr data-status-row={f.id} data-status={f.status}><th scope="row"><strong>{f.title}</strong><span class="directory-description">{f.text}</span></th><td class="muted">{groupLabel[f.group]}</td><td><StatusChip status={f.status} /></td></tr>)}</tbody>)}
+    </table></div>
+    <p class="empty-results" data-empty-results hidden>{visual.noResults}</p><p class="section-note">{statusSection.footnote}</p>
+  </details>
 </section>

@@ -2,6 +2,8 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "landing",
   "compatibility_date": "2026-11-01",
+  // Workers Builds runs `wrangler preview` for pull requests. Static assets inherit the top-level settings.
+  "previews": {},
   // Static site (Astro → ./dist). No Worker script: every request is served
   // straight from the asset store. Deployed by Cloudflare Workers Builds on
   // push to main (Git integration configured in the Cloudflare dashboard).

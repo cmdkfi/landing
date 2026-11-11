@@ -1,12 +1,17 @@
 ---
-import { hero } from '../content/landing.ts';
+import { hero, visual } from '../content/landing.ts';
 import TestnetActions from './TestnetActions.astro';
+import LoanPreview from './LoanPreview.astro';
 ---
-<section id={hero.id} class="section">
-  <h1 class="text-2xl font-bold leading-snug">{hero.h1}</h1>
-  <p class="mt-4">{hero.sub}</p>
-  <div class="mt-6"><TestnetActions sandbox /></div>
-  <ul class="mt-6 list-dash">
-    {hero.proof.map((p) => <li>{p}</li>)}
-  </ul>
+<section id={hero.id} class="hero">
+  <div class="hero-copy">
+    <h1>{visual.heroTitle[0]}<br />{visual.heroTitle[1]}</h1>
+    <p class="hero-lead">{visual.heroLead}</p>
+    <p class="hero-scope">{visual.heroScope}</p>
+    <TestnetActions sandbox />
+  </div>
+  <LoanPreview />
 </section>
+<ul class="trust-strip">
+  {visual.trust.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}
+</ul>

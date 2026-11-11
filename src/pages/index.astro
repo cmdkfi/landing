@@ -1,7 +1,7 @@
 ---
-// The landing: fourteen sections in PRD 5 order (5.2–5.15); header and footer come from the layout.
+// A Light: approved visual chapters, with the full feature inventory preserved in disclosures.
 import Base from '../layouts/Base.astro';
-import { meta } from '../content/landing.ts';
+import { meta, visual } from '../content/landing.ts';
 import Hero from '../components/Hero.astro';
 import Problem from '../components/Problem.astro';
 import ForWhom from '../components/ForWhom.astro';
@@ -20,18 +20,7 @@ import FinalAction from '../components/FinalAction.astro';
 <Base title={meta.title} description={meta.description} page="index">
   <div class="wrap">
     <Hero />
-    <Problem />
-    <ForWhom />
-    <PillarMarket />
-    <PillarVenue />
-    <Assets />
-    <Control />
-    <Strategies />
-    <HowItWorks />
-    <Proof />
-    <StatusTable />
-    <Limits />
-    <AgentSection />
-    <FinalAction />
+    <section class="section responses"><h2>{visual.responses}</h2><div class="two-columns"><PillarMarket /><PillarVenue /></div><details class="disclosure context-details"><summary>{visual.problemDetails}</summary><div class="context-grid"><Problem /><ForWhom /></div></details></section>
+    <Control /><HowItWorks /><Proof /><Assets /><Strategies /><StatusTable /><Limits /><AgentSection /><FinalAction />
   </div>
 </Base>

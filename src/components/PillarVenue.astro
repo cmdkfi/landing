@@ -1,11 +1,12 @@
 ---
-import { venue } from '../content/landing.ts';
+import { venue, visual } from '../content/landing.ts';
 import FeatureList from './FeatureList.astro';
-import Evidence from './Evidence.astro';
+import StatusChip from './StatusChip.astro';
 ---
-<section id={venue.id} class="section">
-  <h2>{venue.h2}</h2>
-  <FeatureList group="venue-risk" />
-  <Evidence label={venue.evidenceLabel} lines={venue.evidence} />
-  <p class="mt-6">{venue.limit}</p>
-</section>
+<article id={venue.id} class="panel response-card">
+  <div class="card-heading"><h3>{visual.venueTitle}</h3><StatusChip status="live" /></div>
+  <p class="muted">{visual.venueSub}</p>
+  <div class="migration-diagram"><div>{visual.venueNodes[0]}</div><span aria-hidden="true">→</span><div>{visual.venueNodes[1]}</div></div>
+  <p class="small muted">{visual.venueNote}</p>
+  <details class="card-details"><summary>{visual.venueDetails}</summary><FeatureList group="venue-risk" /><p class="small muted">{venue.limit}</p></details>
+</article>

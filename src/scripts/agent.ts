@@ -18,7 +18,9 @@ document.addEventListener('click', (e) => {
 dialog?.addEventListener('close', () => update());
 // A click on the backdrop (the dialog element itself, outside its content) closes it.
 dialog?.addEventListener('click', (e) => {
-  if (e.target === dialog) dialog.close();
+  if (e.target !== dialog) return;
+  const bounds = dialog.getBoundingClientRect();
+  if (e.clientX < bounds.left || e.clientX > bounds.right || e.clientY < bounds.top || e.clientY > bounds.bottom) dialog.close();
 });
 
 // ---------------------------------------------------------------- bar

@@ -82,8 +82,8 @@ export const links = {
 // Required near every primary action (PRD 4 l.86). Facts: README l.3 (testnet, unaudited); COPY l.51 (no real money).
 export const testnetLine = 'Runs on NEAR testnet and Base Sepolia. Unaudited. No real money.'; // PRD 4 l.86
 
-// Shown under testnet-app buttons on narrow screens (PRD 7 l.269). FLOW l.77 (D9) and l.274 (FR-16): gate below 960 px.
-export const desktopCaption = 'The testnet app needs a desktop browser.';
+// App PR #85 replaces the old viewport gate. Phone signing is experimental until a real-device rehearsal.
+export const walletBrowserCaption = 'On phones, open the app inside a wallet browser. Mobile signing is experimental; device testing is pending.';
 
 export const honesty = {
   insurance: 'Protection is risk management, not insurance. A dip that recovers costs you something.', // COPY l.62
@@ -431,6 +431,95 @@ export const hero = {
   ],
 };
 
+// A Light design: warm canvas, white panels, charcoal type and green accents; shared with the app.
+// Presentation labels live here too; the feature inventory and machine-readable claims above stay unchanged.
+export const visual = {
+  brand: '⌘K cmdk',
+  menu: 'Menu',
+  skip: 'Skip to content',
+  heroTitle: ['Borrow against', 'what you hold.'],
+  heroLead: 'An agent looks after the loan. You control the limits.', // hero; COPY l.9
+  heroScope: 'Borrow USDC against ETH on testnet today.', // FLOW S1; SCOPE l.7–8
+  trust: [
+    'Your wallet signs withdrawals', // COPY l.8
+    'Actions checked on-chain', // COPY l.10
+    'Live on testnet', // SCOPE
+  ],
+  preview: {
+    label: 'Illustrative position · testnet',
+    title: 'Your loan, within your limits.',
+    collateral: 'ETH',
+    borrow: 'USDC',
+    ltv: 'LTV: debt as a share of collateral value.', // COPY l.55
+    description: 'Example LTV corridor: target 50%, act above 70%, liquidation at 86%.', // FLOW S2 example
+    markers: [
+      { label: 'Target', value: '50%', position: 50 / 86 * 100, kind: 'target' },
+      { label: 'Act above', value: '70%', position: 70 / 86 * 100, kind: 'act' },
+      { label: 'Liquidation', value: '86%', position: 100, kind: 'liquidation' },
+    ],
+    steps: ['Price falls', 'Agent repays part of the debt', 'Loan returns toward target'], // market reduce-early, reduce-to-target
+    note: 'Example only. Actions depend on your limits.',
+  },
+  responses: 'Two risks. Two responses.',
+  marketTitle: 'When prices fall',
+  marketSub: 'Sell part of the collateral to repay debt.', // reduce-early
+  venueTitle: 'When a market shows stress',
+  venueSub: 'Move the loan between approved markets.', // migrate
+  venueNodes: ['Approved market A', 'Approved market B'],
+  venueNote: 'Same collateral. Same debt. Cross-venue moves are roadmap.', // migrate; cross-venue
+  marketDetails: 'Explore price protection',
+  venueDetails: 'Explore market migration',
+  problemDetails: 'Why a loan needs looking after',
+  chart: {
+    label: 'Illustrative loan-to-value rises above the action line, then falls toward the target. Not a forecast.',
+    note: 'Illustrative, not a forecast.',
+    axis: 'LTV',
+    time: 'Time',
+    values: ['86%', '70%', '50%'],
+  },
+  controlTitle: ['An agent with limits.', 'A wallet only you control.'],
+  permissions: [
+    { label: 'Agent can', value: 'Reduce · Move · Exit' }, // three-actions
+    { label: 'You set', value: 'Limits and permissions' }, // corridor
+    { label: 'Only you', value: 'Sign withdrawals' }, // owner-withdraw
+  ],
+  controlDetails: 'Read the full control model',
+  howTitle: 'What you can try today.',
+  steps: [
+    { title: 'Choose', text: 'Choose an amount of ETH on testnet.' }, // FLOW S1
+    { title: 'Sign', text: 'Review the limits and sign with your wallet.' }, // FLOW S2–S4
+    { title: 'Monitor', text: 'Review the loan and the agent’s actions.' }, // FLOW S5
+  ],
+  researchLabel: 'Evidence, with its limits',
+  researchCards: [
+    { eyebrow: 'Historical replay · simulated', title: 'The buffer matters.' },
+    { eyebrow: 'Venue stress replay', title: 'Earlier signals, not guarantees.' },
+  ],
+  researchDetails: 'Read the research scope and caveats',
+  assetsTitle: 'Today, and what comes next.',
+  assetsIntro: 'Every asset, market and capability has a status. Only “Live on testnet” exists today.',
+  assetsDetails: 'Explore all assets and venues',
+  strategyDetails: 'Explore future strategies',
+  directoryTitle: 'The complete feature directory',
+  directoryIntro: 'Live means testnet only. Production release is not available today and follows an audit. Exploring means no commitment.', // statusMeaning
+  directorySearch: 'Find an asset, market or feature',
+  directoryFilter: 'Filter features by status',
+  all: 'All',
+  noResults: 'No matching features. Try another search or status.',
+  results: 'features shown',
+  limitsTitle: 'Know the limits.',
+};
+
+export const commandMenu = {
+  title: 'Where would you like to go?',
+  label: 'Quick navigation',
+  macShortcut: '⌘ K',
+  otherShortcut: 'Ctrl K',
+  close: 'Close',
+  hint: 'Tab to move · Enter to open · Esc to close',
+  sections: 'Explore cmdk',
+};
+
 export const problem = {
   id: 'problem',
   h2: 'DeFi risk is more than one person can watch.', // PRD 5.3 l.116
@@ -692,7 +781,7 @@ export const agentDoc = {
     'cmdk lets you borrow USDC against what you hold. An AI agent keeps the loan away from liquidation while you are away, inside limits you set, and it cannot move your money. Every feature in llms-full.txt carries its status: Live on testnet, Production release, Roadmap or Exploring.', // PRD 5.2; D4; COPY l.7; PRD 4
   llmsLinks: {
     full: 'The whole product in one file: what is live, what is planned, limits, risks, FAQ.',
-    testnet: 'The testnet app (desktop browser, Base Sepolia).', // FLOW l.15
+    testnet: 'The testnet app (Base Sepolia; experimental phone signing inside a wallet browser, device testing pending).', // cmdkfi/cmdk-app PR #85: responsive layout; mobile signing rehearsal pending
     repo: 'Code, research and evidence (MIT).', // README l.204
   },
   headings: {
@@ -738,8 +827,8 @@ export const agentDoc = {
   ],
   // Part 9.
   tryIt: [
-    'Open the testnet app: a desktop browser, a browser wallet (for example MetaMask or Rabby) on Base Sepolia, and some Base Sepolia ETH. Testnet ETH is free from public faucets.', // FLOW l.15, l.86, l.162, l.170
-    'Or run a market crash in the sandbox: no wallet needed; a simulated wallet and a simulated protocol, nothing touches Base Sepolia or NEAR. It also needs a desktop browser.', // FLOW l.370, l.392, l.274
+    'Open the testnet app with a browser wallet (for example MetaMask or Rabby) on Base Sepolia and some Base Sepolia ETH. On a phone, use the wallet’s built-in browser; mobile signing is experimental and device testing is pending. Testnet ETH is free from public faucets.', // FLOW l.86, l.162, l.170; cmdkfi/cmdk-app PR #85 (mobile rehearsal pending)
+    'Or run a market crash in the sandbox: no wallet needed; a simulated wallet and a simulated protocol, nothing touches Base Sepolia or NEAR. The sandbox works on desktop and mobile.', // FLOW l.370, l.392; cmdkfi/cmdk-app PR #85 (responsive sandbox)
   ],
   // Part 11.
   instructions: [

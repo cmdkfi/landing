@@ -1,16 +1,8 @@
 ---
-import { how } from '../content/landing.ts';
-import TestnetActions from './TestnetActions.astro';
+import { how, visual } from '../content/landing.ts';
 ---
 <section id={how.id} class="section">
-  <h2>{how.h2}</h2>
-  <ol class="mt-4 space-y-4 list-decimal pl-6">
-    {how.steps.map((s) => (
-      <li>
-        <h3 class="inline">{s.title}</h3> <span>{s.text}</span>
-      </li>
-    ))}
-  </ol>
-  <p class="mt-6 text-sm text-fg-muted">{how.caption}</p>
-  <div class="mt-4"><TestnetActions /></div>
+  <h2>{visual.howTitle}</h2>
+  <ol class="three-columns how-steps">{visual.steps.map((s, i) => <li class="panel"><div class="step-heading"><span class="step-index">{String(i + 1).padStart(2, '0')}</span><h3>{s.title}</h3></div><p class="muted">{s.text}</p></li>)}</ol>
+  <p class="section-note">{how.caption}</p>
 </section>
