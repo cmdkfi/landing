@@ -1,16 +1,10 @@
 ---
-// Head, meta, noindex, header, footer, the "Ask your agent" bar and dialog (PRD 9). Copy comes from landing.ts.
 import '../styles/global.css';
-import { header, footer, links, cta, testnetLine, meta } from '../content/landing.ts';
+import { header, footer, links, cta, testnetLine, desktopCaption, meta, visual, commandMenu } from '../content/landing.ts';
+import CommandMenu from '../components/CommandMenu.astro';
 import AgentPanel from '../components/AgentPanel.astro';
 import AgentBar from '../components/AgentBar.astro';
-
-interface Props {
-  title: string;
-  description: string;
-  // 'index' carries the bar and the dialog; other pages link to /agents and to /#anchors.
-  page: 'index' | 'agents';
-}
+interface Props { title: string; description: string; page: 'index' | 'agents' }
 const { title, description, page } = Astro.props;
 const onIndex = page === 'index';
 const anchorBase = onIndex ? '' : '/';
@@ -18,56 +12,32 @@ const anchorBase = onIndex ? '' : '/';
 <!doctype html>
 <html lang={meta.lang}>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="robots" content="noindex" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title><meta name="description" content={description} /><meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f6f7f5" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/cmdk.woff2" as="font" type="font/woff2" crossorigin />
   </head>
-  <body class="min-h-dvh">
+  <body>
+    <a class="skip-link" href="#main-content">{visual.skip}</a>
     <header class="site-header">
-      <div class="wrap flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
-        <a href="/" class="font-bold no-underline" aria-label={header.brandLabel}>{header.brand}</a>
-        <nav aria-label={header.navLabel} class="nav-anchors">
-          <ul class="flex flex-wrap gap-x-4 gap-y-1">
-            {header.anchors.map((a) => <li><a href={anchorBase + a.href}>{a.label}</a></li>)}
-          </ul>
-        </nav>
-        <div class="ml-auto flex flex-wrap items-center gap-x-4 gap-y-2">
-          <a href={links.agents} data-agent-open>{cta.askAgent}</a>
-          <a href={links.testnet} class="btn btn-primary">{cta.openTestnet}</a>
-        </div>
+      <div class="wrap header-inner">
+        <a href="/" class="brand" aria-label={header.brandLabel}>{visual.brand}</a>
+        <nav aria-label={header.navLabel} class="nav-anchors"><ul>{header.anchors.map((item) => <li><a href={anchorBase + item.href}>{item.label}</a></li>)}</ul></nav>
+        <div class="header-actions"><button class="command-trigger" type="button" data-command-open hidden aria-label={commandMenu.label} title={commandMenu.label} aria-haspopup="dialog" aria-controls="command-menu" aria-keyshortcuts="Meta+k Control+k"><kbd data-shortcut data-other={commandMenu.otherShortcut}>{commandMenu.macShortcut}</kbd></button><a class="header-agent" href={links.agents} data-agent-open>{cta.askAgent}</a><a href={links.testnet} class="btn btn-primary">{cta.openTestnet}</a></div>
+        <details class="mobile-menu" data-mobile-menu>
+          <summary>{visual.menu}<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.5" /></svg></summary>
+          <nav aria-label={header.navLabel}><button class="command-mobile-trigger" type="button" data-command-open hidden aria-haspopup="dialog" aria-controls="command-menu">{commandMenu.label}<kbd data-shortcut data-other={commandMenu.otherShortcut}>{commandMenu.macShortcut}</kbd></button><ul>{header.anchors.map((item) => <li><a href={anchorBase + item.href}>{item.label}</a></li>)}<li><a href={links.agents} data-agent-open>{cta.askAgent}</a></li></ul><p class="small muted">{testnetLine}</p><p class="small muted">{desktopCaption}</p></nav>
+        </details>
       </div>
     </header>
-
-    <main>
-      <slot />
-    </main>
-
-    <footer class="site-footer">
-      <div class="wrap py-8 space-y-3 text-sm">
-        <p class="font-bold">{footer.brand}</p>
-        <nav aria-label={footer.linksLabel}>
-          <ul class="flex flex-wrap gap-x-4 gap-y-1">
-            {footer.links.map((l) => <li><a href={l.href} data-agent-open={l.agent ? '' : undefined}>{l.label}</a></li>)}
-          </ul>
-        </nav>
-        <p class="text-fg-muted">{testnetLine}</p>
-        <p class="text-fg-muted">{footer.insurance}</p>
-        <p class="text-fg-muted">{footer.copyright}</p>
-      </div>
-    </footer>
-
-    {onIndex && (
-      <dialog class="agent-dialog" data-agent-dialog aria-labelledby="agent-panel-title">
-        <AgentPanel level={2} inDialog />
-      </dialog>
-    )}
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer"><div class="wrap">
+      <div class="footer-top"><a class="brand" href="/">{footer.brand}</a><nav aria-label={footer.linksLabel}><ul>{footer.links.map((l) => <li><a href={l.href} data-agent-open={l.agent ? '' : undefined}>{l.label}</a></li>)}</ul></nav></div>
+      <div class="footer-bottom"><div><p>{testnetLine}</p><p>{footer.insurance}</p></div><p>{footer.copyright}</p></div>
+    </div></footer>
+    {onIndex && <dialog class="agent-dialog" data-agent-dialog aria-labelledby="agent-panel-title"><AgentPanel level={2} inDialog /></dialog>}
     {onIndex && <AgentBar />}
-
-    <script>
-      import '../scripts/agent.ts';
-    </script>
+    <CommandMenu onIndex={onIndex} />
+    <script>import '../scripts/agent.ts'; import '../scripts/landing.ts'; import '../scripts/commands.ts';</script>
   </body>
 </html>

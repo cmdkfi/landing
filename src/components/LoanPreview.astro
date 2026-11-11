@@ -1,0 +1,31 @@
+---
+import { visual } from '../content/landing.ts';
+const p = visual.preview;
+---
+<div class="panel loan-preview">
+  <p class="eyebrow">{p.label}</p>
+  <div class="token-flow">
+    <span class="token-label"><img src="/tokens/eth.png" width="32" height="32" alt="" /><strong>{p.collateral}</strong></span>
+    <span class="flow-arrow" aria-hidden="true">→</span>
+    <span class="token-label"><img src="/tokens/usdc.png" width="32" height="32" alt="" /><strong>{p.borrow}</strong></span>
+  </div>
+  <h2>{p.title}</h2>
+  <div class="risk-diagram" role="img" aria-label={p.description}>
+    <div class="risk-track">
+      {p.markers.map((m) => (
+        <span class:list={['risk-marker', m.kind]} style={'--position:' + m.position + '%'}>
+          <span class="risk-number">{m.value}</span>
+        </span>
+      ))}
+      <span class="risk-current" aria-hidden="true"></span>
+    </div>
+    <div class="risk-legend" aria-hidden="true">
+      {p.markers.map((m) => <span class={m.kind}><i></i>{m.label}<strong>{m.value}</strong></span>)}
+    </div>
+  </div>
+  <p class="small muted">{p.ltv}</p>
+  <ol class="loan-steps">
+    {p.steps.map((step, i) => <li><span class="step-index">{String(i + 1).padStart(2, '0')}</span>{step}</li>)}
+  </ol>
+  <p class="small muted">{p.note}</p>
+</div>

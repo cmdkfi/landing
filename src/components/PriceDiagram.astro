@@ -1,0 +1,18 @@
+---
+import { visual } from '../content/landing.ts';
+const c = visual.chart;
+---
+<figure class="price-diagram">
+  <svg viewBox="0 0 460 230" role="img" aria-label={c.label}>
+    <path d="M45 20V195H450" class="chart-axis" />
+    <path d="M45 40H450" class="chart-guide liquidation" />
+    <path d="M45 88H450" class="chart-guide act" />
+    <path d="M45 157H450" class="chart-guide target" />
+    <g class="chart-labels">
+      <text x="4" y="44">{c.values[0]}</text><text x="4" y="92">{c.values[1]}</text><text x="4" y="161">{c.values[2]}</text>
+      <text x="4" y="15">{c.axis}</text><text x="416" y="220">{c.time}</text>
+    </g>
+    <path d="M45 157C100 140 150 110 250 81L250 130C300 142 370 151 450 157" class="chart-loan" />
+  </svg>
+  <figcaption>{c.note}</figcaption>
+</figure>

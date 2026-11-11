@@ -1,0 +1,22 @@
+---
+import { commandMenu, header, links, cta, testnetLine, desktopCaption } from '../content/landing.ts';
+interface Props { onIndex: boolean }
+const { onIndex } = Astro.props;
+---
+<dialog id="command-menu" class="command-dialog" data-command-dialog aria-labelledby="command-title" aria-describedby="command-hint">
+  <div class="command-heading">
+    <h2 id="command-title">{commandMenu.title}</h2>
+    <form method="dialog"><button class="command-close" aria-label={commandMenu.close} type="submit"><span aria-hidden="true">×</span></button></form>
+  </div>
+  <nav aria-label={commandMenu.label}>
+    <ul class="command-links">
+      <li><a href={links.testnet} autofocus>{cta.openTestnet}<span aria-hidden="true">↗</span></a></li>
+      <li><a href={links.sandbox}>{cta.sandbox}<span aria-hidden="true">↗</span></a></li>
+      <li><a href={links.agents} data-agent-open>{cta.askAgent}<span aria-hidden="true">→</span></a></li>
+    </ul>
+    <p class="eyebrow command-label">{commandMenu.sections}</p>
+    <ul class="command-links">{header.anchors.map((item) => <li><a href={(onIndex ? '' : '/') + item.href}>{item.label}<span aria-hidden="true">↓</span></a></li>)}</ul>
+  </nav>
+  <div class="command-notes"><p>{testnetLine}</p><p class="desktop-caption">{desktopCaption}</p></div>
+  <p id="command-hint" class="command-hint">{commandMenu.hint}</p>
+</dialog>

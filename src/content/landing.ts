@@ -431,6 +431,95 @@ export const hero = {
   ],
 };
 
+// Approved A Light visual proposal (design-proposals/full-light-v3), implemented 11 Nov 2026.
+// Presentation labels live here too; the feature inventory and machine-readable claims above stay unchanged.
+export const visual = {
+  brand: '⌘K cmdk',
+  menu: 'Menu',
+  skip: 'Skip to content',
+  heroTitle: ['Borrow against', 'what you hold.'],
+  heroLead: 'An agent looks after the loan. You control the limits.', // hero; COPY l.9
+  heroScope: 'Borrow USDC against ETH on testnet today.', // FLOW S1; SCOPE l.7–8
+  trust: [
+    'Your wallet signs withdrawals', // COPY l.8
+    'Actions checked on-chain', // COPY l.10
+    'Live on testnet', // SCOPE
+  ],
+  preview: {
+    label: 'Illustrative position · testnet',
+    title: 'Your loan, within your limits.',
+    collateral: 'ETH',
+    borrow: 'USDC',
+    ltv: 'LTV: debt as a share of collateral value.', // COPY l.55
+    description: 'Example LTV corridor: target 50%, act above 70%, liquidation at 86%.', // FLOW S2 example
+    markers: [
+      { label: 'Target', value: '50%', position: 50 / 86 * 100, kind: 'target' },
+      { label: 'Act above', value: '70%', position: 70 / 86 * 100, kind: 'act' },
+      { label: 'Liquidation', value: '86%', position: 100, kind: 'liquidation' },
+    ],
+    steps: ['Price falls', 'Agent repays part of the debt', 'Loan returns toward target'], // market reduce-early, reduce-to-target
+    note: 'Example only. Actions depend on your limits.',
+  },
+  responses: 'Two risks. Two responses.',
+  marketTitle: 'When prices fall',
+  marketSub: 'Sell part of the collateral to repay debt.', // reduce-early
+  venueTitle: 'When a market shows stress',
+  venueSub: 'Move the loan between approved markets.', // migrate
+  venueNodes: ['Approved market A', 'Approved market B'],
+  venueNote: 'Same collateral. Same debt. Cross-venue moves are roadmap.', // migrate; cross-venue
+  marketDetails: 'Explore price protection',
+  venueDetails: 'Explore market migration',
+  problemDetails: 'Why a loan needs looking after',
+  chart: {
+    label: 'Illustrative loan-to-value rises above the action line, then falls toward the target. Not a forecast.',
+    note: 'Illustrative, not a forecast.',
+    axis: 'LTV',
+    time: 'Time',
+    values: ['86%', '70%', '50%'],
+  },
+  controlTitle: ['An agent with limits.', 'A wallet only you control.'],
+  permissions: [
+    { label: 'Agent can', value: 'Reduce · Move · Exit' }, // three-actions
+    { label: 'You set', value: 'Limits and permissions' }, // corridor
+    { label: 'Only you', value: 'Sign withdrawals' }, // owner-withdraw
+  ],
+  controlDetails: 'Read the full control model',
+  howTitle: 'What you can try today.',
+  steps: [
+    { title: 'Choose', text: 'Choose an amount of ETH on testnet.' }, // FLOW S1
+    { title: 'Sign', text: 'Review the limits and sign with your wallet.' }, // FLOW S2–S4
+    { title: 'Monitor', text: 'Review the loan and the agent’s actions.' }, // FLOW S5
+  ],
+  researchLabel: 'Evidence, with its limits',
+  researchCards: [
+    { eyebrow: 'Historical replay · simulated', title: 'The buffer matters.' },
+    { eyebrow: 'Venue stress replay', title: 'Earlier signals, not guarantees.' },
+  ],
+  researchDetails: 'Read the research scope and caveats',
+  assetsTitle: 'Today, and what comes next.',
+  assetsIntro: 'Every asset, market and capability has a status. Only “Live on testnet” exists today.',
+  assetsDetails: 'Explore all assets and venues',
+  strategyDetails: 'Explore future strategies',
+  directoryTitle: 'The complete feature directory',
+  directoryIntro: 'Live means testnet only. Production release is not available today and follows an audit. Exploring means no commitment.', // statusMeaning
+  directorySearch: 'Find an asset, market or feature',
+  directoryFilter: 'Filter features by status',
+  all: 'All',
+  noResults: 'No matching features. Try another search or status.',
+  results: 'features shown',
+  limitsTitle: 'Know the limits.',
+};
+
+export const commandMenu = {
+  title: 'Where would you like to go?',
+  label: 'Quick navigation',
+  macShortcut: '⌘ K',
+  otherShortcut: 'Ctrl K',
+  close: 'Close',
+  hint: 'Tab to move · Enter to open · Esc to close',
+  sections: 'Explore cmdk',
+};
+
 export const problem = {
   id: 'problem',
   h2: 'DeFi risk is more than one person can watch.', // PRD 5.3 l.116
