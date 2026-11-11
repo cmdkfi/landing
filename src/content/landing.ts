@@ -810,14 +810,14 @@ export const agentDoc = {
   // Part 4.
   agentCan: [
     'reduce: sell part of the collateral to repay debt, early in calm times or back to your target above the line you set.', // README l.25, l.35, l.39
-    'move (migrate): move the loan to another market you approved, with the same collateral and the same debt, without selling.', // COPY l.15
+    'move (migrate): move the loan to another market you approved, with the same collateral and the same debt (up to 0.000002 USDC of rounding), without selling.', // COPY l.15; README l.25
     'exit: repay everything and take the collateral out of the market, if you allowed it.', // README l.25, l.43
   ],
   agentCanIntro: 'The agent acts only inside your corridor (limits you set: how low your LTV may go, how much it may sell per day, whether it may move your loan or exit). LTV means how much you owe versus what your collateral is worth. Its key can call three actions:', // COPY l.9, l.55; PRD 4 l.91
   agentCannot: [
     'It cannot send your money anywhere: none of its actions names a recipient, and everything it does pays back into your own loan.', // COPY l.7
     'It cannot increase your debt on this venue, apart from up to 0.000002 USDC of rounding when it moves the loan.', // README l.25, l.49 (up to two loan-token units of rounding)
-    'It cannot sell past the floor you set at the oracle price; a fill better than the oracle can end a few hundredths of a point under it.', // README l.40, l.49
+    'A sale is sized at the oracle price not to go below the floor you set; a fill better than the oracle can end a few hundredths of a point under it. An exit, if you allowed it, repays all debt and is not sized by the floor.', // README l.49
     'It cannot act more than 10 minutes after you revoke it; revoking takes one signature.', // COPY l.14
   ],
   limitsExtra: [
