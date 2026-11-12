@@ -141,7 +141,7 @@ export const features: Feature[] = [
     id: 'migrate',
     group: 'venue-risk',
     title: 'Move to another approved market',
-    text: 'Moves your loan to another market you approved, with the same collateral and the same debt, without selling.',
+    text: 'Moves your loan to another market you approved, with the same collateral and the same debt (up to 0.000002 USDC of rounding), without selling.',
     status: 'live',
     source: 'COPY l.15; README l.25',
   },
@@ -466,7 +466,7 @@ export const visual = {
   venueTitle: 'When a market shows stress',
   venueSub: 'Move the loan between approved markets.', // migrate
   venueNodes: ['Approved market A', 'Approved market B'],
-  venueNote: 'Same collateral. Same debt. Cross-venue moves are roadmap.', // migrate; cross-venue
+  venueNote: 'Same collateral. Same debt, to 0.000002 USDC. Cross-venue moves are roadmap.', // migrate; cross-venue
   marketDetails: 'Explore price protection',
   venueDetails: 'Explore market migration',
   problemDetails: 'Why a loan needs looking after',
@@ -587,7 +587,7 @@ export const venue = {
     "On venue stress in 8 real incidents (tested on suppliers and depositors), the agent's AI exited in time in 6, as did simple rules, but it warned earlier in 5 of them: more than 2 hours before one lock-up, where rules gave 25 minutes.",
     // README l.47: in the price scenes "the numeric screens did that work"; the model gets "text a rule cannot read"
     // and its contribution is the venue-stress move and the earlier exits. Never "the AI catches more" (COPY l.36, l.49).
-    'For price falls, plain rules inside your corridor do the work. The AI earns its place on venue stress, where it reads text a rule cannot read, such as status feeds and news, and can act earlier.',
+    'For price falls, plain rules inside your corridor do the work. The AI earns its place on venue stress, where it reads text a rule cannot read, such as status feeds today and news in later releases, and can act earlier.',
   ],
   // PRD draft: "No tool protects you from a bug in a lending protocol." The source claims this for cmdk only
   // (README l.96, "Not claimed: Protection from venue bugs"); narrowed to cmdk.
@@ -631,7 +631,7 @@ export const how = {
       text: 'The agent checks the loan and the market around the clock and acts inside your limits. You can close or revoke at any time.', // README l.11, l.103
     },
   ],
-  caption: 'On testnet today: ETH to USDC on Morpho with preset limits, two transactions and three signatures.', // FLOW l.194 (wallet without WETH); FLOW S2 (settings are read-only in the guided flow)
+  caption: 'On testnet today: ETH to USDC on Morpho with preset limits, two transactions and three signatures for a fresh open.', // FLOW l.194 (wallet without WETH); FLOW S2 (settings are read-only in the guided flow)
 };
 
 export const proof = {
