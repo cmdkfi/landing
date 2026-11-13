@@ -12,7 +12,8 @@ export function createHandsScene(host: HTMLElement) {
   host.append(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, .1, 100);
-  camera.position.set(0, 0, 16);
+  camera.position.set(0, -1.2, 16);
+  camera.lookAt(0, -1.2, 0);
   const room = new RoomEnvironment();
   const pmrem = new THREE.PMREMGenerator(renderer);
   const environment = pmrem.fromScene(room);
@@ -104,8 +105,10 @@ export function createHandsScene(host: HTMLElement) {
   }
   function render() {
     if (!left || !right) return;
+    camera.position.y = -1.5 * (1-turn);
+    camera.lookAt(0,camera.position.y,0);
     const narrow=host.clientWidth<600;
-    const spread=narrow?3.5:4.0;
+    const spread=narrow?3.4:3.6;
     left.root.position.set(-spread+reach*.3,-1.5,0);
     right.root.position.set(spread-reach*.3,-1.2,0);
     const axis = new THREE.Vector3(1,0,0);
@@ -137,7 +140,8 @@ export function createHandsScene(host: HTMLElement) {
     if(!width||!height)return;
     renderer.setSize(width,height);
     camera.aspect=width/height;
-    camera.position.z=camera.aspect<.8?26:16;
+    // Fit the hands to viewport width so wide screens retain the reference scale.
+    camera.position.z=8.6/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect);
     camera.updateProjectionMatrix();render();
   }
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);
