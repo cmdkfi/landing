@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 220" fill="none" role="img" aria-labelledby="title">
+  <title id="title">Command K</title>
+  <path d="M61 74c-25 0-25-37 0-37s25 18 25 37v72c0 19-1 37-25 37s-25-37 0-37h76c25 0 25 37 0 37s-25-18-25-37V74c0-19 1-37 25-37s25 37 0 37H61Z" stroke="#F7F8FC" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M264 47v126m0-57 99-69m-99 69 101 57" stroke="#F7F8FC" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

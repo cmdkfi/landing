@@ -16,12 +16,7 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
     <a class="concept-skip" href="#main">{concept.skip}</a>
     <header class="concept-header">
       <a class="concept-logo" href="/1" aria-label={concept.home}>
-        <svg viewBox="0 0 112 52" role="img" aria-label={concept.logo} xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="50" height="50" rx="14" fill="#626268"/>
-          <rect x="61" y="1" width="50" height="50" rx="14" fill="#626268"/>
-          <text x="26" y="36" text-anchor="middle" fill="white" font-size="37" font-weight="700" font-family="Arial, sans-serif">⌘</text>
-          <text x="86" y="36" text-anchor="middle" fill="white" font-size="35" font-weight="800" font-family="Arial, sans-serif">{concept.logoLetter}</text>
-        </svg>
+        <img src="/cmdk-mark.svg" alt={concept.logo} width="112" height="55" />
       </a>
       <nav class="concept-nav" aria-label={concept.nav}>
         <a href="#how">{concept.how}</a>
@@ -51,22 +46,9 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
           </ul>
         </div>
 
-        <div class="concept-scene" aria-label={concept.sceneLabel}>
-          <div class="concept-orbit concept-orbit-one" aria-hidden="true"></div>
-          <div class="concept-orbit concept-orbit-two" aria-hidden="true"></div>
-          <div class="concept-scene-top"><span>{concept.sceneTop}</span><span>{concept.sceneTopEnd}</span></div>
-          <div class="concept-position">
-            <div class="concept-position-head"><span>{concept.loan}</span><span class="concept-position-status"><i></i> {concept.inRange}</span></div>
-            <div class="concept-position-main"><span>{concept.eth} <small>{concept.collateral}</small></span><span class="concept-arrow">→</span><span>{concept.usdc} <small>{concept.borrowed}</small></span></div>
-            <div class="concept-gauge">
-              <div class="concept-gauge-track"><span></span></div>
-              <div class="concept-gauge-labels"><span>{concept.target}</span><span>{concept.yourLimit}</span><span>{concept.liquidation}</span></div>
-            </div>
-            <div class="concept-position-foot"><span>{concept.market}</span><span>{concept.corridor} ↗</span></div>
-          </div>
-          <div class="concept-agent-card"><div class="concept-agent-icon">⌘</div><div><strong>{concept.agent}</strong><span>{concept.actions}</span></div><b>{concept.sequence}</b></div>
-          <div class="concept-owner-card"><span class="concept-owner-icon">↗</span><div><strong>{concept.wallet}</strong><span>{concept.walletNote}</span></div></div>
-          <p class="concept-scene-caption">{concept.sceneCaption}</p>
+        <div class="concept-mark-stage" aria-hidden="true">
+          <span class="concept-moon"></span>
+          <img src="/cmdk-mark.svg" width="448" height="220" alt="" />
         </div>
       </section>
 
@@ -78,14 +60,16 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
 
 <style>
   :global(html) { scroll-behavior: smooth; }
-  :global(body.concept-page) { margin: 0; min-height: 100vh; background: #090a10; color: #f5f4f7; font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
+  :global(body.concept-page) { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 43% 35%, #1a2230 0%, transparent 48%), radial-gradient(ellipse at 82% 74%, #101827 0%, transparent 53%), #070b13; color: #f5f4f7; font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
   :global(body.concept-page *) { box-sizing: border-box; }
+  :global(body.concept-page)::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .55; background-image: radial-gradient(1px 1px at 8% 18%, #d6e3f9 98%, transparent), radial-gradient(1px 1px at 24% 57%, #d6e3f9 98%, transparent), radial-gradient(1.5px 1.5px at 39% 12%, #e6edff 98%, transparent), radial-gradient(1px 1px at 55% 69%, #d6e3f9 98%, transparent), radial-gradient(1px 1px at 71% 32%, #d6e3f9 98%, transparent), radial-gradient(1.5px 1.5px at 89% 81%, #e6edff 98%, transparent); background-size: 290px 260px; }
+  .concept-header, main { position: relative; z-index: 1; }
   .concept-skip { position: absolute; top: -100px; left: 16px; z-index: 20; padding: 10px; background: #fff; color: #090a10; }
   .concept-skip:focus { top: 12px; }
   .concept-header { width: min(1320px, calc(100% - 64px)); margin: 0 auto; padding-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .concept-logo, .concept-nav, .concept-header-cta { min-height: 58px; border: 1px solid #30313a; border-radius: 999px; background: rgba(18,19,28,.74); }
+  .concept-logo, .concept-nav, .concept-header-cta { min-height: 58px; border: 1px solid #30313a; border-radius: 999px; background: rgba(5,7,13,.62); }
   .concept-logo { width: 134px; padding: 7px 10px; display: flex; align-items: center; justify-content: center; flex: none; }
-  .concept-logo svg { width: 96px; height: 44px; }
+  .concept-logo img { width: 96px; height: auto; display: block; }
   .concept-nav { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 2.5vw, 42px); padding: 0 32px; }
   .concept-header a { color: #f5f4f7; text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
   .concept-nav a { color: #d5d3dc; }
@@ -111,46 +95,18 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
   .concept-wallet-note { display: none; margin: 8px 0 0; color: #aaa7b7; font-size: 12px; line-height: 1.5; }
   .concept-proof { display: flex; flex-wrap: wrap; gap: 17px 24px; padding: 24px 0 0; margin: 22px 0 0; border-top: 1px solid #2b2c37; list-style: none; color: #cac8d4; font-size: 13px; }
   .concept-proof li::before { content: '✓'; color: #bda5d5; margin-right: 8px; }
-  .concept-scene { min-height: 575px; position: relative; display: flex; align-items: center; justify-content: center; isolation: isolate; }
-  .concept-scene::before { content: ''; position: absolute; inset: 6% 2%; z-index: -2; background: radial-gradient(ellipse at 50% 42%, #4937607a, #28234842 47%, transparent 73%); filter: blur(25px); }
-  .concept-orbit { position: absolute; border: 1px solid #6e618640; border-radius: 50%; z-index: -1; transform: rotate(-18deg); }
-  .concept-orbit-one { width: 94%; height: 70%; }
-  .concept-orbit-two { width: 73%; height: 87%; transform: rotate(23deg); }
-  .concept-scene-top { position: absolute; top: 20px; inset-inline: 9%; display: flex; justify-content: space-between; gap: 14px; color: #787988; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; letter-spacing: .12em; }
-  .concept-position { width: min(100%, 550px); min-height: 310px; padding: 26px; border: 1px solid #76718480; border-radius: 26px; background: linear-gradient(145deg, #282735 0%, #171923 58%, #1a1a27 100%); box-shadow: 0 36px 80px #0008, inset 0 1px #ffffff20; transform: rotate(-2.5deg); }
-  .concept-position-head, .concept-position-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .concept-position-head { color: #a9a6b8; font-size: 11px; font-weight: 750; letter-spacing: .15em; }
-  .concept-position-status { display: inline-flex; align-items: center; gap: 7px; color: #b5dfc0; letter-spacing: .08em; }
-  .concept-position-status i { width: 7px; height: 7px; border-radius: 50%; background: #9fe1bc; }
-  .concept-position-main { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 46px 0 38px; font-size: clamp(34px, 3.3vw, 53px); font-weight: 750; letter-spacing: -.06em; }
-  .concept-position-main span:first-child { color: #f4b398; }
-  .concept-position-main span:last-child { color: #bfb7f0; text-align: right; }
-  .concept-position-main small { display: block; margin-top: 2px; color: #a9a7b4; font-size: 11px; font-weight: 550; letter-spacing: .02em; text-transform: uppercase; }
-  .concept-arrow { color: #6e6b7c; font-size: 27px; }
-  .concept-gauge-track { height: 10px; border-radius: 99px; background: linear-gradient(90deg, #a5d8ba 0 52%, #efbf9c 52% 79%, #d18d94 79%); position: relative; }
-  .concept-gauge-track::after { content: ''; position: absolute; top: -8px; left: 46%; width: 3px; height: 26px; border-radius: 5px; background: #f7f7f8; box-shadow: 0 0 0 4px #fff2; }
-  .concept-gauge-track span { position: absolute; left: 52%; top: -5px; height: 20px; width: 1px; background: #20232a; }
-  .concept-gauge-labels { display: flex; justify-content: space-between; gap: 8px; margin-top: 13px; color: #9e9ca9; font-size: 9px; font-weight: 700; letter-spacing: .08em; }
-  .concept-position-foot { margin-top: 34px; color: #a8a7b5; font-size: 11px; }
-  .concept-position-foot span:last-child { color: #d9c0e7; }
-  .concept-agent-card, .concept-owner-card { position: absolute; display: flex; align-items: center; gap: 12px; border: 1px solid #5e5a7088; border-radius: 16px; background: #171923ee; box-shadow: 0 15px 35px #0008; }
-  .concept-agent-card { left: -1%; bottom: 58px; padding: 13px 16px; transform: rotate(3deg); }
-  .concept-agent-icon, .concept-owner-icon { width: 37px; height: 37px; border-radius: 11px; display: grid; place-items: center; background: #bc9bd4; color: #1a1721; font-size: 25px; font-weight: 800; }
-  .concept-agent-card div:nth-child(2), .concept-owner-card div { display: grid; gap: 3px; }
-  .concept-agent-card strong, .concept-owner-card strong { color: #f4f2f7; font-size: 10px; letter-spacing: .1em; }
-  .concept-agent-card span, .concept-owner-card span { color: #b5b2c1; font-size: 11px; }
-  .concept-agent-card b { margin-left: 22px; color: #8b8897; font-size: 10px; font-weight: 500; }
-  .concept-owner-card { right: -2%; top: 69px; padding: 13px 16px; transform: rotate(4deg); }
-  .concept-owner-icon { background: #f6aa8c; font-size: 22px; }
-  .concept-scene-caption { position: absolute; bottom: 8px; right: 9%; margin: 0; color: #777884; font-size: 11px; }
+  .concept-mark-stage { min-height: 575px; position: relative; display: grid; place-items: center; isolation: isolate; }
+  .concept-mark-stage::before { content: ''; position: absolute; width: 80%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #8591b51a 0%, #8591b508 42%, transparent 68%); filter: blur(28px); z-index: -1; }
+  .concept-mark-stage img { width: min(86%, 520px); height: auto; display: block; opacity: .96; filter: drop-shadow(0 24px 30px #0008); }
+  .concept-moon { position: absolute; top: 10%; left: 19%; width: 20px; height: 20px; border-radius: 50%; box-shadow: 4px 2px 0 0 #c7cedc; transform: rotate(-25deg); opacity: .8; }
   .concept-bottom { width: min(1320px, calc(100% - 64px)); margin: 0 auto; padding: 25px 0 60px; border-top: 1px solid #30303a; display: flex; align-items: baseline; justify-content: space-between; gap: 22px; color: #a6a4b2; font-size: 13px; }
   .concept-bottom p { max-width: 500px; margin: 0; color: #f1f0f4; font-size: 17px; }
   .concept-bottom a, .concept-anchors a { color: #c9b9de; text-decoration: none; white-space: nowrap; }
   .concept-bottom a:hover, .concept-anchors a:hover { text-decoration: underline; }
   .concept-anchors { width: min(1320px, calc(100% - 64px)); margin: 0 auto; padding: 0 0 36px; display: flex; gap: 20px; justify-content: space-between; color: #898796; font-size: 12px; }
   :global(body.concept-page a:focus-visible) { outline: 2px solid #f3b49b; outline-offset: 4px; }
-  @media (max-width: 950px) { .concept-nav { display: none; } .concept-hero { grid-template-columns: 1fr; padding-top: 70px; gap: 35px; } .concept-copy { max-width: 690px; } .concept-scene { width: min(100%, 690px); margin: auto; } }
+  @media (max-width: 950px) { .concept-nav { display: none; } .concept-hero { grid-template-columns: 1fr; padding-top: 70px; gap: 35px; } .concept-copy { max-width: 690px; } .concept-mark-stage { width: min(100%, 690px); margin: auto; } }
   @media (max-width: 959px) { .concept-wallet-note { display: block; } }
-  @media (max-width: 600px) { .concept-header, .concept-hero, .concept-bottom, .concept-anchors { width: calc(100% - 36px); } .concept-header { padding-top: 14px; } .concept-logo { min-height: 48px; width: 112px; } .concept-logo svg { width: 82px; height: 38px; } .concept-header-cta { min-height: 48px; padding: 0 15px; font-size: 12px !important; } .concept-hero { padding-top: 70px; padding-bottom: 42px; } h1 { font-size: clamp(49px, 13vw, 70px); } .concept-lead { margin-top: 23px; } .concept-button { width: 100%; } .concept-sandbox-note { margin-left: 0; } .concept-proof { display: grid; gap: 9px; } .concept-scene { min-height: 405px; } .concept-scene-top { top: 5px; inset-inline: 3%; font-size: 8px; } .concept-position { min-height: 270px; padding: 17px; border-radius: 20px; } .concept-position-main { margin: 46px 0 33px; font-size: 34px; } .concept-position-foot { margin-top: 28px; font-size: 9px; } .concept-agent-card { bottom: 15px; left: -1%; padding: 9px; } .concept-owner-card { top: 24px; right: -1%; padding: 9px; } .concept-agent-icon, .concept-owner-icon { width: 29px; height: 29px; font-size: 19px; } .concept-agent-card b { display: none; } .concept-scene-caption { display: none; } .concept-bottom { display: block; } .concept-bottom p { margin: 16px 0; } }
+  @media (max-width: 600px) { .concept-header, .concept-hero, .concept-bottom, .concept-anchors { width: calc(100% - 36px); } .concept-header { padding-top: 14px; } .concept-logo { min-height: 48px; width: 112px; } .concept-logo img { width: 82px; } .concept-header-cta { min-height: 48px; padding: 0 15px; font-size: 12px !important; } .concept-hero { padding-top: 70px; padding-bottom: 42px; } h1 { font-size: clamp(49px, 13vw, 70px); } .concept-lead { margin-top: 23px; } .concept-button { width: 100%; } .concept-sandbox-note { margin-left: 0; } .concept-proof { display: grid; gap: 9px; } .concept-mark-stage { min-height: 320px; } .concept-mark-stage img { width: min(84%, 360px); } .concept-moon { top: 5%; } .concept-bottom { display: block; } .concept-bottom p { margin: 16px 0; } }
   @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } .concept-button { transition: none; } .concept-button:hover { transform: none; } }
 </style>
