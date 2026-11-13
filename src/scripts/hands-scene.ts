@@ -110,7 +110,7 @@ export function createHandsScene(host: HTMLElement) {
     const initial = new THREE.Quaternion().setFromAxisAngle(zAxis,-1.72)
       .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,1.35));
     const final = new THREE.Quaternion().setFromAxisAngle(zAxis,-.22)
-      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,1.35));
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-1.35));
     left.root.quaternion.copy(initial);
     const desired = initial.clone().slerp(final,turn);
     const wristDelta = initial.clone().invert().multiply(desired);
