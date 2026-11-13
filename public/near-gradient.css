@@ -1,0 +1,39 @@
+.hands-copy-head .near-gradient-copy {
+  color: #5e6861;
+}
+.hands-copy-head .near-gradient-mark {
+  display: inline-block;
+  width: 66px;
+  height: 16.1px;
+  color: #343b37;
+  background: currentColor;
+  mask: url('/near-logo.svg') center / contain no-repeat;
+  -webkit-mask: url('/near-logo.svg') center / contain no-repeat;
+}
+.hands-copy-head .near-gradient-mark img { opacity: 0; }
+.hands-copy-head .concept-eyebrow {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.hands-copy-head .concept-eyebrow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(105deg, #087a59, #0a9068 72%, #00ec97);
+  transform: translateX(-101%);
+  pointer-events: none;
+}
+.hands-copy-head .concept-eyebrow > span { position: relative; z-index: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .hands-copy-head .concept-eyebrow:hover::before { transform: translateX(0); }
+  body.concept-page .hands-copy-head .concept-eyebrow:hover .near-gradient-copy,
+  body.concept-page .hands-copy-head .concept-eyebrow:hover .near-gradient-mark { color: #fff; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hands-copy-head .concept-eyebrow::before { transition: transform 420ms cubic-bezier(.23, 1, .32, 1); }
+  .hands-copy-head .near-gradient-copy,
+  .hands-copy-head .near-gradient-mark { transition: color 160ms ease; }
+}

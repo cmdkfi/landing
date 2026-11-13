@@ -31,5 +31,17 @@ export function smoothHand(input: THREE.BufferGeometry) {
   geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
   geometry.setAttribute('skinIndex',new THREE.Uint16BufferAttribute(skinIndices,4));
   geometry.setAttribute('skinWeight',new THREE.Float32BufferAttribute(skinWeights,4));
-  geometry.setIndex(indices);geometry.computeVertexNormals();return geometry;
+  geometry.setIndex(indices);geometry.computeVertexNormals();
+  // The source mesh duplicates vertices at seams; share their shading normals.
+  const normals=geometry.getAttribute('normal'), groups=new Map<string,number[]>();
+  for(let i=0;i<positions.length/3;i++){
+    const key=[0,1,2].map(k=>Math.round(positions[i*3+k]*100000)).join(':');
+    const group=groups.get(key)||[];group.push(i);groups.set(key,group);
+  }
+  for(const group of groups.values()){
+    const normal=new THREE.Vector3();
+    for(const i of group)normal.add(new THREE.Vector3().fromBufferAttribute(normals,i));
+    normal.normalize();for(const i of group)normals.setXYZ(i,normal.x,normal.y,normal.z);
+  }
+  return geometry;
 }

@@ -11,7 +11,7 @@ export function createAsciiHands(renderer: THREE.WebGLRenderer) {
   texture.generateMipmaps = false;
   function drawAtlas() {
     context.clearRect(0,0,atlas.width,atlas.height);
-    context.fillStyle = '#fff'; context.font = '600 27px "Inter Variable", sans-serif';
+    context.fillStyle = '#fff'; context.font = '650 29px "Inter Variable", sans-serif';
     context.textAlign = 'center'; context.textBaseline = 'middle';
     [...glyphs].forEach((glyph,i)=>context.fillText(glyph,i*32+16,21));
     texture.needsUpdate = true;
@@ -38,11 +38,11 @@ export function createAsciiHands(renderer: THREE.WebGLRenderer) {
         vec2 center=(grid+.5)*cell;
         vec4 surface=texture2D(source,center/size);
         float light=dot(surface.rgb,vec3(.2126,.7152,.0722));
-        float shade=smoothstep(.18,.88,light);
+        float shade=smoothstep(.12,.72,light);
         float seed=hash(grid);
-        float density=step(seed,.35+.65*shade);
+        float density=step(seed,.55+.45*shade);
         float body=surface.a*density;
-        vec3 ink=mix(vec3(.12,.065,.76),vec3(.83,.79,1.),pow(shade,.85));
+        vec3 ink=mix(vec3(.41,.45,.51),vec3(.10,.12,.16),pow(shade,.65));
         float radius=mix(8.,min(size.x,size.y)*.31,phase);
         vec2 offset=center-contact*size;
         float distanceFromContact=length(offset);
@@ -55,7 +55,7 @@ export function createAsciiHands(renderer: THREE.WebGLRenderer) {
         float glyph=floor(hash(grid+floor(shade*6.))*36.);
         vec2 inCell=fract(pixel/cell);
         float letter=texture2D(atlas,vec2((glyph+inCell.x)/36.,inCell.y)).a;
-        vec3 color=mix(ink,vec3(.86,.86,1.),clamp(wave+energy,0.,1.));
+        vec3 color=mix(ink,vec3(.85,.89,.98),clamp(wave+energy,0.,1.));
         float glow=exp(-distanceFromContact*distanceFromContact/max(1.,radius*radius*.5))*envelope*.12;
         gl_FragColor=vec4(color,clamp(letter*mask+glow,0.,1.));
       }`,
@@ -68,12 +68,12 @@ export function createAsciiHands(renderer: THREE.WebGLRenderer) {
   return {
     resize(width:number,height:number){
       target.setSize(width,height);uniforms.size.value.set(width,height);
-      uniforms.cell.value.set(width<600?6:8,width<600?10:12);
+      uniforms.cell.value.set(width<600?7:9,width<600?11:14);
     },
-    render(sourceScene:THREE.Scene,sourceCamera:THREE.Camera,point:THREE.Vector2,phase:number){
+    render(sourceScene:THREE.Scene,sourceCamera:THREE.Camera,point:THREE.Vector2,phase:number,destination:THREE.WebGLRenderTarget|null=null){
       uniforms.contact.value.copy(point);uniforms.phase.value=phase;
       renderer.setRenderTarget(target);renderer.render(sourceScene,sourceCamera);
-      renderer.setRenderTarget(null);renderer.render(scene,camera);
+      renderer.setRenderTarget(destination);renderer.render(scene,camera);
     },
     dispose(){disposed=true;quad.geometry.dispose();material.dispose();texture.dispose();target.dispose();},
   };

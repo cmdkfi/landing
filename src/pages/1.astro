@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
-import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } from '../content/landing.ts';
+import HeaderSearch from '../components/concept/HeaderSearch.astro';
+import PositionDial from '../components/concept/PositionDial.astro';
+import { links, meta, concept } from '../content/landing.ts';
 ---
 <!doctype html>
 <html lang="en">
@@ -10,199 +12,544 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
     <meta name="robots" content="noindex" />
     <meta name="description" content={meta.description} />
     <title>{concept.title}</title>
-    <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/KecalVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/MluvkaVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/subtitle-font.css" />
+    <link rel="stylesheet" href="/near-gradient.css" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body class="concept-page">
     <a class="concept-skip" href="#main">{concept.skip}</a>
     <header class="concept-header">
       <a class="concept-logo" href="/1" aria-label={concept.home}>
-        <img src="/cmdk-mark.svg" alt={concept.logo} width="112" height="55" />
+        <span class="header-key logo-key" aria-hidden="true">
+          <span class="cta-surface"><span class="flat-logo flat-logo-command"></span></span>
+        </span>
+        <span class="header-key logo-key" aria-hidden="true">
+          <span class="cta-surface"><span class="flat-logo flat-logo-k"></span></span>
+        </span>
       </a>
+      <HeaderSearch />
       <nav class="concept-nav" aria-label={concept.nav}>
-        <a href="#how">{concept.how}</a>
-        <a href="#limits">{concept.control}</a>
-        <a href="#proof">{concept.evidence}</a>
-        <a href={links.agents}>{cta.askAgent}</a>
+        <a class="ask-agent-button header-key" href={links.agents}>
+          <span class="cta-surface">
+            <span class="agent-icons" aria-hidden="true">
+              <span><i class="agent-glyph agent-glyph-claude"></i></span>
+              <span><i class="agent-glyph agent-glyph-chatgpt"></i></span>
+            </span>
+            <span>Ask Your Agent</span>
+          </span>
+        </a>
       </nav>
-      <a class="concept-header-cta" href={links.testnet}>{cta.openTestnet} <span aria-hidden="true">↗</span></a>
+      <a class="concept-header-cta header-key" href={links.testnet}>
+        <span class="cta-surface">
+          <span class="testnet-indicator" aria-hidden="true"></span>
+          <span class="cta-label">Testnet App</span>
+          <svg class="cta-arrow" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M7.5 4 13.5 10 7.5 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="cta-arrow-stem" d="M13.5 10H0" stroke="currentColor" stroke-width="2" stroke-dasharray="15" stroke-dashoffset="15" />
+          </svg>
+        </span>
+      </a>
     </header>
 
     <main id="main">
       <section class="hands-story" aria-labelledby="concept-title">
         <div class="hands-sticky">
-          <div class="hands-heading hands-heading-first"><p class="concept-eyebrow">{concept.eyebrow}</p><h1 id="concept-title">{concept.headingStart}<br /><span>{concept.headingEnd}</span></h1></div>
-          <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="concept-eyebrow">{concept.eyebrow}</p><p class="hands-title">{concept.headingStart}<br /><span>{concept.headingEnd}</span></p></div>
+          <div class="hero-atmosphere" aria-hidden="true"></div>
+          <div class="hands-copy-head"><p class="concept-eyebrow"><span class="near-gradient-copy">{concept.eyebrow}</span><span class="near-gradient-mark"><img class="near-logo" src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /></span></p></div>
+          <div class="hands-heading hands-heading-first"><p class="familiar-script">a familiar script</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading.split(/(\d[\d.,:%–-]*)/g).map(part => /^\d/.test(part) ? <span class="technical-number">{part}</span> : part)}</p></div>
+          <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="hands-title">{concept.gestureHeading}</p><p class="hands-subtitle">{concept.gestureSubheading.split(/(\d[\d.,:%–-]*)/g).map(part => /^\d/.test(part) ? <span class="technical-number">{part}</span> : part)}</p></div>
           <div class="hands-stage" aria-hidden="true">
             <div class="hands-webgl"></div>
-            <div class="hand-left"><img class="hand-reaching" src="/hand-reach.svg" alt="" width="700" height="680"/><img class="hand-turned" src="/hand-turn.svg" alt="" width="700" height="680"/></div>
-            <img class="hand-right" src="/hand-reach.svg" alt="" width="700" height="680"/>
           </div>
           <a class="hands-scroll" href="#details" aria-label={concept.how}><span aria-hidden="true">↓</span></a>
-          <img class="hands-reduced-pose" src="/hand-turn.svg" alt="" aria-hidden="true" width="700" height="680" />
+          <PositionDial />
           <div class="hands-track" aria-hidden="true"><span></span></div>
         </div>
       </section>
-      <section class="concept-hero" id="details">
-        <div class="concept-copy">
-          <p class="concept-eyebrow"><span class="concept-pulse" aria-hidden="true"></span> {concept.eyebrow}</p>
-          <h2>{concept.headingStart} <span>{concept.headingEnd}</span></h2>
-          <p class="concept-lead">{concept.lead}</p>
-          <div class="concept-actions">
-            <a class="concept-button concept-button-primary" href={links.testnet}>{cta.openTestnet} <span aria-hidden="true">↗</span></a>
-            <a class="concept-button concept-button-secondary" href={links.sandbox}>{cta.sandbox} <span aria-hidden="true">↗</span></a>
-          </div>
-          <p class="concept-sandbox-note">{hero.sandboxCaption}</p>
-          <p class="concept-testnet">{testnetLine}</p>
-          <p class="concept-wallet-note">{walletBrowserCaption}</p>
-          <ul class="concept-proof" aria-label={concept.proofLabel}>
-            <li>{concept.proof[0]}</li>
-            <li>{concept.proof[1]}</li>
-          </ul>
-        </div>
-
-      </section>
-
-      <div class="concept-bottom" id="how"><span>{concept.nextLabel}</span><p>{concept.next}</p><a href="/">{concept.fullLanding} <span aria-hidden="true">↗</span></a></div>
-      <div class="concept-anchors" id="limits"><span>{concept.controlNote}</span><a id="proof" href={links.repo}>{concept.codeEvidence} ↗</a></div>
+      <div class="eyes-block" aria-hidden="true">
+        <span class="eye-capsule"><span class="tracker-gaze"><i></i><i></i></span></span>
+      </div>
     </main>
   </body>
 </html>
 
 <style>
-  @font-face { font-family: "Inter Variable"; src: url("/fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+  @font-face { font-family: "Kecal"; src: url("/fonts/KecalVariable.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
   :global(html) { scroll-behavior: smooth; }
-  :global(body.concept-page) { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 43% 35%, #1a2230 0%, transparent 48%), radial-gradient(ellipse at 82% 74%, #101827 0%, transparent 53%), #070b13; color: #f5f4f7; font-family: "Inter Variable", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
+  :global(body.concept-page) { --header-ink: oklch(0.51 0.016 260); --font-technical: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; margin: 0; min-height: 100vh; background: #fff; color: #181a1f; font-family: "Kecal", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
+  .technical-number { font-family: var(--font-technical); font-size: .9em; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
   :global(body.concept-page *) { box-sizing: border-box; }
-  :global(body.concept-page)::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .55; background-image: radial-gradient(1px 1px at 8% 18%, #d6e3f9 98%, transparent), radial-gradient(1px 1px at 24% 57%, #d6e3f9 98%, transparent), radial-gradient(1.5px 1.5px at 39% 12%, #e6edff 98%, transparent), radial-gradient(1px 1px at 55% 69%, #d6e3f9 98%, transparent), radial-gradient(1px 1px at 71% 32%, #d6e3f9 98%, transparent), radial-gradient(1.5px 1.5px at 89% 81%, #e6edff 98%, transparent); background-size: 290px 260px; }
   .concept-header, main { position: relative; z-index: 1; }
   .concept-skip { position: absolute; top: -100px; left: 16px; z-index: 20; padding: 10px; background: #fff; color: #090a10; }
   .concept-skip:focus { top: 12px; }
-  .concept-header { width: min(1320px, calc(100% - 64px)); margin: 0 auto; padding-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .concept-logo, .concept-nav, .concept-header-cta { min-height: 58px; border: 1px solid #30313a; border-radius: 999px; background: rgba(5,7,13,.62); }
-  .concept-logo { width: 134px; padding: 7px 10px; display: flex; align-items: center; justify-content: center; flex: none; }
-  .concept-logo img { width: 96px; height: auto; display: block; }
-  .concept-nav { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 2.5vw, 42px); padding: 0 32px; }
-  .concept-header a { color: #f5f4f7; text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
-  .concept-nav a { color: #d5d3dc; }
-  .concept-header a:hover { color: #efae9e; }
-  .concept-header-cta { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 0 25px; border-color: #ac8cb9; }
-  .concept-header-cta span { font-size: 20px; }
-  .concept-hero { width: min(1320px, calc(100% - 64px)); min-height: 730px; margin: 0 auto; display: grid; grid-template-columns: minmax(430px, .88fr) minmax(0, 1.12fr); align-items: center; gap: clamp(44px, 5vw, 88px); padding: 62px 0 70px; }
-  .concept-copy { position: relative; z-index: 2; max-width: 570px; }
-  .concept-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 28px; padding: 8px 13px; border: 1px solid #363741; border-radius: 999px; color: #dddbe2; font-size: 12px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
-  .concept-pulse { width: 7px; height: 7px; border-radius: 50%; background: #9fe1bc; box-shadow: 0 0 0 4px #9fe1bc21; }
+  :global(.concept-header .header-search),
+  .concept-header .ask-agent-button,
+  .concept-header .concept-header-cta {
+    font-weight: 500;
+  }
+  .concept-header { position: sticky; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px 5%; display: flex; align-items: center; gap: 16px; background: transparent; }
+  .eyes-block {
+    display: grid;
+    place-items: center;
+    min-height: 100svh;
+    background: #fff;
+  }
+  .eye-capsule {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 40px;
+    border-radius: 999px;
+    background: #17181a;
+  }
+  .tracker-gaze { display:flex; gap:5px; will-change:transform; }
+  .tracker-gaze i { display:block; width:7px; height:7px; border-radius:50%; background:#fafafa; }
+  .concept-logo { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+  .logo-key { --cta-padding: 0; }
+  .logo-key .cta-surface { width: 34px; justify-content: center; }
+  .flat-logo {
+    display: block;
+    width: 22px;
+    height: 22px;
+    background: var(--header-ink);
+    mask: var(--logo-glyph) center / contain no-repeat;
+  }
+  .flat-logo-command { --logo-glyph: url("/cmdk-mark-flat.svg#svgView(viewBox(-31,-32,439,439))"); }
+  .flat-logo-k { --logo-glyph: url("/cmdk-mark-flat.svg#svgView(viewBox(422,-28,439,439))"); }
+  @media (forced-colors: active) {
+    .flat-logo { forced-color-adjust: none; background: LinkText; }
+  }
+
+  .concept-nav { display: contents; }
+  .ask-agent-button { --cta-padding: 12px; }
+  .agent-icons { display: flex; isolation: isolate; }
+  .agent-icons > span { display: grid; place-items: center; width: 25px; height: 25px; border: 1px solid #dedfe2; border-radius: 50%; background: #fff; }
+  .agent-icons > span + span {
+    position: relative;
+    margin-left: -7px;
+    background: oklch(0.985 0.002 260);
+  }
+  .agent-glyph { display: block; width: 18px; height: 18px; background: currentColor; mask: var(--agent-glyph) center / contain no-repeat; }
+  .agent-glyph-chatgpt { --agent-glyph: url("/icons/agents/chatgpt.svg"); }
+  .agent-glyph-claude { --agent-glyph: url("/icons/agents/claude.svg"); }
+  .agent-glyph-chatgpt { --agent-hover-color: #000; }
+  .agent-glyph-claude { --agent-hover-color: #d97757; }
+  .ask-agent-button:focus-visible .agent-glyph { color: var(--agent-hover-color); }
+  @media (hover: hover) and (pointer: fine) {
+    .ask-agent-button:hover .agent-glyph { color: var(--agent-hover-color); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .agent-glyph { transition: background-color 150ms ease-out; }
+  }
+  @media (forced-colors: active) {
+    .agent-glyph { forced-color-adjust: none; background: LinkText; }
+  }
+  .concept-nav a { margin-left: auto; }
+  .concept-header a { color: var(--header-ink); text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .concept-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .concept-header a { touch-action: manipulation; }
+  .concept-header .concept-header-cta { --cta-padding: 20px; }
+  .concept-header .header-key {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    border-radius: 10px;
+  }
+  .header-key::before {
+    content: "";
+    position: absolute;
+    inset: 4px -2px 2px;
+    z-index: -1;
+    border-radius: 10px;
+    background:
+      linear-gradient(180deg, #ffffffa8, transparent 72%, #222a4238),
+      linear-gradient(108deg, #7f899b, #d9e6fa 13%, #f7fbff 22%, #a1abbd 38%, #6b7486 52%, #c6ceda 67%, #f5eee5 82%, #838d9f);
+    background-size: 100% 100%, 155% 100%;
+    box-shadow: 0 2px 4px #20263026, 0 5px 12px #20263019;
+    pointer-events: none;
+  }
+  .concept-header .ask-agent-button.header-key {
+    height: 42px;
+    min-height: 42px;
+    border-radius: 999px;
+  }
+  .ask-agent-button.header-key::before { display: none; }
+  .ask-agent-button.header-key .cta-surface { height: 40px; border: 0; border-radius: 999px; background: oklch(0.966 0.004 260); box-shadow: none; transform: none; }
+  .logo-key:last-child::before { box-shadow: none; }
+  .concept-header-cta.header-key { height: 42px; min-height: 42px; border-radius: 999px; }
+  .concept-header-cta.header-key::before { display: none; }
+  .concept-header-cta.header-key .cta-surface { height: 40px; border: 0; border-radius: 999px; background: oklch(0.32 0.016 260); color: #fff; box-shadow: none; transform: none; }
+  .testnet-indicator { flex: none; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, oklch(.98 .025 150), oklch(.78 .15 150) 35%, oklch(.48 .14 150) 72%, oklch(.83 .09 150)); box-shadow: 0 1px 3px #0003, 0 0 8px oklch(.66 .15 150 / .3); }
+  .concept-header :global(.header-search) {
+    box-shadow: none;
+  }
+  @media (min-width: 1100px) {
+    .concept-header :global(.header-search) { position: absolute; left: 50%; width: min(400px, calc(100vw - 700px)); transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .header-key::before {
+      transition: background-position 650ms cubic-bezier(.22, 1, .36, 1);
+    }
+    .header-key:focus-visible::before,
+    .concept-logo:focus-visible .header-key::before { background-position: 0 0, 100% 0; }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .header-key:hover::before,
+    .concept-logo:hover .header-key::before { background-position: 0 0, 100% 0; }
+  }
+  .cta-surface {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    gap: 8px;
+    padding-inline: var(--cta-padding);
+    border: 1px solid #d9dce0;
+    border-radius: 8px;
+    background: linear-gradient(175deg, #fff 35%, #f0f1f3);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 2px #252a3526;
+    transform: translateY(-3px);
+  }
+  .cta-arrow { flex: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .cta-surface { transition: transform 170ms cubic-bezier(.22, 1, .36, 1); }
+    .header-key:active .cta-surface,
+    .concept-logo:active .cta-surface { transform: translateY(1px); transition-duration: 100ms; }
+    .cta-arrow { transition: transform 300ms ease-out; }
+    .cta-arrow-stem { transition: stroke-dashoffset 300ms ease-out; }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .concept-header-cta:hover .cta-arrow { transform: translateX(3px); }
+    .concept-header-cta:hover .cta-arrow-stem { stroke-dashoffset: 0; }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .header-key:hover .cta-surface { background: #fff; }
+    .ask-agent-button.header-key:hover .cta-surface { background: oklch(0.94 0.006 260); }
+    .concept-header-cta.header-key:hover .cta-surface { background: oklch(0.26 0.016 260); }
+  }
+  .header-key:active .cta-surface,
+    .concept-logo:active .cta-surface { background: #e9ebef; }
+  @media (min-width:901px) and (max-width:1280px) { .concept-nav a { font-size:14px; } .concept-header .concept-header-cta { --cta-padding: 16px; font-size:14px; } }
+  @media (max-width:900px) { .concept-header .concept-header-cta { margin-left:auto; } }
+  .concept-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 28px; padding: 8px 13px; border: 1px solid #363741; border-radius: 999px; color: #747780; font-size: 12px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
   h1 { margin: 0; font-size: clamp(55px, 5.1vw, 80px); line-height: 1.01; letter-spacing: -.065em; font-weight: 750; }
   h1 span { color: #f2a394; }
-  .concept-lead { max-width: 480px; margin: 28px 0 0; color: #b7b5c2; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.55; letter-spacing: -.02em; }
-  .concept-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-  .concept-button { min-height: 54px; padding: 0 21px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; text-decoration: none; font-size: 14px; font-weight: 700; transition: transform 150ms cubic-bezier(.23,1,.32,1), border-color 150ms ease, background-color 150ms ease; }
   .concept-button:hover { transform: translateY(-2px); }
   .concept-button:active { transform: scale(.97); }
-  .concept-button-primary { background: linear-gradient(105deg, #f7a477, #c491dc 70%, #91aaf4); color: #17121e; border: 1px solid transparent; }
-  .concept-button-secondary { color: #eeedf2; border: 1px solid #52515d; background: #1a1b25; }
   .concept-button-secondary:hover { border-color: #bc9fcb; }
-  .concept-sandbox-note { margin: 9px 0 0 2px; color: #aaa7b7; font-size: 13px; }
-  .concept-testnet { margin: 19px 0 0; color: #8d8d9c; font-size: 12px; line-height: 1.5; }
-  .concept-wallet-note { display: none; margin: 8px 0 0; color: #aaa7b7; font-size: 12px; line-height: 1.5; }
-  .concept-proof { display: flex; flex-wrap: wrap; gap: 17px 24px; padding: 24px 0 0; margin: 22px 0 0; border-top: 1px solid #2b2c37; list-style: none; color: #cac8d4; font-size: 13px; }
-  .concept-proof li::before { content: '✓'; color: #bda5d5; margin-right: 8px; }
-  .concept-mark-stage { min-height: 575px; position: relative; display: grid; place-items: center; isolation: isolate; }
-  .concept-mark-stage::before { content: ''; position: absolute; width: 80%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #8591b51a 0%, #8591b508 42%, transparent 68%); filter: blur(28px); z-index: -1; }
-  .concept-mark-stage img { width: min(86%, 520px); height: auto; display: block; opacity: .96; filter: drop-shadow(0 24px 30px #0008); }
-  .concept-moon { position: absolute; top: 10%; left: 19%; width: 20px; height: 20px; border-radius: 50%; box-shadow: 4px 2px 0 0 #c7cedc; transform: rotate(-25deg); opacity: .8; }
-  .concept-bottom { width: min(1320px, calc(100% - 64px)); margin: 0 auto; padding: 25px 0 60px; border-top: 1px solid #30303a; display: flex; align-items: baseline; justify-content: space-between; gap: 22px; color: #a6a4b2; font-size: 13px; }
-  .concept-bottom p { max-width: 500px; margin: 0; color: #f1f0f4; font-size: 17px; }
-  .concept-bottom a, .concept-anchors a { color: #c9b9de; text-decoration: none; white-space: nowrap; }
-  .concept-bottom a:hover, .concept-anchors a:hover { text-decoration: underline; }
-  .concept-anchors { width: min(1320px, calc(100% - 64px)); margin: 0 auto; padding: 0 0 36px; display: flex; gap: 20px; justify-content: space-between; color: #898796; font-size: 12px; }
-  :global(body.concept-page a:focus-visible) { outline: 2px solid #f3b49b; outline-offset: 4px; }
-  @media (max-width: 950px) { .concept-nav { display: none; } .concept-hero { grid-template-columns: 1fr; padding-top: 70px; gap: 35px; } .concept-copy { max-width: 690px; } .concept-mark-stage { width: min(100%, 690px); margin: auto; } }
+  :global(body.concept-page a:focus-visible) { outline: 2px solid #646b79; outline-offset: 4px; }
+  @media (max-width: 900px) { .concept-nav { display: none; } .concept-hero { grid-template-columns: 1fr; padding-top: 70px; gap: 35px; } .concept-copy { max-width: 690px; } .concept-mark-stage { width: min(100%, 690px); margin: auto; } }
   @media (max-width: 959px) { .concept-wallet-note { display: block; } }
-  @media (max-width: 600px) { .concept-header, .concept-hero, .concept-bottom, .concept-anchors { width: calc(100% - 36px); } .concept-header { padding-top: 14px; } .concept-logo { min-height: 48px; width: 112px; } .concept-logo img { width: 82px; } .concept-header-cta { min-height: 48px; padding: 0 15px; font-size: 12px !important; } .concept-hero { padding-top: 70px; padding-bottom: 42px; } h1 { font-size: clamp(49px, 13vw, 70px); } .concept-lead { margin-top: 23px; } .concept-button { width: 100%; } .concept-sandbox-note { margin-left: 0; } .concept-proof { display: grid; gap: 9px; } .concept-mark-stage { min-height: 320px; } .concept-mark-stage img { width: min(84%, 360px); } .concept-moon { top: 5%; } .concept-bottom { display: block; } .concept-bottom p { margin: 16px 0; } }
+  @media (max-width: 600px) { .concept-hero { width: calc(100% - 36px); } .concept-header { padding: 8px 16px; } .concept-header .concept-header-cta { --cta-padding: 15px; font-size: 12px; } .concept-hero { padding-top: 70px; padding-bottom: 42px; } h1 { font-size: clamp(49px, 13vw, 70px); } .concept-lead { margin-top: 23px; } .concept-button { width: 100%; } .concept-sandbox-note { margin-left: 0; } .concept-proof { display: grid; gap: 9px; } .concept-mark-stage { min-height: 320px; } .concept-mark-stage img { width: min(84%, 360px); } .concept-moon { top: 5%; } }
+  @media (max-width: 600px) {
+    .concept-header { padding-inline: 10px; }
+  }
   @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } .concept-button { transition: none; } .concept-button:hover { transform: none; } }
 </style>
 
 <style>
-  .hands-story { height: 260svh; --reach: 0; --turn: 0; --second: 0; }
-  .hands-sticky { position: sticky; top: 0; height: 100svh; min-height: 540px; overflow: hidden; }
-  .hands-heading { position: absolute; z-index: 2; top: clamp(44px, 8vh, 100px); width: 100%; padding: 0 24px; text-align: center; }
-  .hands-heading .concept-eyebrow { margin-bottom: 24px; border: 0; color: #a99cca; }
-  .hands-heading h1, .hands-title { margin: 0; font-size: clamp(48px, 6.8vw, 104px); font-weight: 560; line-height: 1.02; letter-spacing: -.065em; }
-  .hands-heading span { color: #bca4ee; }
-  .hands-heading-first { opacity: calc(1 - var(--second)); transform: none; }
-  .hands-heading-second { opacity: var(--second); transform: none; }
+  .hands-story { height: 580svh; --reveal: 0; --reach: 0; --turn: 0; --second: 0; }
+  .hands-sticky { position: sticky; top: 0; height: 100svh; min-height: 540px; overflow: clip; }
+  .hero-atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(to bottom, #fff, #f2f4f8); }
+  .hero-atmosphere :global(canvas) { display: block; width: 100%; height: 100%; }
+  .hands-copy-head { position: absolute; z-index: 7; top: clamp(44px, 8vh, 100px); width: 100%; padding: 0 24px; text-align: center; }
+  .hands-heading { color: #2d323c; text-shadow: 0 1px 14px #ffffffb3; position: absolute; z-index: 7; top: calc(clamp(44px, 8vh, 100px) + 64px); width: 100%; padding: 0 24px; text-align: center; }
+  .near-logo { display: block; width: 66px; height: auto; opacity: .8; }
+  .hands-copy-head .concept-eyebrow {
+    margin-bottom: 0;
+    border: 1px solid #d9dce0;
+    border-radius: 999px;
+    background: linear-gradient(175deg, #fff 35%, #f0f1f3);
+    box-shadow: inset 0 1px 0 #fff;
+    color: var(--header-ink);
+  }
+  .hands-copy-head {
+    --near-mark-ink: var(--header-ink);
+  }
+  .hands-heading-first { color: oklch(0.32 0.016 260); }
+  @font-face { font-family: 'Caveat'; src: url('/fonts/Caveat-Medium-Latin.woff2') format('woff2'); font-style: normal; font-weight: 500; font-display: swap; }
+  .familiar-script { position: absolute; top: calc(100% + 12px); right: 8%; margin: 0; color: #707987; font: 500 21px/1.15 'Caveat', cursive; letter-spacing: 0; text-align: right; transform: rotate(-4deg); }
+  .familiar-script::after { content: ''; display: block; width: 55px; height: 38px; margin: 4px 26px 0 auto; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 55 38'%3E%3Cpath d='M51 3C39 4 28 9 19 17 14 21 10 25 7 31m0 0 1-9m-1 9 9-2' fill='none' stroke='%23707987' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+  @media (max-width: 600px) { .familiar-script { position: relative; inset: auto; display: table; margin: 0 auto 12px; text-align: center; } .familiar-script::after { display: none; } }
+  .hero-main-line { display: block; }
+  .hands-heading-first .hands-subtitle,
+  .hands-copy-head .near-gradient-copy,
+  .hands-copy-head .near-gradient-mark {
+    color: var(--header-ink);
+  }
+  .hands-heading h1, .hands-title { margin: 0; max-width: 18em; margin-inline: auto; text-wrap: balance; font-size: clamp(32px, 5.25vw, 78px); font-weight: 620; line-height: 1.08; letter-spacing: -.035em; }
+  .hands-heading h1, .hands-title { white-space: pre-line; }
+  .hands-subtitle {
+    margin: 20px auto 0;
+    color: var(--header-ink);
+    max-width: 56ch;
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.5;
+    text-wrap: pretty;
+    font-variant-numeric: tabular-nums;
+  }
+  .hands-heading-first .hands-subtitle { max-width: 44ch; }
+  .hands-copy-head .concept-eyebrow { white-space: nowrap; }
+  .hands-heading span { color: inherit; }
+  :global(.reveal-heading .reveal-word) { display: inline-block; }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.reveal-heading[data-reveal-ready]:not([data-reveal-visible]) .reveal-word) { opacity: 0; transform: translateY(8px); filter: blur(8px); }
+    :global(.reveal-heading[data-reveal-visible]:not([data-reveal-instant]) .reveal-word) { animation: heading-word-enter 800ms cubic-bezier(.25,.46,.45,.94) both; animation-delay: calc(var(--word-index) * 80ms); }
+  }
+  @keyframes heading-word-enter { from { opacity: 0; transform: translateY(8px); filter: blur(8px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+  .hands-copy-head { opacity: calc(1 - var(--hero-exit,0)); }
+  .hands-heading-first { opacity: calc(var(--first-heading-opacity,1) * (1 - var(--hero-exit,0))); }
+  .hands-heading-second { opacity: calc(var(--second-heading-opacity,0) * (1 - var(--hero-exit,0))); }
+  .hands-heading-second .hands-title { line-height: 1; }
   .hands-webgl { position: absolute; inset: -20% 0 -12%; z-index: 1; pointer-events: none; }
   .hands-webgl :global(canvas) { width: 100%; height: 100%; display: block; }
-  .hands-stage:has(.is-ready) > .hand-left, .hands-stage:has(.is-ready) > .hand-right { visibility: hidden; }
-  .hands-stage { position: absolute; inset: 26% 0 0; perspective: 1200px; }
-  .hand-left, .hand-right { position: absolute; width: min(62vw, 900px); height: auto; bottom: 8%; }
-  .hand-left { left: -13%; aspect-ratio: 700 / 680; transform: translateX(calc(var(--reach) * 4vw + var(--second) * 26vw)) rotateY(calc(var(--turn) * 180deg)); transform-style: preserve-3d; }
-  .hand-left img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; }
-  .hand-turned { transform: rotateY(180deg); mask-image: linear-gradient(#000 75%, transparent 99%); }
-  .hand-right { right: -13%; transform: translateX(calc(var(--reach) * -4vw + var(--second) * 24vw)) scaleX(-1) rotate(calc(var(--second) * -12deg)); opacity: calc(1 - var(--second) * .8); }
-  .hands-scroll { position: absolute; bottom: 35px; left: calc(50% - 22px); width: 44px; height: 44px; display: grid; place-items: center; color: #c5b4eb; border: 1px solid #66527b; border-radius: 50%; text-decoration: none; font-size: 22px; }
-  .hands-scroll:hover { background: #bca4ee20; }
-  .hands-reduced-pose { display: none; }
-  .hands-track { position: absolute; bottom: 0; height: 2px; background: #bca4ee15; width: 100%; }
-  .hands-track span { display: block; height: 100%; background: #bca4ee; transform-origin: left; transform: scaleX(var(--second)); }
-  .concept-hero { min-height: auto; display: block; padding: 110px 0; }
-  .concept-copy { max-width: 720px; margin: auto; }
-  .concept-copy h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1.05; letter-spacing: -.05em; margin: 0; }
+  :global(.hands-light-backdrop) { position: absolute; top: 11.2%; height: 97.68%; width: 100%; left: 0; z-index: 1; pointer-events: none; }
+  .hands-stage { position: absolute; inset: 23% 0 0; z-index: 5; pointer-events: none; perspective: 1200px; opacity: var(--hands-opacity,1); }
+  .header-key:focus-visible, .concept-logo:focus-visible { outline: 2px solid #606a78; outline-offset: 4px; }
+  .hands-scroll { position: absolute; z-index: 8; bottom: 35px; left: calc(50% - 22px); width: 44px; height: 44px; display: grid; place-items: center; color: var(--header-ink); border: 1px solid #d9dce0; border-radius: 50%; background: linear-gradient(175deg, #fff 35%, #f0f1f3); box-shadow: inset 0 1px 0 #fff, 0 2px 6px #2026301a; text-decoration: none; font-size: 22px; opacity: calc(1 - var(--hero-exit,0)); }
+  .hands-scroll span { transform: translateY(-1px); }
+  @media (hover: hover) and (pointer: fine) { .hands-scroll:hover { background: #fff; box-shadow: inset 0 1px 0 #fff, 0 3px 10px #20263024; } }
+  .hands-scroll:active { background: #e9ebef; }
+  .hands-scroll:focus-visible { outline: 2px solid #606a78; outline-offset: 4px; }
+  .hands-track { position: absolute; bottom: 0; height: 2px; background: #171a2009; width: 100%; }
+  .hands-track span { display: block; height: 100%; background: #8a8f99; transform-origin: left; transform: scaleX(var(--second)); }
   @media (max-width: 600px) {
-    .hands-story { height: 230svh; }
+    .hands-story { height: 550svh; }
     .hands-sticky { min-height: 480px; }
-    .hands-heading { top: 10%; }
-    .hands-heading .concept-eyebrow { font-size: 10px; }
-    .hands-stage { top: 28%; }
-    .hand-left, .hand-right { width: 100vw; bottom: 4%; }
-    .hand-left { left: -48%; }
-    .hand-right { right: -48%; }
+    .hands-copy-head { top: 10%; }
+    .hands-heading { top: calc(10% + 60px); }
+    .hands-copy-head .concept-eyebrow { font-size: 10px; }
+    .hands-stage { top: 22%; }
+    :global(.hands-light-backdrop) { top: 13.6%; height: 95.04%; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hands-webgl { display: none; }
-    .hands-stage:has(.is-ready) > .hand-left, .hands-stage:has(.is-ready) > .hand-right { visibility: visible; }
+    .hands-webgl { inset: 0; }
     .hands-story { height: auto; }
     .hands-sticky { position: relative; height: auto; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
-    .hands-heading { position: relative; top: auto; padding-top: 60px; opacity: 1; transform: none; }
+    .hands-copy-head { position: relative; top: auto; padding-top: 60px; opacity: 1; }
+    .hands-heading { position: relative; top: auto; padding-top: 24px; opacity: 1; transform: none; }
     .hands-heading-second { order: 2; }
     .hands-stage { position: relative; inset: auto; height: 60vw; max-height: 600px; }
-    .hand-left { transform: none; }
-    .hand-left .hand-turned { display: none; }
-    .hands-reduced-pose { display: block; position: relative; order: 3; width: min(80%, 650px); height: auto; margin: 0 auto; }
-    .hands-stage .hand-left, .hands-stage .hand-right { bottom: 0; }
     .hands-scroll, .hands-track { display: none; }
   }
 </style>
 <script>
+  import { attachHeaderEyes } from '../scripts/header-eyes';
+  const disposeEyes = attachHeaderEyes();
+  document.addEventListener('astro:before-swap', disposeEyes, { once:true });
+
+  import { attachParticleWake } from '../scripts/particle-wake';
+  const wakeSurface=document.querySelector<HTMLElement>('.hands-sticky');
+  const disposeWake=wakeSurface?attachParticleWake(wakeSurface):undefined;
+  import { createParticleBackdrop } from '../scripts/particle-backdrop';
   import { createHandsScene } from '../scripts/hands-scene';
   const host = document.querySelector<HTMLElement>('.hands-webgl');
   let scene: ReturnType<typeof createHandsScene> | undefined;
   if (host) { try { scene = createHandsScene(host); } catch (error) { console.warn('3D hands unavailable', error); } }
+  let atmosphere:ReturnType<typeof createParticleBackdrop>|undefined;
+  const atmosphereHost=document.querySelector<HTMLElement>('.hero-atmosphere');
+  const sticky=document.querySelector<HTMLElement>('.hands-sticky');
+  if(atmosphereHost&&sticky){try{atmosphere=createParticleBackdrop(atmosphereHost,sticky);}catch(error){console.warn('Particle backdrop unavailable',error);}}
   const story = document.querySelector<HTMLElement>('.hands-story');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const dial=document.querySelector<HTMLElement>('.position-dial')!;
+  const stops=[...document.querySelectorAll<HTMLButtonElement>('.dial-stop')];
+  const panels=[...document.querySelectorAll<HTMLElement>('.dial-panel')];
+  let selectedStep=0;
+  let displayedStep=0;
+  let motionTime=0;
+  const firstHeading=document.querySelector<HTMLElement>('.hands-heading-first')!;
+  const secondHeading=document.querySelector<HTMLElement>('.hands-heading-second')!;
+  const revealHeadings=[...document.querySelectorAll<HTMLElement>('#concept-title, .hands-title, #position-title, .dial-panel:not([data-panel="0"]) .dial-narrative h3')];
+  revealHeadings.forEach(heading=>{
+    const lines=heading.textContent?.trim().split('\n')??[];
+    heading.replaceChildren();
+    heading.classList.add('reveal-heading');
+    let wordIndex=0;
+    lines.forEach((line,lineIndex)=>{
+      if(lineIndex)heading.append(document.createElement('br'));
+      line.trim().split(/\s+/).forEach((word,index)=>{
+        if(index)heading.append(' ');
+        const span=document.createElement('span');
+        span.className='reveal-word';
+        span.style.setProperty('--word-index',String(wordIndex++));
+        span.textContent=word;
+        heading.append(span);
+      });
+    });
+    heading.dataset.revealReady='';
+  });
+  function revealHeading(heading:HTMLElement|null,instant=false){
+    if(!heading||heading.dataset.revealVisible!==undefined)return;
+    if(instant)heading.dataset.revealInstant='';
+    heading.dataset.revealVisible='';
+  }
+  const scrollLink=document.querySelector<HTMLAnchorElement>('.hands-scroll');
   let pending = false;
+  let horizontalTravel=0;
+  let lastHorizontalStep=0;
+  let touchStartX=0,touchStartY=0;
   const clamp = (n: number) => Math.min(1, Math.max(0, n));
   const smooth = (n: number) => n * n * (3 - 2 * n);
+  const wrap = (n:number,length:number) => ((n%length)+length)%length;
   function paint() {
     pending = false;
     if (!story) return;
     const box = story.getBoundingClientRect();
     const progress = reduced.matches ? 0 : clamp(-box.top / Math.max(1, box.height - window.innerHeight));
-    if (box.bottom > 0 && box.top < window.innerHeight) scene?.update(smooth(clamp(progress / .4)), smooth(clamp((progress - .45) / .35)));
-    story.style.setProperty('--reach', String(smooth(clamp(progress / .4))));
-    story.style.setProperty('--turn', String(smooth(clamp((progress - .45) / .35))));
-    story.style.setProperty('--second', String(smooth(clamp((progress - .55) / .3))));
+    const hands=clamp(progress/.42);
+    const reveal=smooth(clamp((progress-.43)/.20));
+    atmosphere?.update(0,progress);
+    // After the wheel fades in, its rise and the hands' exit begin together.
+    const handoffStart=.54;
+    const retreat=smooth(clamp((progress-handoffStart)/.075));
+    const settle=smooth(clamp((progress-handoffStart)/.10));
+    const now=performance.now();
+    const delta=Math.min(64,now-(motionTime||now));motionTime=now;
+    const target=selectedStep;
+    const instant=reduced.matches||story.classList.contains('keyboard-step');
+    displayedStep=instant?target:displayedStep+(target-displayedStep)*(1-Math.exp(-delta/110));
+    if(Math.abs(target-displayedStep)<.001)displayedStep=target;
+    if(displayedStep!==target)schedule();
+    const active=wrap(Math.round(displayedStep),panels.length);
+    if (box.bottom > 0 && box.top < window.innerHeight && reveal<1) scene?.update(smooth(clamp(hands / .4)), smooth(clamp((hands - .45) / .35)),retreat);
+    story.style.setProperty('--reach', String(smooth(clamp(hands / .4))));
+    story.style.setProperty('--turn', String(smooth(clamp((hands - .45) / .35))));
+    const headingChange=smooth(clamp((hands - .55) / .3));
+    story.style.setProperty('--second', String(headingChange));
+    const showSecond=hands>.7;
+    if(showSecond||reduced.matches)revealHeading(secondHeading.querySelector('.hands-title'),true);
+    firstHeading.setAttribute('aria-hidden',String(!reduced.matches&&(showSecond||reveal>.95)));
+    secondHeading.setAttribute('aria-hidden',String(!reduced.matches&&(!showSecond||reveal>.95)));
+    story.style.setProperty('--first-heading-opacity',showSecond?'0':'1');
+    story.style.setProperty('--second-heading-opacity',showSecond?'1':'0');
+    story.style.setProperty('--reveal',String(reveal));
+    story.style.setProperty('--hero-exit',String(smooth(clamp(reveal/.4))));
+    if(scrollLink)scrollLink.inert=!reduced.matches&&reveal>.7;
+    story.style.setProperty('--wheel-opacity',String(smooth(clamp((progress-.45)/.07))));
+    story.style.setProperty('--dial-markings',String(smooth(clamp((progress-.51)/.05))));
+    story.style.setProperty('--pin-opacity',String(reduced.matches?0:smooth(clamp((hands-.38)/.02))));
+    story.style.setProperty('--pin-heat',String(smooth(clamp((hands-.7)/.28))));
+    story.style.setProperty('--pin-line',String(smooth(clamp((progress-.40)/.06))));
+    story.style.setProperty('--hands-opacity',String(1-smooth(clamp((reveal-.88)/.12))));
+    story.style.setProperty('--dial-surface','0');
+    story.style.setProperty('--dial-opacity',String(reduced.matches?1:smooth(clamp((progress-.56)/.07))));
+    story.style.setProperty('--dial-settle',String(settle));
+    story.style.setProperty('--dial-angle',`${-displayedStep*30}deg`);
+    dial.inert=!reduced.matches&&reveal<.98;
+    if(!dial.inert){
+      revealHeading(dial.querySelector('#position-title'),instant);
+      revealHeading(panels[active]?.querySelector('h3')??null,true);
+    }
+    document.body.classList.toggle('dial-light',!reduced.matches&&reveal>.7&&box.bottom>64);
+    stops.forEach(button=>{
+      const index=Number(button.dataset.step);
+      const sequence=Number(button.dataset.sequence);
+      let offset=wrap(sequence-displayedStep,stops.length);
+      if(offset>stops.length/2)offset-=stops.length;
+      const nearby=Math.abs(offset)<1.75;
+      button.inert=!nearby;
+      button.setAttribute('aria-hidden',String(!nearby));
+      button.setAttribute('aria-pressed',String(nearby&&index===active&&Math.abs(offset)<.5));
+      button.style.setProperty('--stop-opacity',String(nearby?Math.max(0,1-Math.abs(offset)*.55):0));
+    });
+    panels.forEach((panel,i)=>{
+      const visible=reduced.matches||i===active;
+      panel.setAttribute('aria-hidden',String(!visible));panel.inert=!visible;
+      panel.style.setProperty('--copy-opacity',visible?'1':'0');
+      let offset=wrap(i-displayedStep,panels.length);
+      if(offset>panels.length/2)offset-=panels.length;
+      const staticPanel=reduced.matches||story.classList.contains('keyboard-step');
+      panel.style.setProperty('--panel-opacity',visible?'1':'0');
+      panel.style.transform='translateX(-50%)';
+      const chart=panel.querySelector<HTMLElement>('.event-chart');
+      if(chart){
+        const travel=staticPanel?0:Math.max(-1,Math.min(1,offset));
+        const warp=staticPanel?0:Math.sin(Math.PI*Math.abs(travel));
+        chart.style.setProperty('--chart-travel',String(travel));
+        chart.style.setProperty('--chart-warp',String(warp));
+      }
+    });
   }
+  function goToStep(event:Event){
+    if(!story)return;
+    event.preventDefault();
+    story.classList.toggle('keyboard-step',(event as MouseEvent).detail===0);
+    const sequence=Number((event.currentTarget as HTMLElement).dataset.sequence||0);
+    let offset=wrap(sequence-wrap(selectedStep,stops.length),stops.length);
+    if(offset>stops.length/2)offset-=stops.length;
+    selectStep(selectedStep+offset);
+  }
+  stops.forEach(button=>button.addEventListener('click',goToStep));
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
-  window.addEventListener('scroll', schedule, { passive: true });
+  function selectStep(index:number){
+    selectedStep=index;
+    schedule();
+  }
+  function horizontalWheel(event:WheelEvent){
+    if(dial.inert||Math.abs(event.deltaX)<=Math.abs(event.deltaY)*1.15){horizontalTravel=0;return;}
+    if(event.cancelable)event.preventDefault();
+    const unit=event.deltaMode===1?16:event.deltaMode===2?window.innerWidth:1;
+    const now=performance.now();
+    if(now-lastHorizontalStep<380)return;
+    horizontalTravel+=event.deltaX*unit;
+    if(Math.abs(horizontalTravel)<42)return;
+    story?.classList.remove('keyboard-step');
+    selectStep(selectedStep+(horizontalTravel>0?1:-1));
+    horizontalTravel=0;
+    lastHorizontalStep=now;
+  }
+  function beginTouch(event:TouchEvent){
+    if(event.touches.length!==1)return;
+    touchStartX=event.touches[0].clientX;
+    touchStartY=event.touches[0].clientY;
+  }
+  function endTouch(event:TouchEvent){
+    if(dial.inert||!event.changedTouches.length)return;
+    const dx=event.changedTouches[0].clientX-touchStartX;
+    const dy=event.changedTouches[0].clientY-touchStartY;
+    if(Math.abs(dx)<40||Math.abs(dx)<=Math.abs(dy)*1.2)return;
+    story?.classList.remove('keyboard-step');
+    selectStep(selectedStep+(dx<0?1:-1));
+  }
+  function horizontalKey(event:KeyboardEvent){
+    if(dial.inert||!dial.contains(document.activeElement)||!['ArrowLeft','ArrowRight'].includes(event.key))return;
+    event.preventDefault();
+    story?.classList.add('keyboard-step');
+    selectStep(selectedStep+(event.key==='ArrowRight'?1:-1));
+  }
+  function goToDial(event:MouseEvent){
+    if(!story||reduced.matches)return;
+    event.preventDefault();
+    const total=story.offsetHeight-window.innerHeight;
+    window.scrollTo({top:window.scrollY+story.getBoundingClientRect().top+total*.74,behavior:'smooth'});
+  }
+  scrollLink?.addEventListener('click',goToDial);
+  dial.addEventListener('wheel',horizontalWheel,{passive:false});
+  dial.addEventListener('touchstart',beginTouch,{passive:true});
+  dial.addEventListener('touchend',endTouch,{passive:true});
+  dial.addEventListener('keydown',horizontalKey);
+  window.addEventListener('scroll',schedule,{passive:true});
   window.addEventListener('resize', schedule);
   reduced.addEventListener('change', schedule);
   paint();
+  requestAnimationFrame(()=>revealHeading(firstHeading.querySelector('#concept-title'),reduced.matches));
   if (import.meta.hot) import.meta.hot.dispose(() => {
-    window.removeEventListener('scroll', schedule);
+    dial.removeEventListener('wheel',horizontalWheel);
+    dial.removeEventListener('touchstart',beginTouch);
+    dial.removeEventListener('touchend',endTouch);
+    dial.removeEventListener('keydown',horizontalKey);
+    window.removeEventListener('scroll',schedule);
     window.removeEventListener('resize', schedule);
     reduced.removeEventListener('change', schedule);
+    stops.forEach(button=>button.removeEventListener('click',goToStep));
+    scrollLink?.removeEventListener('click',goToDial);
+    document.body.classList.remove('dial-light');
     scene?.dispose();
+    atmosphere?.dispose();
+    disposeWake?.();
   });
 </script>

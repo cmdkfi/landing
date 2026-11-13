@@ -1,0 +1,1 @@
+Adapted from https://github.com/cullenwebber/three-volumetric-light (retrieved 2026-11-13), explicitly selected by the user. Upstream has no license file; this integration is for local preview pending redistribution permission. Changes: actual skinned depth pass, lifecycle cleanup, transparent composition and separate particle-hand layer.

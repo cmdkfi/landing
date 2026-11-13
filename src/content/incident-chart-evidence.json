@@ -1,0 +1,41 @@
+[
+  {
+    "id": "INC02-033",
+    "repoCommit": "e9491c2fcfd8a51aa873c54199b830622cf27287",
+    "repository": "https://github.com/fffilimonov/prime/blob/e9491c2fcfd8a51aa873c54199b830622cf27287/research_notes/Voices%20on%20AI%20managed%20crypto%20loans/incident_replay/INC-02-stream-xusd-elixir-deusd.json",
+    "transaction": "https://etherscan.io/tx/0x3bbd166f8ee134473af8c14cdf2a052eae5e275622d7a1ac7a426198239fc091",
+    "timestamp": "2025-11-13T14:33:47Z",
+    "beforeBlock": 23790907,
+    "afterBlock": 23790908,
+    "beforeUSDC": 4251359.7,
+    "afterUSDC": 66401.33,
+    "writeOffUSDC": 4184958.37,
+    "notes": "Verified by eth_call. The Morpho API vault history shows this drop only on 18 Nov 13\u201314h (its totalAssets series lagged); on-chain time is authoritative. Elixir later opened a USDC claims portal for Morpho vault lenders (Threshold post-mortem, not fetchable), so the final recovery may differ."
+  },
+  {
+    "id": "INC03-034",
+    "repoCommit": "e9491c2fcfd8a51aa873c54199b830622cf27287",
+    "repository": "https://github.com/fffilimonov/prime/blob/e9491c2fcfd8a51aa873c54199b830622cf27287/research_notes/Voices%20on%20AI%20managed%20crypto%20loans/incident_replay/INC-03-resolv-usr.json",
+    "transaction": "https://etherscan.io/tx/0x9cccb51cb74bd436d541f1953b845b16df740c1d4ad7b927113a71cd899f78c5",
+    "timestamp": "2026-03-31T00:28:23Z",
+    "beforeBlock": 24774001,
+    "afterBlock": 24774002,
+    "beforeUSDC": 16898326.6,
+    "afterUSDC": 11906282.22,
+    "writeOffUSDC": 4992044.38,
+    "notes": "Verified via eth_call at blocks 24774001/24774002. Outside the replay window (outcome marker). Any later Resolv/Gauntlet remediation was not verified."
+  },
+  {
+    "id": "INC02-031",
+    "repoCommit": "e9491c2fcfd8a51aa873c54199b830622cf27287",
+    "repository": "https://github.com/fffilimonov/prime/blob/e9491c2fcfd8a51aa873c54199b830622cf27287/research_notes/Voices%20on%20AI%20managed%20crypto%20loans/incident_replay/INC-02-stream-xusd-elixir-deusd.json",
+    "transaction": "https://etherscan.io/tx/0xa7bc35245a324b8e179b56ca52e8a4cb65f7cb08e582c89d9687f77d1d9f8ec5",
+    "timestamp": "2025-11-11T14:47:11Z",
+    "beforeBlock": 23776679,
+    "afterBlock": 23776680,
+    "beforeUSDC": 73994902.52,
+    "afterUSDC": 71357487.88,
+    "writeOffUSDC": 2637414.64,
+    "notes": "Verified by eth_call at blocks 23776679/23776680. MEV Capital's X statement (quoted by WuBlockchain at 2025-11-13T05:41:29Z) put the bad debt at 'nearly 3.6%' of TVL; secondary coverage dated it 12 Nov, but the on-chain removal was 11 Nov 14:47 UTC."
+  }
+]

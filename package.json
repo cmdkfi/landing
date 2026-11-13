@@ -13,8 +13,12 @@
     "check": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/check-copy.mjs"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
     "@tailwindcss/vite": "^4.0.0",
     "astro": "^5.0.0",
+    "liveline": "^0.0.7",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "^4.0.0",
     "three": "^0.187.0"
   },

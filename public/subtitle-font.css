@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "Mluvka";
+  src: url('/fonts/MluvkaVariable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+body.concept-page .concept-header,
+body.concept-page .hands-copy-head .near-gradient-copy,
+body.concept-page .hands-subtitle,
+body.concept-page .dial-intro > p:not(.dial-kicker),
+body.concept-page .dial-narrative > p {
+  font-family: "Mluvka", sans-serif;
+}
