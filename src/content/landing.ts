@@ -37,6 +37,50 @@ export interface Feature {
 
 export const SITE_ORIGIN = 'https://cmdk.fi';
 
+// Copy for the isolated /1 first-screen design preview. This route makes no new product claims.
+export const concept = {
+  title: 'cmdk — first screen concept',
+  skip: 'Skip to content',
+  home: 'cmdk home',
+  logo: 'Command K',
+  logoLetter: 'K',
+  nav: 'Sections',
+  how: 'How it works',
+  control: 'Your control',
+  evidence: 'Evidence',
+  eyebrow: 'Live on testnet · ETH → USDC',
+  eth: 'ETH',
+  usdc: 'USDC',
+  sequence: '01 / 03',
+  headingStart: 'Borrow against',
+  headingEnd: 'what you hold.',
+  lead: 'An agent looks after your loan while you are away. You choose the limits. Only your wallet can withdraw.',
+  proofLabel: 'How your funds are controlled',
+  proof: ['Agent acts inside your limits', 'Every action checked on-chain'],
+  sceneLabel: 'Illustrative loan position: ETH collateral, USDC debt, and an agent acting within your limits',
+  sceneTop: 'CMDK / POSITION',
+  sceneTopEnd: 'ILLUSTRATIVE · TESTNET',
+  loan: 'YOUR LOAN',
+  inRange: 'IN RANGE',
+  collateral: 'COLLATERAL',
+  borrowed: 'BORROWED',
+  target: 'TARGET',
+  yourLimit: 'YOUR LIMIT',
+  liquidation: 'LIQUIDATION',
+  market: 'Market moves. The agent responds.',
+  corridor: 'Inside your corridor',
+  agent: 'AGENT',
+  actions: 'Reduce · Move · Exit',
+  wallet: 'YOUR WALLET',
+  walletNote: 'Only you sign withdrawals',
+  sceneCaption: 'A visual explanation, not a live position or forecast.',
+  nextLabel: '01 / How it works',
+  next: 'Borrow against ETH. Set a corridor. Let the agent act within it.',
+  fullLanding: 'Explore the full landing',
+  controlNote: 'Control stays with your wallet.',
+  codeEvidence: 'Read the code and evidence',
+};
+
 // ---------------------------------------------------------------- statuses (PRD 4, D1)
 
 export const statusOrder: Status[] = ['live', 'production', 'roadmap', 'exploring']; // PRD 4 l.72
