@@ -660,7 +660,20 @@ export const how = {
 export const proof = {
   id: 'proof',
   h2: 'Check it yourself.', // PRD 5.11 l.210
+  pointsLabel: 'What has been checked',
+  points: [
+    // app evidence/README.md l.15 (executor 64, vault 23, agent 65, web app 174) + scripts 120 (run 13 Nov) = 446; evidence/analysis/README.md (Medusa 51.8M calls, 7 of 7; Halmos 2 proved)
+    '446 automated tests pass across the contracts, the agent, the scripts and the web app. A fuzzer ran the corridor math 51.8 million times, and two of its properties are proved for every input in range.',
+    // app evidence/attacks.txt: result 5 PASS, 0 FAIL; scripts/ATTACKS.md
+    'Five attacks a compromised agent could try are refused by the deployed executor on Base Sepolia.',
+    // app README Verify it steps 2 and 6; agent/MEASUREMENT.md
+    "The vault's code rebuilds to its published hash, the agent's image to its published id, and the enclave's measurements recompute from the public OS image.",
+    // app README l.20; COPY l.32 (simulated, sampled, the corridor not the AI)
+    'Simulated on a sample: 20 real liquidated positions, 10 from 10 October 2025 and 10 from February 2026, replayed under the corridor. All 20 survive and $2.65M of penalties is avoided. The corridor saved them, not the AI: a plain rule inside it did too.',
+  ],
   links: [
+    { label: 'Verify it', href: 'https://github.com/cmdkfi/app#verify-it', line: 'Five checks in five minutes with no wallet, then the full steps.' }, // app README "Verify it"
+    { label: 'The sandbox', href: links.sandbox, line: 'The whole flow with a simulated wallet, a market crash and a venue under stress.' }, // cmdk-app README "Sandbox"; screens MarketCrash, VenueStress
     { label: 'The code', href: links.repo, line: 'Vault, executor and agent, MIT license.' }, // README l.204, l.214-216
     {
       label: 'The research and the data',

@@ -69,7 +69,7 @@ export function llmsFull(): string {
 
   // 6. Evidence, with the required wording.
   add(`## ${h.evidence}`, '');
-  for (const l of [...market.evidence, ...venue.evidence]) add(`- ${l}`);
+  for (const l of [...market.evidence, ...venue.evidence, ...proof.points]) add(`- ${l}`);
   add('');
 
   // 7. Limits and risks: all honesty lines and the "Not claimed" row.
