@@ -20,7 +20,7 @@ export function createHandsScene(host: HTMLElement) {
   room.dispose();
   pmrem.dispose();
   const material = new THREE.MeshPhysicalMaterial({ color: 0xb87c61, metalness: 0, roughness: .58, clearcoat: .05, envMapIntensity: .45 });
-  type Rig = { root: THREE.Group; joints: { bone: THREE.Object3D; rest: THREE.Quaternion; amount: number }[] };
+  type Rig = { root: THREE.Group; wrist: THREE.Object3D; wristRest: THREE.Quaternion; basis: THREE.Quaternion; joints: { bone: THREE.Object3D; rest: THREE.Quaternion; amount: number }[] };
   let left: Rig | undefined, right: Rig | undefined, disposed = false;
   const loader = new GLTFLoader();
   async function loadHand(side: 'left' | 'right'): Promise<Rig> {
@@ -51,17 +51,38 @@ export function createHandsScene(host: HTMLElement) {
         joints.push({bone,rest:bone.quaternion.clone(),amount});
       }
     }
+    const forearm = wrist.clone(false);
+    forearm.name = 'forearm-anchor';
+    wrist.parent!.add(forearm);
     model.traverse(object => { if (object instanceof THREE.Mesh) { object.material = material; const original = object.geometry;
       const vertices = original.getAttribute('position');
+      const skinIndex = original.getAttribute('skinIndex');
+      const skinWeight = original.getAttribute('skinWeight');
+      let anchorIndex = -1;
+      if (object instanceof THREE.SkinnedMesh) {
+        const skeleton = object.skeleton;
+        anchorIndex = skeleton.bones.length;
+        const wristIndex = skeleton.bones.indexOf(wrist as THREE.Bone);
+        object.skeleton = new THREE.Skeleton([...skeleton.bones, forearm as THREE.Bone], [...skeleton.boneInverses, skeleton.boneInverses[wristIndex].clone()]);
+        skeleton.dispose();
+      }
       for (let i=0;i<vertices.count;i++) {
         const vertex = new THREE.Vector3().fromBufferAttribute(vertices,i);
         const behindWrist = vertex.clone().sub(origin).dot(up);
         if(behindWrist<0) vertex.addScaledVector(up,behindWrist*7);
+        if(anchorIndex>=0 && behindWrist<.006) {
+          const hold = THREE.MathUtils.smoothstep(-behindWrist,-.006,.012);
+          const influences = [[anchorIndex,hold]];
+          for(let k=0;k<4;k++) influences.push([skinIndex.array[i*4+k],skinWeight.array[i*4+k]*(1-hold)]);
+          influences.sort((a,b)=>b[1]-a[1]);
+          const total=influences.slice(0,4).reduce((sum,x)=>sum+x[1],0);
+          for(let k=0;k<4;k++) {skinIndex.array[i*4+k]=influences[k][0];skinWeight.array[i*4+k]=influences[k][1]/total;}
+        }
         vertices.setXYZ(i,vertex.x,vertex.y,vertex.z);
       }
       object.geometry = smoothHand(original); original.dispose(); object.frustumCulled = false; } });
     if (!disposed) scene.add(root);
-    return {root,joints};
+    return {root,joints,wrist,wristRest:wrist.quaternion.clone(),basis:new THREE.Quaternion().setFromRotationMatrix(basis)};
   }
   Promise.all([loadHand('left'),loadHand('right')]).then(([l,r])=> {
     if(disposed)return;
@@ -82,17 +103,21 @@ export function createHandsScene(host: HTMLElement) {
     if (!left || !right) return;
     const narrow=host.clientWidth<600;
     const spread=narrow?3.5:4.0;
-    left.root.position.set(-spread+reach*.3+turn*2,-.8-turn*.55,0);
+    left.root.position.set(-spread+reach*.3,-.8,0);
     right.root.position.set(spread-reach*.3,-1.2,0);
     const axis = new THREE.Vector3(1,0,0);
     const yAxis = new THREE.Vector3(0,1,0), zAxis = new THREE.Vector3(0,0,1);
     const initial = new THREE.Quaternion().setFromAxisAngle(zAxis,-1.72)
-      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,2.5));
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,1.35));
     const final = new THREE.Quaternion().setFromAxisAngle(zAxis,-.22)
-      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-.12));
-    left.root.quaternion.copy(initial).slerp(final,turn);
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,1.35));
+    left.root.quaternion.copy(initial);
+    const desired = initial.clone().slerp(final,turn);
+    const wristDelta = initial.clone().invert().multiply(desired);
+    const nativeDelta = left.basis.clone().multiply(wristDelta).multiply(left.basis.clone().invert());
+    left.wrist.quaternion.copy(nativeDelta).multiply(left.wristRest);
     right.root.quaternion.setFromAxisAngle(zAxis,1.35)
-      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-.75));
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-1.35));
     for (const hand of [left,right]) for (const joint of hand.joints) {
       const name=joint.bone.name;
       const isJoint=name.includes('phalanx');
@@ -108,7 +133,7 @@ export function createHandsScene(host: HTMLElement) {
     if(!width||!height)return;
     renderer.setSize(width,height);
     camera.aspect=width/height;
-    camera.position.z=camera.aspect<.8?20:16;
+    camera.position.z=camera.aspect<.8?26:16;
     camera.updateProjectionMatrix();render();
   }
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);
