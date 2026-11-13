@@ -29,7 +29,7 @@ export function createHandsScene(host: HTMLElement) {
   const loader = new GLTFLoader().setDRACOLoader(draco);
   async function loadHand(side: 'left' | 'right'): Promise<Rig> {
     if(side==='right'){
-      const {scene:model}=await loader.loadAsync('/models/hand-human.glb');
+      const {scene:model}=await loader.loadAsync('/models/scene-hand.glb');
       model.updateMatrixWorld(true);
       const wrist=model.getObjectByName('hand')!;
       const origin=wrist.getWorldPosition(new THREE.Vector3());
