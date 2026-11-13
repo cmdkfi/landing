@@ -3,7 +3,7 @@ import IncidentChart from './IncidentChart';
 import { incidentStory as copy, concept } from '../../content/landing';
 ---
 <section class="position-dial" id="details" aria-labelledby="position-title" inert>
-  <div class="dial-intro"><p class="dial-kicker">{copy.note}</p><h2 id="position-title">{copy.title}</h2><p>{copy.intro.split(/(\d[\d.,:%–-]*)/g).map(part => /^\d/.test(part) ? <span class="technical-number">{part}</span> : part)}</p></div>
+  <div class="dial-intro"><p class="dial-kicker">{copy.note}</p><h2 id="position-title">{copy.title}</h2><p>{copy.intro.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
   <div class="dial-pointer" aria-hidden="true"><i></i></div>
   <div class="dial-wheel" role="group" aria-label={copy.label}>
     <div class="dial-ticks" aria-hidden="true">{Array.from({length: 180}, (_,i)=><i style={`--tick: ${i*2}deg`}></i>)}</div>
@@ -11,13 +11,13 @@ import { incidentStory as copy, concept } from '../../content/landing';
   </div>
   <div class="dial-panels">
     {copy.steps.map((step,i)=><article class="dial-panel" data-panel={i} aria-hidden={i!==0?'true':'false'} inert={i!==0} style={`--panel-opacity: ${i===0?1:0}`}>
-      <div class="dial-narrative"><h3>{i === 0 ? <><span>Relend USDC /</span><br /><span class="circled-debt">bad debt<svg viewBox="0 0 180 42" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M 27 8 C 19 9, 11 12, 9 17 C 7 21, 8 27, 11 30 C 16 35, 32 37, 54 37 C 83 38, 118 37, 139 36 C 159 35, 170 32, 172 27 C 174 23, 173 17, 170 14 C 166 8, 153 6, 132 6 C 104 5, 69 5, 50 6 C 37 6, 24 8, 19 11" /></svg></span> socialized</> : step.title}</h3><p>{step.text}</p></div>
+      <div class="dial-narrative"><h3>{i === 0 ? <><span>{copy.relendPrefix}</span><br /><span class="circled-debt">{copy.relendEmphasis}<svg viewBox="0 0 180 42" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M 27 8 C 19 9, 11 12, 9 17 C 7 21, 8 27, 11 30 C 16 35, 32 37, 54 37 C 83 38, 118 37, 139 36 C 159 35, 170 32, 172 27 C 174 23, 173 17, 170 14 C 166 8, 153 6, 132 6 C 104 5, 69 5, 50 6 C 37 6, 24 8, 19 11" /></svg></span>{copy.relendSuffix}</> : step.title}</h3><p>{step.text}</p></div>
       <div class="incident-paper">
         <div class="event-chart">
           <div class="chart-letter-field" aria-hidden="true">{Array.from({length: 55}, (_, j) => { const x = (j * 37 + 7) % 100; const y = (j * 61 + 11) % 100; return <span style={`--x:${x}%;--y:${y}%;--dx:${(x - 50) * .45}px;--dy:${(y - 55) * .45}px;--delay:${-(j % 17) * .7}s;--duration:${10 + (j % 5) * 2}s;--size:${8 + (j % 5) * 2}px;--angle:${(j * 37) % 61 - 30}deg`}>{'NEARHACKATHON'[j % 13]}</span>; })}</div>
           <IncidentChart client:load index={i} label={concept.chart.label} before={step.before} after={step.after} amountLabel={step.amountLabel} date={step.date} evidence={step.evidence} source={step.source} researchLabel={copy.researchLabel} sourceLabel={step.sourceLabel} />
         </div>
-        <p class="incident-closing">The oracle stayed fixed. No liquidations fired. The vault removed the market, socializing the loss into its share price.</p>
+        <p class="incident-closing">{copy.closing}</p>
         {step.note && <div class="incident-footnote"><p>{step.note}</p></div>}
       </div>
     </article>)}

@@ -37,14 +37,14 @@ import { links, meta, concept } from '../content/landing.ts';
               <span><i class="agent-glyph agent-glyph-claude"></i></span>
               <span><i class="agent-glyph agent-glyph-chatgpt"></i></span>
             </span>
-            <span>Ask Your Agent</span>
+            <span>{concept.agentLabel}</span>
           </span>
         </a>
       </nav>
       <a class="concept-header-cta header-key" href={links.testnet}>
         <span class="cta-surface">
           <span class="testnet-indicator" aria-hidden="true"></span>
-          <span class="cta-label">Testnet App</span>
+          <span class="cta-label">{concept.testnetLabel}</span>
           <svg class="cta-arrow" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M7.5 4 13.5 10 7.5 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             <path class="cta-arrow-stem" d="M13.5 10H0" stroke="currentColor" stroke-width="2" stroke-dasharray="15" stroke-dashoffset="15" />
@@ -58,8 +58,8 @@ import { links, meta, concept } from '../content/landing.ts';
         <div class="hands-sticky">
           <div class="hero-atmosphere" aria-hidden="true"></div>
           <div class="hands-copy-head"><p class="concept-eyebrow"><span class="near-gradient-copy">{concept.eyebrow}</span><span class="near-gradient-mark"><img class="near-logo" src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /></span></p></div>
-          <div class="hands-heading hands-heading-first"><p class="familiar-script">a familiar script</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading.split(/(\d[\d.,:%–-]*)/g).map(part => /^\d/.test(part) ? <span class="technical-number">{part}</span> : part)}</p></div>
-          <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="hands-title">{concept.gestureHeading}</p><p class="hands-subtitle">{concept.gestureSubheading.split(/(\d[\d.,:%–-]*)/g).map(part => /^\d/.test(part) ? <span class="technical-number">{part}</span> : part)}</p></div>
+          <div class="hands-heading hands-heading-first"><p class="familiar-script">{concept.marginNote}</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
+          <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="hands-title">{concept.gestureHeading}</p><p class="hands-subtitle">{concept.gestureSubheading.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
           <div class="hands-stage" aria-hidden="true">
             <div class="hands-webgl"></div>
           </div>

@@ -277,7 +277,9 @@ if (index !== null) {
   const astroDir = join(dist, '_astro');
   const assets = existsSync(astroDir) ? readdirSync(astroDir) : [];
   const size = (f) => statSync(join(astroDir, f)).size;
-  const css = assets.filter((f) => f.endsWith('.css')).reduce((a, f) => a + size(f), 0);
+  // Count stylesheets loaded by the main page, not route-specific CSS for /1.
+  const cssFiles = new Set([...index.matchAll(/<link\b[^>]*\bhref=["'](\/_astro\/[^"']+\.css)["'][^>]*>/g)].map((m) => m[1].split('/').pop()));
+  const css = [...cssFiles].reduce((sum, file) => sum + size(file), 0);
   const inlineJs = [...index.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].reduce((a, m) => a + Buffer.byteLength(m[1]), 0);
   // Count scripts reachable from the main page, including imported chunks.
   // Isolated concept routes may ship their own WebGL runtime.
