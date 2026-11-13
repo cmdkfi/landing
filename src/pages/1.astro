@@ -10,6 +10,7 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
     <meta name="robots" content="noindex" />
     <meta name="description" content={meta.description} />
     <title>{concept.title}</title>
+    <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body class="concept-page">
@@ -28,10 +29,23 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
     </header>
 
     <main id="main">
-      <section class="concept-hero" aria-labelledby="concept-title">
+      <section class="hands-story" aria-labelledby="concept-title">
+        <div class="hands-sticky">
+          <div class="hands-heading hands-heading-first"><p class="concept-eyebrow">{concept.eyebrow}</p><h1 id="concept-title">{concept.headingStart}<br /><span>{concept.headingEnd}</span></h1></div>
+          <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="concept-eyebrow">{concept.eyebrow}</p><p class="hands-title">{concept.headingStart}<br /><span>{concept.headingEnd}</span></p></div>
+          <div class="hands-stage" aria-hidden="true">
+            <div class="hand-left"><img class="hand-reaching" src="/hand-reach.svg" alt="" width="700" height="680"/><img class="hand-turned" src="/hand-turn.svg" alt="" width="700" height="680"/></div>
+            <img class="hand-right" src="/hand-reach.svg" alt="" width="700" height="680"/>
+          </div>
+          <a class="hands-scroll" href="#details" aria-label={concept.how}><span aria-hidden="true">↓</span></a>
+          <img class="hands-reduced-pose" src="/hand-turn.svg" alt="" aria-hidden="true" width="700" height="680" />
+          <div class="hands-track" aria-hidden="true"><span></span></div>
+        </div>
+      </section>
+      <section class="concept-hero" id="details">
         <div class="concept-copy">
           <p class="concept-eyebrow"><span class="concept-pulse" aria-hidden="true"></span> {concept.eyebrow}</p>
-          <h1 id="concept-title">{concept.headingStart} <span>{concept.headingEnd}</span></h1>
+          <h2>{concept.headingStart} <span>{concept.headingEnd}</span></h2>
           <p class="concept-lead">{concept.lead}</p>
           <div class="concept-actions">
             <a class="concept-button concept-button-primary" href={links.testnet}>{cta.openTestnet} <span aria-hidden="true">↗</span></a>
@@ -46,10 +60,6 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
           </ul>
         </div>
 
-        <div class="concept-mark-stage" aria-hidden="true">
-          <span class="concept-moon"></span>
-          <img src="/cmdk-mark.svg" width="448" height="220" alt="" />
-        </div>
       </section>
 
       <div class="concept-bottom" id="how"><span>{concept.nextLabel}</span><p>{concept.next}</p><a href="/">{concept.fullLanding} <span aria-hidden="true">↗</span></a></div>
@@ -59,8 +69,9 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
 </html>
 
 <style>
+  @font-face { font-family: "Inter Variable"; src: url("/fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
   :global(html) { scroll-behavior: smooth; }
-  :global(body.concept-page) { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 43% 35%, #1a2230 0%, transparent 48%), radial-gradient(ellipse at 82% 74%, #101827 0%, transparent 53%), #070b13; color: #f5f4f7; font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
+  :global(body.concept-page) { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 43% 35%, #1a2230 0%, transparent 48%), radial-gradient(ellipse at 82% 74%, #101827 0%, transparent 53%), #070b13; color: #f5f4f7; font-family: "Inter Variable", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
   :global(body.concept-page *) { box-sizing: border-box; }
   :global(body.concept-page)::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .55; background-image: radial-gradient(1px 1px at 8% 18%, #d6e3f9 98%, transparent), radial-gradient(1px 1px at 24% 57%, #d6e3f9 98%, transparent), radial-gradient(1.5px 1.5px at 39% 12%, #e6edff 98%, transparent), radial-gradient(1px 1px at 55% 69%, #d6e3f9 98%, transparent), radial-gradient(1px 1px at 71% 32%, #d6e3f9 98%, transparent), radial-gradient(1.5px 1.5px at 89% 81%, #e6edff 98%, transparent); background-size: 290px 260px; }
   .concept-header, main { position: relative; z-index: 1; }
@@ -110,3 +121,71 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
   @media (max-width: 600px) { .concept-header, .concept-hero, .concept-bottom, .concept-anchors { width: calc(100% - 36px); } .concept-header { padding-top: 14px; } .concept-logo { min-height: 48px; width: 112px; } .concept-logo img { width: 82px; } .concept-header-cta { min-height: 48px; padding: 0 15px; font-size: 12px !important; } .concept-hero { padding-top: 70px; padding-bottom: 42px; } h1 { font-size: clamp(49px, 13vw, 70px); } .concept-lead { margin-top: 23px; } .concept-button { width: 100%; } .concept-sandbox-note { margin-left: 0; } .concept-proof { display: grid; gap: 9px; } .concept-mark-stage { min-height: 320px; } .concept-mark-stage img { width: min(84%, 360px); } .concept-moon { top: 5%; } .concept-bottom { display: block; } .concept-bottom p { margin: 16px 0; } }
   @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } .concept-button { transition: none; } .concept-button:hover { transform: none; } }
 </style>
+
+<style>
+  .hands-story { height: 260svh; --reach: 0; --turn: 0; --second: 0; }
+  .hands-sticky { position: sticky; top: 0; height: 100svh; min-height: 540px; overflow: hidden; }
+  .hands-heading { position: absolute; z-index: 2; top: clamp(44px, 8vh, 100px); width: 100%; padding: 0 24px; text-align: center; }
+  .hands-heading .concept-eyebrow { margin-bottom: 24px; border: 0; color: #a99cca; }
+  .hands-heading h1, .hands-title { margin: 0; font-size: clamp(48px, 6.8vw, 104px); font-weight: 560; line-height: 1.02; letter-spacing: -.065em; }
+  .hands-heading span { color: #bca4ee; }
+  .hands-heading-first { opacity: calc(1 - var(--second)); transform: translateY(calc(var(--second) * -24px)); }
+  .hands-heading-second { opacity: var(--second); transform: translateY(calc((1 - var(--second)) * 24px)); }
+  .hands-stage { position: absolute; inset: 26% 0 0; perspective: 1200px; }
+  .hand-left, .hand-right { position: absolute; width: min(62vw, 900px); height: auto; bottom: 8%; }
+  .hand-left { left: -13%; aspect-ratio: 700 / 680; transform: translateX(calc(var(--reach) * 4vw + var(--second) * 26vw)) rotateY(calc(var(--turn) * 180deg)); transform-style: preserve-3d; }
+  .hand-left img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; }
+  .hand-turned { transform: rotateY(180deg); mask-image: linear-gradient(#000 75%, transparent 99%); }
+  .hand-right { right: -13%; transform: translateX(calc(var(--reach) * -4vw + var(--second) * 24vw)) scaleX(-1) rotate(calc(var(--second) * -12deg)); opacity: calc(1 - var(--second) * .8); }
+  .hands-scroll { position: absolute; bottom: 35px; left: calc(50% - 22px); width: 44px; height: 44px; display: grid; place-items: center; color: #c5b4eb; border: 1px solid #66527b; border-radius: 50%; text-decoration: none; font-size: 22px; }
+  .hands-scroll:hover { background: #bca4ee20; }
+  .hands-reduced-pose { display: none; }
+  .hands-track { position: absolute; bottom: 0; height: 2px; background: #bca4ee15; width: 100%; }
+  .hands-track span { display: block; height: 100%; background: #bca4ee; transform-origin: left; transform: scaleX(var(--second)); }
+  .concept-hero { min-height: auto; display: block; padding: 110px 0; }
+  .concept-copy { max-width: 720px; margin: auto; }
+  .concept-copy h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1.05; letter-spacing: -.05em; margin: 0; }
+  @media (max-width: 600px) {
+    .hands-story { height: 230svh; }
+    .hands-sticky { min-height: 480px; }
+    .hands-heading { top: 10%; }
+    .hands-heading .concept-eyebrow { font-size: 10px; }
+    .hands-stage { top: 28%; }
+    .hand-left, .hand-right { width: 100vw; bottom: 4%; }
+    .hand-left { left: -48%; }
+    .hand-right { right: -48%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hands-story { height: auto; }
+    .hands-sticky { position: relative; height: auto; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+    .hands-heading { position: relative; top: auto; padding-top: 60px; opacity: 1; transform: none; }
+    .hands-heading-second { order: 2; }
+    .hands-stage { position: relative; inset: auto; height: 60vw; max-height: 600px; }
+    .hand-left { transform: none; }
+    .hand-left .hand-turned { display: none; }
+    .hands-reduced-pose { display: block; position: relative; order: 3; width: min(80%, 650px); height: auto; margin: 0 auto; }
+    .hands-stage .hand-left, .hands-stage .hand-right { bottom: 0; }
+    .hands-scroll, .hands-track { display: none; }
+  }
+</style>
+<script>
+  const story = document.querySelector<HTMLElement>('.hands-story');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let pending = false;
+  const clamp = (n: number) => Math.min(1, Math.max(0, n));
+  const smooth = (n: number) => n * n * (3 - 2 * n);
+  function paint() {
+    pending = false;
+    if (!story) return;
+    const box = story.getBoundingClientRect();
+    const progress = reduced.matches ? 0 : clamp(-box.top / Math.max(1, box.height - window.innerHeight));
+    story.style.setProperty('--reach', String(smooth(clamp(progress / .4))));
+    story.style.setProperty('--turn', String(smooth(clamp((progress - .45) / .35))));
+    story.style.setProperty('--second', String(smooth(clamp((progress - .55) / .3))));
+  }
+  function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  reduced.addEventListener('change', schedule);
+  paint();
+</script>
