@@ -1,0 +1,138 @@
+---
+import IncidentChart from './IncidentChart';
+import { incidentStory as copy, concept } from '../../content/landing';
+---
+<section class="position-dial" id="details" aria-labelledby="position-title" inert>
+  <div class="dial-intro"><p class="dial-kicker">{copy.note}</p><h2 id="position-title">{copy.title}</h2><p>{copy.intro.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
+  <div class="dial-pointer" aria-hidden="true"><i></i></div>
+  <div class="dial-wheel" role="group" aria-label={copy.label}>
+    <div class="dial-ticks" aria-hidden="true">{Array.from({length: 180}, (_,i)=><i style={`--tick: ${i*2}deg`}></i>)}</div>
+    {Array.from({length: 12},(_,i)=><button type="button" class="dial-stop" data-step={i%copy.steps.length} data-sequence={i} aria-label={copy.steps[i%copy.steps.length].label} aria-pressed={i===0?'true':'false'} aria-hidden={i!==0&&i!==1&&i!==11?'true':'false'} inert={i!==0&&i!==1&&i!==11} style={`--angle: ${i*30}deg; --stop-opacity: ${i===0?1:i===1||i===11?.4:0}`}><span>{copy.steps[i%copy.steps.length].label}</span></button>)}
+  </div>
+  <div class="dial-panels">
+    {copy.steps.map((step,i)=><article class="dial-panel" data-panel={i} aria-hidden={i!==0?'true':'false'} inert={i!==0} style={`--panel-opacity: ${i===0?1:0}`}>
+      <div class="dial-narrative"><h3>{i === 0 ? <><span>{copy.relendPrefix}</span><br /><span class="circled-debt">{copy.relendEmphasis}<svg viewBox="0 0 180 42" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M 27 8 C 19 9, 11 12, 9 17 C 7 21, 8 27, 11 30 C 16 35, 32 37, 54 37 C 83 38, 118 37, 139 36 C 159 35, 170 32, 172 27 C 174 23, 173 17, 170 14 C 166 8, 153 6, 132 6 C 104 5, 69 5, 50 6 C 37 6, 24 8, 19 11" /></svg></span>{copy.relendSuffix}</> : step.title}</h3><p>{step.text}</p></div>
+      <div class="incident-paper">
+        <div class="event-chart">
+          <div class="chart-letter-field" aria-hidden="true">{Array.from({length: 55}, (_, j) => { const x = (j * 37 + 7) % 100; const y = (j * 61 + 11) % 100; return <span style={`--x:${x}%;--y:${y}%;--dx:${(x - 50) * .45}px;--dy:${(y - 55) * .45}px;--delay:${-(j % 17) * .7}s;--duration:${10 + (j % 5) * 2}s;--size:${8 + (j % 5) * 2}px;--angle:${(j * 37) % 61 - 30}deg`}>{'NEARHACKATHON'[j % 13]}</span>; })}</div>
+          <IncidentChart client:load index={i} label={concept.chart.label} before={step.before} after={step.after} amountLabel={step.amountLabel} date={step.date} evidence={step.evidence} source={step.source} researchLabel={copy.researchLabel} sourceLabel={step.sourceLabel} />
+        </div>
+        <p class="incident-closing">{copy.closing}</p>
+        {step.note && <div class="incident-footnote"><p>{step.note}</p></div>}
+      </div>
+    </article>)}
+  </div>
+</section>
+<style>
+  .position-dial { --wheel-size: max(115vw, 1120px); --dial-rise: calc((var(--contact-y,66svh) - 20svh) * var(--dial-settle,0)); position: absolute; inset: 0; z-index: 4; overflow: visible; transform: translateY(calc(-1 * var(--dial-rise))); background: transparent; color: #171a20; opacity: 1; touch-action: pan-y; }
+  .position-dial::before { content: ""; position: absolute; inset: 0; background: #f5f6f8; opacity: var(--dial-surface,0); }
+  .dial-intro { position: absolute; top: max(90px, 10svh); left: 24px; right: 24px; text-align: center; opacity: var(--dial-opacity,0); }
+  .dial-kicker { font-family: var(--font-technical); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #777981; }
+  .technical-number { font-family: var(--font-technical); font-size: .9em; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
+  .dial-intro h2 { margin: 10px 0 12px; font-size: clamp(32px,4vw,62px); font-weight: 540; line-height: 1; letter-spacing: -.055em; }
+  .dial-intro > p:last-child { font-size: 14px; color: #75777e; margin: 0; }
+  .dial-wheel { position: absolute; width: var(--wheel-size); height: var(--wheel-size); border-radius: 50%; top: calc(var(--contact-y,66svh) + 22px); left: calc(50% - var(--wheel-size)/2); background: #e9ebee; border: 1px solid #e1e3e7; transform: rotate(var(--dial-angle, 0deg)); transform-origin: 50% 50%; opacity: var(--wheel-opacity,0); }
+  .dial-ticks { position: absolute; inset: 0; opacity: var(--dial-markings,0); }
+  .dial-ticks i { position: absolute; left: calc(50% - .5px); top: 50%; height: 9px; width: 1px; background: #aeb1ba; transform: rotate(var(--tick)) translateY(calc(var(--wheel-size)/-2 + 30px)); transform-origin: 50% 0; }
+  .dial-ticks i:nth-child(15n+1) { height: 17px; background: #737781; }
+  .dial-stop { opacity: calc(var(--dial-markings,0) * var(--stop-opacity,0)); position: absolute; left: calc(50% - 80px); top: calc(50% - 22px); width: 160px; min-height: 44px; border: 0; background: none; color: #646c79; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transform: rotate(var(--angle)) translateY(calc(var(--wheel-size)/-2 + 64px)); text-decoration: none; }
+  .dial-stop[aria-pressed="true"] { color: #151820; }
+  .dial-stop:focus-visible { outline: 2px solid #606a78; outline-offset: 3px; border-radius: 8px; }
+  @media(hover:hover) and (pointer:fine) { .dial-stop:hover { color: #171a20; text-decoration: none; } }
+  .dial-stop:active { color: #414d5c; }
+
+  .dial-pointer { position: absolute; top: calc(var(--contact-y,66svh) + 10px); left: calc(50% - 1px); width: 2px; height: 30px; z-index: 2; background: transparent; opacity: var(--pin-opacity,0); pointer-events: none; }
+  .dial-pointer::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,#bfc3c9,#424952); transform: scaleY(var(--pin-line,0)); transform-origin: top; }
+  .dial-pointer i { position: absolute; top: -6px; left: -5px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #fff, #b8bec5 38%, #515862 70%, #ddd); box-shadow: 0 1px 3px #0003; }
+  .dial-pointer i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: var(--pin-heat,0); background: radial-gradient(circle at 30% 25%, oklch(.98 .012 25), oklch(.72 .15 25) 35%, oklch(.49 .17 25) 72%, oklch(.83 .085 25)); box-shadow: 0 0 10px oklch(.66 .17 25 / .42); }
+  .dial-panels { perspective: 1200px; position: absolute; top: calc(var(--contact-y,66svh) + 167px); left: 24px; right: 24px; opacity: var(--dial-opacity,0); }
+  .dial-panel { position: absolute; width: min(720px,100%); left: 50%; margin-top: 16px; transform: translateX(-50%); opacity: var(--panel-opacity,0); backface-visibility: hidden; }
+  .dial-panel { transition: none; }
+  :global(.keyboard-step) .dial-panel { transition: none; }
+  .dial-panel[aria-hidden="true"] { pointer-events: none; }
+  .dial-narrative { display: grid; justify-items: center; gap: 10px; text-align: center; margin-bottom: 16px; }
+  .dial-narrative,.incident-closing,.incident-footnote { opacity: var(--copy-opacity,1); }
+  .dial-narrative h3 { max-width: 19ch; margin: 0; font-size: clamp(25px,2.7vw,40px); font-weight: 540; letter-spacing: -.045em; line-height: 1.08; text-wrap: balance; }
+  .dial-panel[data-panel="0"] .dial-narrative h3 { max-width: none; }
+  .circled-debt { position: relative; display: inline-block; white-space: nowrap; }
+  .circled-debt svg { position: absolute; inset: -20% -12%; width: 124%; height: 140%; overflow: visible; pointer-events: none; }
+  .circled-debt path { fill: none; stroke: #ed3430; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+  @media (prefers-reduced-motion: no-preference) { .dial-panel[aria-hidden="false"] .circled-debt path { animation: debt-circle-draw 900ms cubic-bezier(.22,1,.36,1) both; } }
+  @keyframes debt-circle-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  .dial-narrative p { max-width: 52ch; min-height: 42px; margin: 0; color: #6a6e77; font-size: 14px; line-height: 1.5; text-wrap: balance; }
+  .incident-paper { padding: 0 32px 22px; }
+  :global(.incident-chart-shell) { position: relative; z-index: 2; width: 100%; margin: 0; padding: 18px 22px 16px; box-sizing: border-box; border: 1px solid #dfe3e8; border-radius: 20px; background: #fbfcfe; box-shadow: 0 12px 30px #26364c12, 0 1px 2px #26364c0c; font-family: var(--font-technical); font-variant-numeric: tabular-nums; }
+  :global(.incident-chart-topline) { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #697987; font-size: 10px; letter-spacing: .04em; }
+  :global(.incident-chart-topline time) { color: #858b95; text-align: right; }
+  :global(.incident-chart-identity) { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+  :global(.incident-chart-identity img) { width: 28px; height: 28px; flex: none; object-fit: contain; border-radius: 50%; }
+  :global(.incident-comparator) { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 10px; margin-top: 14px; }
+  :global(.incident-comparator > div) { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 0 12px; border-left: 1px solid #d8dee7; }
+  :global(.incident-comparator > div:first-child) { padding-left: 0; border-left: 0; }
+  :global(.incident-comparator span) { color: #7b8794; font-size: 10px; letter-spacing: .06em; }
+  :global(.incident-comparator strong) { color: #273846; font-size: clamp(14px,1.25vw,18px); line-height: 1.1; font-weight: 500; letter-spacing: -.055em; white-space: nowrap; }
+  :global(.incident-comparator-loss strong) { color: #475f73; }
+  :global(.incident-comparator small) { color: #6d7f8e; font-size: 11px; }
+  :global(.incident-step-chart) { display: block; width: 100%; margin: 8px 0 0; overflow: visible; }
+  :global(.incident-step-chart .chart-axis) { stroke: #d7dfe8; stroke-width: 1; }
+  :global(.incident-step-chart .chart-event) { stroke: #9eacba; stroke-width: 1; stroke-dasharray: 3 5; }
+  :global(.incident-step-chart .chart-step) { fill: none; stroke: #4b657a; stroke-width: 2.5; stroke-linejoin: round; }
+  :global(.incident-step-chart .chart-point) { fill: #4b657a; stroke: #fff; stroke-width: 2; }
+  :global(.incident-step-chart text) { fill: #7a8794; font-family: var(--font-technical); font-size: 10px; }
+  :global(.incident-chart-caption) { color: #8b929b; font-size: 10px; text-align: center; }
+  :global(.incident-chart-actions) { display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; align-items: center; gap: 8px; margin-top: 16px; }
+  :global(.incident-chart-actions .incident-chart-caption) { grid-column: 2; }
+  :global(.incident-source-menu) { position: relative; z-index: 2; }
+  :global(.incident-source-menu summary) { display: grid; place-items: center; justify-content: center; box-sizing: border-box; width: 28px; height: 28px; min-height: 0; padding: 0; gap: 0; border: 1px solid #dce2e9; border-radius: 50%; background: #fff; color: #596675; cursor: pointer; list-style: none; }
+  :global(.incident-source-menu summary::after), :global(.incident-source-menu[open] > summary::after) { content: none; display: none; }
+  :global(.incident-source-menu summary::-webkit-details-marker) { display: none; }
+  :global(.incident-source-menu summary::marker) { content: ''; }
+  :global(.incident-source-menu summary:focus-visible),:global(.incident-source-popover a:focus-visible) { outline: 2px solid #596675; outline-offset: 2px; }
+  @media(hover:hover) and (pointer:fine) { :global(.incident-source-menu summary:hover) { background: #eef2f6; } }
+  :global(.incident-info-icon) { display: grid; place-items: center; box-sizing: border-box; width: 16px; height: 16px; border: 1.5px solid currentColor; border-radius: 50%; font: 600 11px/1 var(--font-technical); }
+  :global(.incident-source-popover) { position: absolute; right: 0; bottom: calc(100% + 8px); display: grid; gap: 2px; min-width: 170px; padding: 5px; border: 1px solid #dce2e9; border-radius: 12px; background: #fff; box-shadow: 0 8px 24px #26364c20; }
+  :global(.incident-source-popover::after) { content: ''; position: absolute; top: 100%; right: 0; width: 36px; height: 9px; }
+  :global(.incident-source-popover a) { padding: 9px 10px; border-radius: 8px; color: #354354; font: 12px/1.3 var(--font-technical); text-decoration: none; white-space: nowrap; }
+  @media(hover:hover) and (pointer:fine) { :global(.incident-source-popover a:hover) { background: #f2f5f8; } }
+  .event-chart { position: relative; max-width: 640px; margin: 18px auto 26px; padding: 24px; box-sizing: border-box; border-radius: 22px; background: radial-gradient(circle at 23% 35%, #944dff 0 1px, transparent 1.5px) 0 0 / 43px 39px, radial-gradient(circle at 72% 66%, #37a7e5 0 .8px, transparent 1.4px) 0 0 / 59px 53px, radial-gradient(ellipse at 50% 45%, #632c81 0%, #1b1239 37%, #040b1d 75%); transform: translate3d(calc(var(--chart-travel,0) * 36px),0,0) perspective(750px) rotateY(calc(var(--chart-travel,0) * -12deg)) scaleX(calc(1 + var(--chart-warp,0) * .12)) scaleY(calc(1 - var(--chart-warp,0) * .045)); filter: drop-shadow(calc(var(--chart-warp,0) * -4px) 0 0 rgb(235 55 65 / calc(var(--chart-warp,0) * .55))); will-change: transform, filter; }
+  .event-chart::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 20px; pointer-events: none; opacity: var(--chart-warp,0); background: linear-gradient(90deg, rgb(235 55 65 / .18), transparent 12%, transparent 88%, rgb(235 55 65 / .18)); box-shadow: inset 3px 0 rgb(235 55 65 / .25), inset -3px 0 rgb(235 55 65 / .25); }
+  @media (min-width: 901px) { .event-chart { left: -64px; width: calc(100% + 128px); max-width: 784px; padding: 44px 64px; } }
+  .chart-letter-field { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+  .chart-letter-field span { position: absolute; left: var(--x); top: var(--y); color: #d8bddc; opacity: .4; font: 500 var(--size)/1 var(--font-technical); transform: rotate(var(--angle)); }
+  @media (prefers-reduced-motion: no-preference) { .dial-panel[aria-hidden="false"] .chart-letter-field span { animation: chart-letter-drift var(--duration) linear var(--delay) infinite; } }
+  @keyframes chart-letter-drift { 0% { transform: translate3d(calc(var(--dx) * -.5), calc(var(--dy) * -.5), 0) rotate(var(--angle)) scale(.9); opacity: 0; } 25% { opacity: .38; } 70% { opacity: .58; } 100% { transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--angle)) scale(1.15); opacity: 0; } }
+  .chart-grid { fill:none; stroke:#cbd0d7; stroke-width:.5; }
+  .chart-marker { fill:none; stroke:#aeb5c0; stroke-width:1; stroke-dasharray:3 5; }
+  .chart-line { fill:none; stroke:#566a83; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+  .chart-dot { fill:#566a83; }
+  .dial-panel[aria-hidden="false"] .chart-line { animation: chart-draw 1.2s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes chart-draw { from { stroke-dasharray:1; stroke-dashoffset:1; } to { stroke-dasharray:1; stroke-dashoffset:0; } }
+  .chart-labels { display:flex; justify-content:space-between; color:#767982; font-size:10px; }
+  .chart-caption { text-align:center; font-family:var(--font-technical); font-size:10px; color:#858b95; margin:10px 0 0; }
+  :global(.keyboard-step) .event-chart { transform: none; filter: none; }
+  :global(.keyboard-step) .event-chart::after { opacity: 0; }
+  :global(.keyboard-step) .chart-line { animation:none!important; }
+  @media(prefers-reduced-motion:reduce) { .chart-line { animation:none!important; } .event-chart { transform: none; filter: none; } .event-chart::after { opacity: 0; } }
+  .ribbon-fallback { height: 100%; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(120deg,#f7f8fa,#dde2e9 50%,#f5f6f8); }
+  .ribbon-ready .ribbon-fallback { opacity: 0; }
+  @media(max-width:600px) { .incident-ribbon { margin-inline: 0; } .dial-narrative h3 { min-height: 2.16em; } }
+  .incident-amount { display: block; margin: 8px 0 0; text-align: center; font-size: clamp(56px,7vw,92px); line-height: 1.1; font-weight: 500; letter-spacing: -.07em; font-variant-numeric: tabular-nums; }
+  .incident-amount-label { text-align: center; color: #767982; font-size: 12px; margin: 4px 0 20px; }
+  .incident-detail { max-width: 52ch; margin: 0 auto 22px; text-align: center; font-size: 14px; line-height: 1.5; color: #373c46; text-wrap: balance; font-variant-numeric: tabular-nums; }
+  .incident-closing { max-width: 52ch; margin: 0 auto 12px; text-align: center; color: #263340; font-size: 14px; font-weight: 600; line-height: 1.45; text-wrap: balance; }
+  .incident-footnote { padding-top: 8px; }
+  .incident-footnote p { margin: 0; max-width: 45ch; font-family: var(--font-technical); font-size: 10px; line-height: 1.5; color: #858b95; }
+  @media(max-width:600px) { .dial-intro { top: 85px; } .dial-intro > p:last-child { max-width: 280px; margin: auto; line-height: 1.4; } .dial-panels { left: 18px; right: 18px; top: calc(var(--contact-y,66svh) + 114px); } .dial-wheel { --wheel-size: 1050px; top: calc(var(--contact-y,66svh) + 22px); } .dial-pointer { --pin-home: calc(29svh - 22px); } .dial-narrative { margin-bottom: 16px; } .dial-narrative p { font-size: 12px; min-height: 36px; } .incident-paper { padding: 0 0 16px; } .incident-detail { font-size: 12px; } .incident-footnote { display: block; } .incident-footnote a { display: inline-flex; align-items: center; min-height: 44px; } }
+  @media(max-width:600px) { .position-dial { --incident-chart-height: 160px; --incident-plot-height: 98px; } .dial-narrative { gap: 8px; margin-bottom: 8px; } .incident-paper { padding-block: 10px; } .incident-ribbon { min-height: 170px; padding: 8px 0 0; } .event-chart { margin: 8px 0; } .incident-detail { margin-bottom: 6px; } }
+  @media(max-width:600px) { .incident-closing { margin: 4px auto 10px; font-size: 12px; } }
+  @media(max-width:600px) { .dial-panel[data-panel="0"] { --incident-chart-height: 184px; } .dial-panel[data-panel="0"] .dial-narrative { margin-bottom: 4px; } .dial-panel[data-panel="0"] .incident-paper { padding-block: 6px; } .dial-panel[data-panel="0"] .event-chart { margin: 4px 0; } .dial-panel[data-panel="0"] .incident-detail { margin-bottom: 2px; } }
+  @media(max-height:1100px) and (min-height:901px) and (min-width:601px) { .position-dial { --incident-chart-height: 252px; --incident-plot-height: 190px; } .dial-panels { top: calc(var(--contact-y,66svh) + 157px); } .dial-narrative { gap: 14px; margin-bottom: 20px; } .incident-paper { padding-block: 0 18px; } .incident-ribbon { min-height: 242px; } .event-chart { margin: 18px auto 16px; } .incident-detail { margin-bottom: 12px; } }
+  @media(max-height:900px) and (min-width:601px) { .position-dial { --incident-chart-height: 210px; --incident-plot-height: 148px; } .dial-panels { top: calc(var(--contact-y,66svh) + 111px); } .dial-narrative { margin-bottom: 10px; } .incident-paper { padding-block: 0 14px; } .incident-ribbon { min-height: 200px; padding-top: 8px; } .event-chart { margin: 8px 0; } .incident-detail { margin-bottom: 10px; } }
+  @media(max-height:740px) and (min-width:601px) { .dial-intro { top: 76px; } .dial-intro h2 { font-size: 36px; } .dial-wheel { top: calc(var(--contact-y,66svh) + 22px); } .dial-pointer { --pin-home: calc(30svh - 22px); } .dial-panels { top: calc(var(--contact-y,66svh) + 100px); } .dial-narrative { margin-bottom: 10px; } .incident-paper { padding: 0 24px 12px; } .incident-amount { font-size: 70px; } .incident-detail { font-size: 12px; margin-bottom: 10px; } .incident-amount-label { margin-bottom: 10px; } }
+  @media(prefers-reduced-motion:reduce) { .position-dial { position: relative; transform: none; opacity: 1; background: #f5f6f8; clip-path: none; overflow: visible; padding: 60px 20px; order: 4; } .dial-intro { position: static; opacity: 1; margin-bottom: 40px; } .dial-pointer,.dial-wheel { display: none; } .dial-panels { position: static; opacity: 1; transform: none; } .dial-panel,.dial-panel[aria-hidden="true"] { position: relative; left: auto; transform: none; opacity: 1; visibility: visible; margin: 0 auto 48px; transition: none; } }
+</style>
+
+<style>
+  @media(max-width:600px) { :global(.incident-chart-shell) { padding: 12px; } :global(.incident-chart-topline) { font-size: 8px; } :global(.incident-comparator) { gap: 2px; margin-top: 12px; } :global(.incident-comparator > div) { padding: 0 5px; } :global(.incident-comparator strong) { font-size: 14px; } :global(.incident-comparator span),:global(.incident-comparator small) { font-size: 8px; }  }
+  @media(max-width:480px) { :global(.incident-comparator) { grid-template-columns: 1fr; gap: 8px; } :global(.incident-comparator > div) { border-left: 0; padding: 0; display: grid; grid-template-columns: 1fr auto; align-items: baseline; } :global(.incident-comparator small) { grid-column: 2; text-align: right; } }
+</style>

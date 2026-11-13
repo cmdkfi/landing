@@ -277,9 +277,23 @@ if (index !== null) {
   const astroDir = join(dist, '_astro');
   const assets = existsSync(astroDir) ? readdirSync(astroDir) : [];
   const size = (f) => statSync(join(astroDir, f)).size;
-  const css = assets.filter((f) => f.endsWith('.css')).reduce((a, f) => a + size(f), 0);
+  // Count stylesheets loaded by the main page, not route-specific CSS for /1.
+  const cssFiles = new Set([...index.matchAll(/<link\b[^>]*\bhref=["'](\/_astro\/[^"']+\.css)["'][^>]*>/g)].map((m) => m[1].split('/').pop()));
+  const css = [...cssFiles].reduce((sum, file) => sum + size(file), 0);
   const inlineJs = [...index.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].reduce((a, m) => a + Buffer.byteLength(m[1]), 0);
-  const js = assets.filter((f) => f.endsWith('.js')).reduce((a, f) => a + size(f), 0) + inlineJs;
+  // Count scripts reachable from the main page, including imported chunks.
+  // Isolated concept routes may ship their own WebGL runtime.
+  const visited = new Set();
+  const scriptSize = (name) => {
+    const file = name.split('/').pop();
+    if (visited.has(file)) return 0;
+    visited.add(file);
+    const code = readFileSync(join(astroDir, file), 'utf8');
+    const imports = [...code.matchAll(/(?:from\s*|import\s*\(?)["']([^"']+\.js)["']/g)];
+    return size(file) + imports.reduce((sum, match) => sum + scriptSize(match[1]), 0);
+  };
+  const entryScripts = [...index.matchAll(/<script\b[^>]*src=["']([^"']+)["']/g)];
+  const js = entryScripts.reduce((sum, match) => sum + scriptSize(match[1]), 0) + inlineJs;
   const html = Buffer.byteLength(index);
   if (html + css < 100000) ok('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 100,000)`);
   else check('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 100,000)`);

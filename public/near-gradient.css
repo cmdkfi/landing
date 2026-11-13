@@ -1,0 +1,28 @@
+.hands-copy-head .near-gradient-copy {
+  color: #5e6861;
+}
+.hands-copy-head .near-gradient-mark {
+  display: inline-block;
+  width: 66px;
+  height: 16.1px;
+  color: #343b37;
+  background: currentColor;
+  mask: url('/near-logo.svg') center / contain no-repeat;
+  -webkit-mask: url('/near-logo.svg') center / contain no-repeat;
+}
+.hands-copy-head .near-gradient-mark img { opacity: 0; }
+ .hands-copy-head .concept-eyebrow { position: relative; isolation: isolate; overflow: visible; }
+.hands-copy-head .concept-eyebrow > span:not(.near-sparkles) { position: relative; z-index: 1; }
+.hands-copy-head .concept-eyebrow > .near-sparkles { position: absolute; inset: 0; pointer-events: none; color: #0a9068; }
+.near-sparkles i { position: absolute; font: normal 10px/1 sans-serif; }
+.near-sparkles i:nth-child(1) { left: -10px; top: 1px; }
+.near-sparkles i:nth-child(2) { left: 7%; bottom: -9px; font-size: 7px; }
+.near-sparkles i:nth-child(3) { right: -9px; top: -4px; font-size: 8px; }
+.near-sparkles i:nth-child(4) { right: 6%; bottom: -8px; font-size: 6px; }
+@media (prefers-reduced-motion: no-preference) {
+  .near-sparkles i { animation: near-twinkle 2.8s ease-in-out infinite alternate; }
+  .near-sparkles i:nth-child(2) { animation-delay: -.8s; }
+  .near-sparkles i:nth-child(3) { animation-delay: -1.6s; }
+  .near-sparkles i:nth-child(4) { animation-delay: -2.2s; }
+}
+@keyframes near-twinkle { from { opacity: .35; transform: scale(.8); } to { opacity: 1; transform: scale(1.1); } }

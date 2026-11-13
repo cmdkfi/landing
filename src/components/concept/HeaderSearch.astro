@@ -1,0 +1,100 @@
+---
+import { concept, incidentStory, cta, links } from '../../content/landing';
+const copy = concept.search;
+const entries = [
+  { title: concept.how, detail: copy.section, href: '/#how' },
+  { title: concept.control, detail: copy.section, href: '/#control' },
+  { title: concept.evidence, detail: copy.section, href: '/#proof' },
+  { title: cta.askAgent, detail: copy.section, href: links.agents },
+  ...incidentStory.steps.map((step,index)=>({title:step.label,detail:step.title,href:'#details',index})),
+];
+---
+<button class="header-search" type="button" aria-haspopup="dialog" aria-controls="site-search" aria-label={copy.open}>
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>
+  <span class="header-search-label">{copy.label}</span>
+  <kbd>{copy.shortcut}</kbd>
+</button>
+<dialog id="site-search" aria-label={copy.open}>
+  <div class="search-top"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg><input type="search" placeholder={copy.placeholder} aria-label={copy.placeholder} role="combobox" aria-autocomplete="list" aria-expanded="true" aria-controls="search-results" autocomplete="off" spellcheck="false" /><button class="search-close" type="button" aria-label={copy.close}>{copy.escape}</button></div>
+  <p class="search-section-label">{copy.explore}</p>
+  <div id="search-results" role="listbox" aria-label={copy.results}>
+    {entries.map((entry,i)=><a id={`search-result-${i}`} role="option" aria-selected={i===0?'true':'false'} tabindex="-1" href={entry.href} data-case={'index' in entry?entry.index:undefined} data-query={`${entry.title} ${entry.detail}`}><span><strong>{entry.title}</strong><small>{entry.detail}</small></span><span aria-hidden="true">↗</span></a>)}
+  </div>
+  <p class="search-empty" hidden role="status">{copy.empty}</p>
+  <div class="search-help">{copy.help}</div>
+</dialog>
+<style>
+.header-search{display:flex;align-items:center;gap:8px;width:200px;min-height:40px;height:40px;padding:0 14px;border:0;border-radius:999px;background:oklch(0.966 0.004 260);box-shadow:none;color:var(--header-ink, oklch(0.51 0.016 260));font:inherit;font-size:14px;cursor:pointer}
+.header-search{position:relative;touch-action:manipulation}
+.header-search::before{content:"";position:absolute;inset:-2px 0}
+.header-search kbd{margin-left:auto;font-family:var(--font-technical);font-size:12px;font-variant-numeric:tabular-nums}
+.header-search:focus-visible{outline:2px solid #306eff;outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.header-search:hover{background:oklch(0.94 0.006 260)}}
+.header-search:active{background:oklch(0.92 0.008 260)}
+dialog{position:fixed;inset:var(--search-top, 12px) auto auto var(--search-left, 12px);margin:0;box-sizing:border-box;width:min(540px,calc(100% - 24px));max-height:70dvh;padding:0;overflow:auto;border:1px solid #e5e7eb;border-radius:22px;background:#fff;color:#17181a;box-shadow:0 0 0 1px #17181a0f, 0 24px 70px #17181a33;font-family:inherit}
+dialog::backdrop{background:rgba(23,24,26,.26);backdrop-filter:blur(3px)}
+.search-top{display:flex;align-items:center;gap:12px;padding:6px 16px;color:#6f6e68;border-bottom:1px solid #e5e7eb}
+input{min-width:0;flex:1;border:0;background:transparent;color:#17181a;font:inherit;font-size:17px;outline:none;min-height:36px}
+input::placeholder{color:#6f6e68}
+.search-close{min-width:44px;min-height:44px;border:0;border-radius:7px;color:#6f6e68;background:rgba(23,24,26,.05);cursor:pointer;font:inherit;touch-action:manipulation}
+.search-close:focus-visible{outline:2px solid #306eff;outline-offset:2px}
+.search-top:focus-within{border-bottom-color:#73767b}
+.search-section-label{margin:12px 16px 0;color:#6f6e68;font-size:12px}
+#search-results{padding:8px 12px}
+dialog:not([data-filtered]) #search-results{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));
+  gap:6px;
+}
+dialog:not([data-filtered]) #search-results a{background:rgba(23,24,26,.05)}
+@media(prefers-reduced-motion:no-preference){
+  dialog[data-pointer-open][open]{animation:search-reveal 180ms cubic-bezier(.23,1,.32,1);transform-origin:top left}
+}
+@keyframes search-reveal{from{opacity:0;transform:scale(.97)}}
+
+#search-results a{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 14px;min-height:58px;border-radius:12px;text-decoration:none;color:inherit;white-space:normal;font-size:14px}
+#search-results a[hidden]{display:none}
+#search-results a[aria-selected=true]{background:rgba(23,24,26,.10)}
+@media (hover: hover) and (pointer: fine) {
+  #search-results a:hover, .search-close:hover { background: rgba(23,24,26,.10); }
+}
+strong{display:block;font-weight:550}small{display:block;margin-top:4px;color:#6f6e68;font-size:12px;line-height:1.35}
+.search-empty{padding:24px;text-align:center;color:#6f6e68}
+.search-help{border-top:1px solid #e5e7eb;padding:12px 20px;color:#6f6e68;font-size:11px}
+@media(max-width:600px){.header-search{width:44px;flex:none;justify-content:center;padding:0}.header-search-label,.header-search kbd{display:none}}
+@media(prefers-reduced-motion:reduce){.header-search{transition:none}dialog::backdrop{backdrop-filter:none}}
+</style>
+<script>
+const trigger=document.querySelector<HTMLButtonElement>('.header-search')!;
+const usesCommand = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+trigger.querySelector('kbd')!.textContent = usesCommand ? '⌘K' : 'Ctrl+K';
+trigger.setAttribute('aria-keyshortcuts', usesCommand ? 'Meta+K' : 'Control+K');
+const dialog=document.querySelector<HTMLDialogElement>('#site-search')!;
+const input=dialog.querySelector<HTMLInputElement>('input')!;
+const results=[...dialog.querySelectorAll<HTMLAnchorElement>('[role=option]')];
+const empty=dialog.querySelector<HTMLElement>('.search-empty')!;
+const closeButton=dialog.querySelector<HTMLButtonElement>('.search-close')!;
+let selected=0,visible=results,previous:HTMLElement|null=null,overflow='';
+function select(index:number){
+  selected=visible.length?(index+visible.length)%visible.length:0;
+  results.forEach(item=>item.setAttribute('aria-selected',String(item===visible[selected])));
+  if(visible[selected])input.setAttribute('aria-activedescendant',visible[selected].id);else input.removeAttribute('aria-activedescendant');
+}
+function filter(){dialog.toggleAttribute('data-filtered', Boolean(input.value.trim()));const terms=input.value.toLowerCase().trim().split(/\s+/).filter(Boolean);visible=results.filter(item=>{const match=terms.every(term=>item.dataset.query!.toLowerCase().includes(term));item.hidden=!match;return match;});empty.hidden=visible.length>0;select(0);}
+function positionSearch(){
+  const anchor = trigger.getBoundingClientRect();
+  const viewport = document.documentElement.clientWidth;
+  const width = Math.min(540, viewport - 24);
+  dialog.style.setProperty('--search-left', `${Math.max(12, Math.min(anchor.left, viewport - width - 12))}px`);
+  dialog.style.setProperty('--search-top', `${Math.max(8, anchor.top - 4)}px`);
+}
+function open(event?: MouseEvent){if(dialog.open)return;positionSearch();dialog.toggleAttribute('data-pointer-open', Boolean(event?.detail));previous=event ? trigger : document.activeElement instanceof HTMLElement && document.activeElement !== document.body ? document.activeElement : trigger;overflow=document.body.style.overflow;document.body.style.overflow='hidden';input.value='';filter();dialog.showModal();input.focus();}
+function close(){dialog.close();}
+function onClose(){document.body.style.overflow=overflow;previous?.focus({preventScroll:true});}
+function shortcut(event:KeyboardEvent){if(!event.repeat && (usesCommand ? event.metaKey : event.ctrlKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase()==='k'){event.preventDefault();dialog.open?close():open();}}
+function navigate(event:KeyboardEvent){if(event.key==='Escape'){event.preventDefault();event.stopPropagation();close();return;}if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();select(selected+(event.key==='ArrowDown'?1:-1));visible[selected]?.scrollIntoView({block:'nearest',behavior:'instant'});}else if(event.key==='Enter'&&visible[selected]){event.preventDefault();visible[selected].click();}}
+function activate(event:Event){const item=(event.target as Element).closest<HTMLAnchorElement>('[role=option]');if(!item)return;if(item.dataset.case!==undefined){event.preventDefault();const target=document.querySelector<HTMLButtonElement>(`.case-pip[data-step="${item.dataset.case}"]`);previous=target;close();target?.click();target?.focus({preventScroll:true});}else close();}
+function backdrop(event:MouseEvent){if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)close();}
+window.addEventListener('resize',positionSearch);trigger.addEventListener('click',open);closeButton.addEventListener('click',close);dialog.addEventListener('close',onClose);dialog.addEventListener('click',activate);dialog.addEventListener('click',backdrop);input.addEventListener('input',filter);input.addEventListener('keydown',navigate);document.addEventListener('keydown',shortcut);
+if(import.meta.hot)import.meta.hot.dispose(()=>{if(dialog.open)close();document.body.style.overflow=overflow;window.removeEventListener('resize',positionSearch);trigger.removeEventListener('click',open);closeButton.removeEventListener('click',close);dialog.removeEventListener('close',onClose);dialog.removeEventListener('click',activate);dialog.removeEventListener('click',backdrop);input.removeEventListener('input',filter);input.removeEventListener('keydown',navigate);document.removeEventListener('keydown',shortcut);});
+</script>
