@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { smoothHand } from './smooth-hand';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 export function createHandsScene(host: HTMLElement) {
@@ -6,7 +8,7 @@ export function createHandsScene(host: HTMLElement) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.25;
+  renderer.toneMappingExposure = .9;
   host.append(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, .1, 100);
@@ -17,64 +19,71 @@ export function createHandsScene(host: HTMLElement) {
   scene.environment = environment.texture;
   room.dispose();
   pmrem.dispose();
-  const material = new THREE.MeshPhysicalMaterial({ color: 0x66597d, metalness: .72, roughness: .23, clearcoat: 1, clearcoatRoughness: .08, transmission: .25, thickness: .7, ior: 1.45, envMapIntensity: 1.25 });
-  const nails = new THREE.MeshPhysicalMaterial({ color: 0xc8b5ef, metalness: .65, roughness: .22, clearcoat: 1 });
-  const sphere = new THREE.SphereGeometry(1, 24, 16);
-  function oval(parent: THREE.Object3D, x:number,y:number,z:number,sx:number,sy:number,sz:number, mat=material) {
-    const mesh = new THREE.Mesh(sphere,mat); mesh.position.set(x,y,z); mesh.scale.set(sx,sy,sz); parent.add(mesh); return mesh;
-  }
-  function makeHand(mirror:number) {
-    const root = new THREE.Group(); scene.add(root);
-    const anatomy = new THREE.Group(); anatomy.scale.x=mirror; root.add(anatomy);
-    // Palm, heel and long forearm form one overlapping, rounded silhouette.
-    oval(anatomy,0,-.05,0,.72,.95,.28);
-    oval(anatomy,-.42,-.34,.04,.34,.58,.27);
-    oval(anatomy,.08,-.84,-.02,.47,.54,.23);
-    const arm = new THREE.Mesh(new THREE.CylinderGeometry(.43,.64,3.8,32),material);
-    arm.position.set(.08,-2.95,-.04); anatomy.add(arm);
-    oval(anatomy,.08,-1.15,0,.44,.4,.24);
-    const fingers: THREE.Group[][]=[];
-    const sizes=[.98,1.15,1.06,.83];
-    for(let i=0;i<4;i++) {
-      const chain:THREE.Group[]=[];
-      let parent:THREE.Object3D=anatomy;
-      const lengths=[sizes[i]*.48,sizes[i]*.32,sizes[i]*.27];
-      for(let j=0;j<3;j++) {
-        const joint=new THREE.Group();
-        joint.position.set(j===0 ? -.48+i*.32 : 0,j===0 ? .61+(i===1?.12:i===3?-.12:.04) : lengths[j-1],0);
-        parent.add(joint);
-        const radius=(i===3?.135:.16)*(1-j*.12);
-        oval(joint,0,lengths[j]/2,0,radius,lengths[j]/2+radius,radius*.88);
-        if(j===2) oval(joint,0,lengths[j]*.68,.115,radius*.69,lengths[j]*.32,.025,nails);
-        chain.push(joint);parent=joint;
+  const material = new THREE.MeshPhysicalMaterial({ color: 0xb87c61, metalness: 0, roughness: .58, clearcoat: .05, envMapIntensity: .45 });
+  type Rig = { root: THREE.Group; joints: { bone: THREE.Object3D; rest: THREE.Quaternion; amount: number }[] };
+  let left: Rig | undefined, right: Rig | undefined, disposed = false;
+  const loader = new GLTFLoader();
+  async function loadHand(side: 'left' | 'right'): Promise<Rig> {
+    const { scene: model } = await loader.loadAsync(`/models/hand-${side}.glb`);
+    const wrist = model.getObjectByName('wrist')!;
+    const middle = model.getObjectByName('middle-finger-phalanx-proximal')!;
+    const index = model.getObjectByName('index-finger-phalanx-proximal')!;
+    const pinky = model.getObjectByName('pinky-finger-phalanx-proximal')!;
+    model.updateMatrixWorld(true);
+    const origin = wrist.getWorldPosition(new THREE.Vector3());
+    const up = middle.getWorldPosition(new THREE.Vector3()).sub(origin).normalize();
+    const across = index.getWorldPosition(new THREE.Vector3()).sub(pinky.getWorldPosition(new THREE.Vector3())).normalize().multiplyScalar(side === 'left' ? -1 : 1);
+    const normal = new THREE.Vector3().crossVectors(across, up).normalize();
+    across.crossVectors(up, normal).normalize();
+    const basis = new THREE.Matrix4().makeBasis(across, up, normal);
+    const root = new THREE.Group();
+    const alignment = new THREE.Group();alignment.quaternion.setFromRotationMatrix(basis).invert();alignment.scale.setScalar(19);
+    model.position.sub(origin);alignment.add(model);root.add(alignment);
+    const joints: Rig['joints'] = [];
+    for (const finger of ['thumb', 'index-finger', 'middle-finger', 'ring-finger', 'pinky-finger']) {
+      const names = finger === 'thumb' ? ['metacarpal','phalanx-proximal','phalanx-distal','tip'] : ['metacarpal','phalanx-proximal','phalanx-intermediate','phalanx-distal','tip'];
+      let parent: THREE.Object3D = wrist;
+      for (const suffix of names) {
+        const bone = model.getObjectByName(`${finger}-${suffix}`)!;
+        // WebXR assets store joints as siblings. Reparent in rest pose to bend the continuous skin naturally.
+        model.updateMatrixWorld(true); parent.attach(bone); parent=bone;
+        const amount = finger === 'middle-finger' || suffix === 'tip' || suffix === 'metacarpal' ? 0 : finger === 'thumb' ? .65 : suffix === 'phalanx-proximal' ? 1.2 : 1.55;
+        joints.push({bone,rest:bone.quaternion.clone(),amount});
       }
-      fingers.push(chain);
     }
-    const thumb=new THREE.Group();thumb.position.set(-.55,-.25,.04);thumb.rotation.z=.78;anatomy.add(thumb);
-    oval(thumb,0,.22,0,.23,.43,.21);
-    const thumbTip=new THREE.Group();thumbTip.position.y=.52;thumb.add(thumbTip);
-    oval(thumbTip,0,.17,0,.18,.31,.17);
-    oval(thumbTip,0,.29,.15,.12,.15,.025,nails);
-    return {root,fingers,thumb,thumbTip};
+    model.traverse(object => { if (object instanceof THREE.Mesh) { object.material = material; const original = object.geometry; object.geometry = smoothHand(original); original.dispose(); object.frustumCulled = false; } });
+    if (!disposed) scene.add(root);
+    return {root,joints};
   }
-  const left=makeHand(1),right=makeHand(-1);
-  const key=new THREE.DirectionalLight(0xddd1ff,2.5);key.position.set(-3,5,7);scene.add(key);
-  const rim=new THREE.DirectionalLight(0x8278ff,7);rim.position.set(4,1,-4);scene.add(rim);
-  const fill=new THREE.DirectionalLight(0xb9d8ff,2);fill.position.set(-5,-2,3);scene.add(fill);
-  let reach=0,turn=0;
+  Promise.all([loadHand('left'),loadHand('right')]).then(([l,r])=> {
+    if(disposed)return;
+    left=l;right=r;host.classList.add('is-ready');render();
+  }).catch(error=>console.warn('Hand model unavailable',error));
+  const key=new THREE.DirectionalLight(0xffede0,1.8);key.position.set(-3,5,7);scene.add(key);
+  const rim=new THREE.DirectionalLight(0x8278ff,1.2);rim.position.set(4,1,-4);scene.add(rim);
+  const fill=new THREE.DirectionalLight(0xb9d8ff,.7);fill.position.set(-5,-2,3);scene.add(fill);
+  let reach=0,turn=0,targetReach=0,targetTurn=0,frame=0,lastTime=0;
+  function tick(now:number) {
+    const dt=Math.min(32,lastTime ? now-lastTime : 16);lastTime=now;
+    const blend=1-Math.exp(-dt/65);
+    reach+=(targetReach-reach)*blend;turn+=(targetTurn-turn)*blend;render();
+    if(Math.abs(targetReach-reach)+Math.abs(targetTurn-turn)>.0005) frame=requestAnimationFrame(tick);
+    else {reach=targetReach;turn=targetTurn;frame=0;lastTime=0;render();}
+  }
   function render() {
+    if (!left || !right) return;
     const narrow=host.clientWidth<600;
-    const spread=narrow?2.05:3.1;
-    left.root.position.set(-spread+reach*1.3+turn*(narrow?.65:1.8),-.5+turn*.1,0);
-    right.root.position.set(spread-reach*1.3+turn*2.8,-.5-turn*.8,-turn*2);
-    left.root.rotation.set(.12+turn*.08, -.3+turn*Math.PI, -1.12*(1-turn));
-    right.root.rotation.set(.12,.3,1.12+turn*.3);
-    for(const hand of [left,right]) hand.fingers.forEach((chain,i)=>chain.forEach((joint,j)=>{
-      const curl=hand===left && i!==1 ? turn : 0;
-      joint.rotation.x=.10+j*.08+curl*(j===0?1.35:1.65);
-      if(j===0) joint.rotation.z=(1.5-i)*.07*(1-turn);
-    }));
-    left.thumb.rotation.z=.78-turn*.9;left.thumb.rotation.x=turn*.8;left.thumbTip.rotation.x=turn*.8;
+    const spread=narrow?3.5:4.0;
+    left.root.position.set(-spread+reach*.2,-1.2,0);
+    right.root.position.set(spread-reach*.2,-1.2,0);
+    // Keep the gesture directed at the other hand; only a small wrist roll, no spin or retreat.
+    left.root.rotation.set(.12,-.15+turn*.18,-1.22+turn*.12);
+    right.root.rotation.set(.12,.15,1.22);
+    const axis = new THREE.Vector3(1,0,0);
+    for (const joint of left.joints) {
+      joint.bone.quaternion.copy(joint.rest).multiply(new THREE.Quaternion().setFromAxisAngle(axis, -turn*joint.amount));
+      if (joint.bone.name === 'thumb-metacarpal') joint.bone.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),-.75*turn));
+    }
     renderer.render(scene,camera);
   }
   function resize() {
@@ -86,9 +95,9 @@ export function createHandsScene(host: HTMLElement) {
     camera.updateProjectionMatrix();render();
   }
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);
-  host.classList.add('is-ready');resize();
+  resize();
   return {
-    update(nextReach:number,nextTurn:number){reach=nextReach;turn=nextTurn;render();},
-    dispose(){resizeObserver.disconnect();sphere.dispose();scene.traverse(obj=>{if(obj instanceof THREE.Mesh && obj.geometry!==sphere)obj.geometry.dispose();});material.dispose();nails.dispose();environment.dispose();renderer.dispose();renderer.domElement.remove();}
+    update(nextReach:number,nextTurn:number){targetReach=nextReach;targetTurn=nextTurn;if(!frame)frame=requestAnimationFrame(tick);},
+    dispose(){disposed=true;cancelAnimationFrame(frame);resizeObserver.disconnect();scene.traverse(obj=>{if(obj instanceof THREE.Mesh)obj.geometry.dispose();});material.dispose();environment.dispose();renderer.dispose();renderer.domElement.remove();}
   };
 }
