@@ -47,11 +47,19 @@ export function createHandsScene(host: HTMLElement) {
         const bone = model.getObjectByName(`${finger}-${suffix}`)!;
         // WebXR assets store joints as siblings. Reparent in rest pose to bend the continuous skin naturally.
         model.updateMatrixWorld(true); parent.attach(bone); parent=bone;
-        const amount = finger === 'middle-finger' || suffix === 'tip' || suffix === 'metacarpal' ? 0 : finger === 'thumb' ? .65 : suffix === 'phalanx-proximal' ? 1.2 : 1.55;
+        const amount = finger === 'middle-finger' || suffix === 'tip' || suffix === 'metacarpal' ? 0 : finger === 'thumb' ? 1.05 : suffix === 'phalanx-proximal' ? 1.2 : 1.55;
         joints.push({bone,rest:bone.quaternion.clone(),amount});
       }
     }
-    model.traverse(object => { if (object instanceof THREE.Mesh) { object.material = material; const original = object.geometry; object.geometry = smoothHand(original); original.dispose(); object.frustumCulled = false; } });
+    model.traverse(object => { if (object instanceof THREE.Mesh) { object.material = material; const original = object.geometry;
+      const vertices = original.getAttribute('position');
+      for (let i=0;i<vertices.count;i++) {
+        const vertex = new THREE.Vector3().fromBufferAttribute(vertices,i);
+        const behindWrist = vertex.clone().sub(origin).dot(up);
+        if(behindWrist<0) vertex.addScaledVector(up,behindWrist*7);
+        vertices.setXYZ(i,vertex.x,vertex.y,vertex.z);
+      }
+      object.geometry = smoothHand(original); original.dispose(); object.frustumCulled = false; } });
     if (!disposed) scene.add(root);
     return {root,joints};
   }
@@ -74,15 +82,24 @@ export function createHandsScene(host: HTMLElement) {
     if (!left || !right) return;
     const narrow=host.clientWidth<600;
     const spread=narrow?3.5:4.0;
-    left.root.position.set(-spread+reach*.2,-1.2,0);
-    right.root.position.set(spread-reach*.2,-1.2,0);
-    // Keep the gesture directed at the other hand; only a small wrist roll, no spin or retreat.
-    left.root.rotation.set(.12,-.15+turn*.18,-1.22+turn*.12);
-    right.root.rotation.set(.12,.15,1.22);
+    left.root.position.set(-spread+reach*.3+turn*2,-.8-turn*.55,0);
+    right.root.position.set(spread-reach*.3,-1.2,0);
     const axis = new THREE.Vector3(1,0,0);
-    for (const joint of left.joints) {
-      joint.bone.quaternion.copy(joint.rest).multiply(new THREE.Quaternion().setFromAxisAngle(axis, -turn*joint.amount));
-      if (joint.bone.name === 'thumb-metacarpal') joint.bone.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),-.75*turn));
+    const yAxis = new THREE.Vector3(0,1,0), zAxis = new THREE.Vector3(0,0,1);
+    const initial = new THREE.Quaternion().setFromAxisAngle(zAxis,-1.72)
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,2.5));
+    const final = new THREE.Quaternion().setFromAxisAngle(zAxis,-.22)
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-.12));
+    left.root.quaternion.copy(initial).slerp(final,turn);
+    right.root.quaternion.setFromAxisAngle(zAxis,1.35)
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-.75));
+    for (const hand of [left,right]) for (const joint of hand.joints) {
+      const name=joint.bone.name;
+      const isJoint=name.includes('phalanx');
+      const relaxed=isJoint ? name.startsWith('index') ? .12 : name.startsWith('thumb') ? .24 : .48 : 0;
+      const curl=hand===left ? relaxed*(1-turn)+joint.amount*turn : relaxed;
+      joint.bone.quaternion.copy(joint.rest).multiply(new THREE.Quaternion().setFromAxisAngle(axis,-curl));
+      if (name === 'thumb-metacarpal' && hand===left) joint.bone.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(zAxis,.65*turn));
     }
     renderer.render(scene,camera);
   }
