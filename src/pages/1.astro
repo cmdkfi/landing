@@ -34,6 +34,7 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
           <div class="hands-heading hands-heading-first"><p class="concept-eyebrow">{concept.eyebrow}</p><h1 id="concept-title">{concept.headingStart}<br /><span>{concept.headingEnd}</span></h1></div>
           <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="concept-eyebrow">{concept.eyebrow}</p><p class="hands-title">{concept.headingStart}<br /><span>{concept.headingEnd}</span></p></div>
           <div class="hands-stage" aria-hidden="true">
+            <div class="hands-webgl"></div>
             <div class="hand-left"><img class="hand-reaching" src="/hand-reach.svg" alt="" width="700" height="680"/><img class="hand-turned" src="/hand-turn.svg" alt="" width="700" height="680"/></div>
             <img class="hand-right" src="/hand-reach.svg" alt="" width="700" height="680"/>
           </div>
@@ -131,6 +132,9 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
   .hands-heading span { color: #bca4ee; }
   .hands-heading-first { opacity: calc(1 - var(--second)); transform: translateY(calc(var(--second) * -24px)); }
   .hands-heading-second { opacity: var(--second); transform: translateY(calc((1 - var(--second)) * 24px)); }
+  .hands-webgl { position: absolute; inset: -20% 0 -12%; z-index: 1; pointer-events: none; }
+  .hands-webgl :global(canvas) { width: 100%; height: 100%; display: block; }
+  .hands-stage:has(.is-ready) > .hand-left, .hands-stage:has(.is-ready) > .hand-right { visibility: hidden; }
   .hands-stage { position: absolute; inset: 26% 0 0; perspective: 1200px; }
   .hand-left, .hand-right { position: absolute; width: min(62vw, 900px); height: auto; bottom: 8%; }
   .hand-left { left: -13%; aspect-ratio: 700 / 680; transform: translateX(calc(var(--reach) * 4vw + var(--second) * 26vw)) rotateY(calc(var(--turn) * 180deg)); transform-style: preserve-3d; }
@@ -156,6 +160,8 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
     .hand-right { right: -48%; }
   }
   @media (prefers-reduced-motion: reduce) {
+    .hands-webgl { display: none; }
+    .hands-stage:has(.is-ready) > .hand-left, .hands-stage:has(.is-ready) > .hand-right { visibility: visible; }
     .hands-story { height: auto; }
     .hands-sticky { position: relative; height: auto; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
     .hands-heading { position: relative; top: auto; padding-top: 60px; opacity: 1; transform: none; }
@@ -169,6 +175,10 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
   }
 </style>
 <script>
+  import { createHandsScene } from '../scripts/hands-scene';
+  const host = document.querySelector<HTMLElement>('.hands-webgl');
+  let scene: ReturnType<typeof createHandsScene> | undefined;
+  if (host) { try { scene = createHandsScene(host); } catch (error) { console.warn('3D hands unavailable', error); } }
   const story = document.querySelector<HTMLElement>('.hands-story');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   let pending = false;
@@ -179,6 +189,7 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
     if (!story) return;
     const box = story.getBoundingClientRect();
     const progress = reduced.matches ? 0 : clamp(-box.top / Math.max(1, box.height - window.innerHeight));
+    if (box.bottom > 0 && box.top < window.innerHeight) scene?.update(smooth(clamp(progress / .4)), smooth(clamp((progress - .45) / .35)));
     story.style.setProperty('--reach', String(smooth(clamp(progress / .4))));
     story.style.setProperty('--turn', String(smooth(clamp((progress - .45) / .35))));
     story.style.setProperty('--second', String(smooth(clamp((progress - .55) / .3))));
@@ -188,4 +199,10 @@ import { hero, links, cta, testnetLine, walletBrowserCaption, meta, concept } fr
   window.addEventListener('resize', schedule);
   reduced.addEventListener('change', schedule);
   paint();
+  if (import.meta.hot) import.meta.hot.dispose(() => {
+    window.removeEventListener('scroll', schedule);
+    window.removeEventListener('resize', schedule);
+    reduced.removeEventListener('change', schedule);
+    scene?.dispose();
+  });
 </script>
