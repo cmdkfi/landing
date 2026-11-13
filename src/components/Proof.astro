@@ -3,6 +3,7 @@ import { proof, visual, market, venue } from '../content/landing.ts';
 ---
 <section id={proof.id} class="section">
   <div class="section-heading"><p class="eyebrow">{visual.researchLabel}</p><h2>{proof.h2}</h2></div>
+  <aside class="panel proof-points" aria-label={proof.pointsLabel}><p class="eyebrow">{proof.pointsLabel}</p><ul class="list-dash">{proof.points.map((p) => <li>{p}</li>)}</ul></aside>
   <div class="two-columns">{visual.researchCards.map((card, i) => <article class="panel research-card"><p class="eyebrow">{card.eyebrow}</p><h3>{card.title}</h3><p>{i === 0 ? market.evidence[0] : venue.evidence[0]}</p>{i === 0 && <p class="small muted">{market.evidence[3]}</p>}</article>)}</div>
   <details class="disclosure"><summary>{visual.researchDetails}</summary>{[...market.evidence.slice(1, 3), venue.evidence[1], market.honesty, venue.limit].map((line) => <p>{line}</p>)}</details>
   <ul class="proof-links">{proof.links.map((l) => <li><a href={l.href}><span>{l.label}</span><span aria-hidden="true">↗</span></a><p class="small muted">{l.line}</p></li>)}</ul>
