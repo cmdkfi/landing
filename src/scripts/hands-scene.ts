@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createAsciiHands } from './ascii-hands';
 import { smoothHand } from './smooth-hand';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -10,6 +11,7 @@ export function createHandsScene(host: HTMLElement) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = .9;
   host.append(renderer.domElement);
+  const ascii = createAsciiHands(renderer);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, .1, 100);
   camera.position.set(0, -1.2, 16);
@@ -133,12 +135,23 @@ export function createHandsScene(host: HTMLElement) {
       joint.bone.quaternion.copy(joint.rest).multiply(new THREE.Quaternion().setFromAxisAngle(axis,-curl));
       if (name === 'thumb-metacarpal' && hand===left) joint.bone.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(zAxis,.65*turn));
     }
-    renderer.render(scene,camera);
+    // Bring the actual index tips together, then release before the wrist gesture.
+    scene.updateMatrixWorld(true);
+    const leftTip=left.root.getObjectByName('index-finger-tip')!.getWorldPosition(new THREE.Vector3());
+    const rightTip=right.root.getObjectByName('index-finger-tip')!.getWorldPosition(new THREE.Vector3());
+    const midpoint=leftTip.clone().add(rightTip).multiplyScalar(.5);
+    const contactBlend=reach*(1-THREE.MathUtils.smoothstep(turn,0,.3));
+    left.root.position.add(midpoint.clone().sub(leftTip).multiplyScalar(contactBlend));
+    right.root.position.add(midpoint.clone().sub(rightTip).multiplyScalar(contactBlend));
+    const screenContact=midpoint.project(camera);
+    const burst=reach>.985 ? Math.min(1,.08+turn*3) : 0;
+    ascii.render(scene,camera,new THREE.Vector2(screenContact.x*.5+.5,screenContact.y*.5+.5),burst);
   }
   function resize() {
     const width=host.clientWidth,height=host.clientHeight;
     if(!width||!height)return;
     renderer.setSize(width,height);
+    ascii.resize(width,height);
     camera.aspect=width/height;
     // Fit the hands to viewport width so wide screens retain the reference scale.
     camera.position.z=8.6/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect);
@@ -148,6 +161,6 @@ export function createHandsScene(host: HTMLElement) {
   resize();
   return {
     update(nextReach:number,nextTurn:number){targetReach=nextReach;targetTurn=nextTurn;if(!frame)frame=requestAnimationFrame(tick);},
-    dispose(){disposed=true;cancelAnimationFrame(frame);resizeObserver.disconnect();scene.traverse(obj=>{if(obj instanceof THREE.Mesh)obj.geometry.dispose();});material.dispose();environment.dispose();renderer.dispose();renderer.domElement.remove();}
+    dispose(){disposed=true;cancelAnimationFrame(frame);resizeObserver.disconnect();scene.traverse(obj=>{if(obj instanceof THREE.Mesh)obj.geometry.dispose();});material.dispose();environment.dispose();ascii.dispose();renderer.dispose();renderer.domElement.remove();}
   };
 }
