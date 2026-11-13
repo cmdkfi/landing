@@ -1,5 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 220" fill="none" role="img" aria-labelledby="title">
-  <title id="title">Command K</title>
-  <path d="M61 74c-25 0-25-37 0-37s25 18 25 37v72c0 19-1 37-25 37s-25-37 0-37h76c25 0 25 37 0 37s-25-18-25-37V74c0-19 1-37 25-37s25 37 0 37H61Z" stroke="#F7F8FC" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
-  <path d="M264 47v126m0-57 99-69m-99 69 101 57" stroke="#F7F8FC" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 220" fill="none">
+<defs>
+ <linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a7b8d1" stop-opacity=".055"/><stop offset=".42" stop-color="#050910" stop-opacity=".06"/><stop offset="1" stop-color="#8898b0" stop-opacity=".025"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#dce6f5" stop-opacity=".72"/><stop offset=".14" stop-color="#576275" stop-opacity=".35"/><stop offset=".32" stop-color="#02040a"/><stop offset=".52" stop-color="#c6d2e5" stop-opacity=".65"/><stop offset=".65" stop-color="#18202d"/><stop offset=".85" stop-color="#040710"/><stop offset="1" stop-color="#dce5f4" stop-opacity=".62"/></linearGradient>
+ <linearGradient id="inner" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#020409"/><stop offset=".5" stop-color="#7b879a" stop-opacity=".25"/><stop offset="1" stop-color="#e0e9f8" stop-opacity=".55"/></linearGradient>
+ <path id="mark" fill-rule="evenodd" d="M75 66V50a28 28 0 1 0-28 28h16v64H47a28 28 0 1 0 28 28v-16h64v16a28 28 0 1 0 28-28h-16V78h16a28 28 0 1 0-28-28v16H75Zm-12 0H47a16 16 0 1 1 16-16v16Zm88 0V50a16 16 0 1 1 16 16h-16Zm-76 12h64v64H75V78Zm-12 76v16a16 16 0 1 1-16-16h16Zm88 0h16a16 16 0 1 1-16 16v-16ZM256 35q-12 0-12 12v126q0 12 12 12t12-12v-48l77 57q10 7 17-3t-3-17l-71-52 71-52q10-7 3-17t-17-3l-77 57V47q0-12-12-12Z"/>
+</defs>
+<use href="#mark" transform="translate(4 5)" fill="#02040a" fill-opacity=".65" stroke="#050810" stroke-width="6"/>
+<use href="#mark" fill="url(#face)" stroke="url(#edge)" stroke-width="5" stroke-linejoin="round"/>
+<use href="#mark" fill="none" stroke="url(#inner)" stroke-width="1"/>
 </svg>
