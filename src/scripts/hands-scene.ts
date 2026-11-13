@@ -70,8 +70,8 @@ export function createHandsScene(host: HTMLElement) {
         const vertex = new THREE.Vector3().fromBufferAttribute(vertices,i);
         const behindWrist = vertex.clone().sub(origin).dot(up);
         if(behindWrist<0) vertex.addScaledVector(up,behindWrist*7);
-        if(anchorIndex>=0 && behindWrist<.006) {
-          const hold = THREE.MathUtils.smoothstep(-behindWrist,-.006,.012);
+        if(anchorIndex>=0 && behindWrist<.018) {
+          const hold = THREE.MathUtils.smoothstep(-behindWrist,-.018,.012);
           const influences = [[anchorIndex,hold]];
           for(let k=0;k<4;k++) influences.push([skinIndex.array[i*4+k],skinWeight.array[i*4+k]*(1-hold)]);
           influences.sort((a,b)=>b[1]-a[1]);
@@ -107,9 +107,11 @@ export function createHandsScene(host: HTMLElement) {
     right.root.position.set(spread-reach*.3,-1.2,0);
     const axis = new THREE.Vector3(1,0,0);
     const yAxis = new THREE.Vector3(0,1,0), zAxis = new THREE.Vector3(0,0,1);
-    const initial = new THREE.Quaternion().setFromAxisAngle(zAxis,-1.72)
-      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,1.35));
-    const final = new THREE.Quaternion().setFromAxisAngle(zAxis,-.22)
+    // Both poses use the same side of the hand. Reversing the side here
+    // twisted a stationary forearm by 155 degrees and collapsed the wrist.
+    const initial = new THREE.Quaternion().setFromAxisAngle(zAxis,-1.65)
+      .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-1.4));
+    const final = new THREE.Quaternion().setFromAxisAngle(zAxis,-.85)
       .multiply(new THREE.Quaternion().setFromAxisAngle(yAxis,-1.35));
     left.root.quaternion.copy(initial);
     const desired = initial.clone().slerp(final,turn);
