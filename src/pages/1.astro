@@ -57,8 +57,8 @@ import { links, meta, concept } from '../content/landing.ts';
       <section class="hands-story" aria-labelledby="concept-title">
         <div class="hands-sticky">
           <div class="hero-atmosphere" aria-hidden="true"></div>
-          <div class="hands-copy-head"><p class="concept-eyebrow"><span class="near-gradient-copy">{concept.eyebrow}</span><span class="near-gradient-mark"><img class="near-logo" src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /></span></p></div>
-          <div class="hands-heading hands-heading-first"><p class="familiar-script">{concept.marginNote}</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
+          <div class="hands-copy-head"><p class="concept-eyebrow"><span class="near-gradient-copy">{concept.eyebrow}</span><span class="near-gradient-mark"><img class="near-logo" src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /></span><span class="near-sparkles" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i></span></p></div>
+          <div class="hands-heading hands-heading-first"><p class="familiar-script">{concept.marginNote}</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p><span class="eye-capsule hero-eyes" aria-hidden="true"><span class="tracker-gaze"><i></i><i></i></span></span></div>
           <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="hands-title">{concept.gestureHeading}</p><p class="hands-subtitle">{concept.gestureSubheading.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
           <div class="hands-stage" aria-hidden="true">
             <div class="hands-webgl"></div>
@@ -104,6 +104,9 @@ import { links, meta, concept } from '../content/landing.ts';
     border-radius: 999px;
     background: #17181a;
   }
+  .hero-eyes { position: relative; isolation: isolate; margin: 18px auto 0; background: linear-gradient(175deg, #fff 35%, #f0f1f3); border: 1px solid #d9dce0; box-shadow: inset 0 1px 0 #fff, 0 1px 2px #252a3526; }
+  .hero-eyes::before { content: ""; position: absolute; inset: 4px -2px -5px; z-index: -1; border-radius: 999px; background: linear-gradient(108deg, #7f899b, #d9e6fa 13%, #f7fbff 22%, #a1abbd 38%, #6b7486 52%, #c6ceda 67%, #f5eee5 82%, #838d9f); box-shadow: 0 2px 4px #20263026, 0 5px 12px #20263019; }
+  .hero-eyes .tracker-gaze i { background: var(--header-ink); }
   .tracker-gaze { display:flex; gap:5px; will-change:transform; }
   .tracker-gaze i { display:block; width:7px; height:7px; border-radius:50%; background:#fafafa; }
   .concept-logo { display: inline-flex; align-items: center; gap: 6px; flex: none; }
