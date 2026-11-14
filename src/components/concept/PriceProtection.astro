@@ -8,6 +8,7 @@ const items = featuresOf(migration ? 'venue-risk' : 'market');
 ---
 <section class="price-protection" aria-label={migration ? visual.venueTitle : visual.marketTitle}>
   <div data-protection-page>
+  {!migration && <div data-price-controls></div>}
   <header class="protection-heading">
     <h3>{migration ? visual.venueSub : visual.marketSub}</h3>
   </header>
