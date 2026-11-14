@@ -54,13 +54,10 @@ export default function LtvChart() {
     </div>
     <div className="ltv-scale" role="img" aria-label={`${copy.chartDescription} ${copy.text9}: ${current.protected.toFixed(1)}%. ${copy.text10}: ${current.exposed.toFixed(1)}%.`}>
       <div className="ltv-rail" />
-      {[50, 70, 86].map((value, i) => <div key={value} className={`ltv-threshold threshold-${i}`} style={{ left: `${value}%` }}><span>{value}%</span><i /></div>)}
+      {[50, 70, 86].map((value, i) => <div key={value} className={`ltv-threshold threshold-${i}`} style={{ left: `${value}%` }}><span><b>{value}%</b><small>{[copy.scaleTarget, copy.scaleAction, copy.scaleLimit][i]}</small></span><i /></div>)}
       <div className="ltv-marker marker-protected" style={{ left: `${current.protected}%` }}><i /></div>
       <div className="ltv-marker marker-exposed" style={{ left: `${current.exposed}%` }}><i /></div>
       <span className="scale-zero">0%</span><span className="scale-hundred">100%</span>
-    </div>
-    <div className="scale-key">
-      <span>{copy.targetLabel}</span><span>{copy.actLabel}</span><span>{copy.liquidationLabel}</span>
     </div>
     <p className="scale-definition">{copy.ltvDefinition}</p>
     <div className="replay-controls">
@@ -71,7 +68,7 @@ export default function LtvChart() {
         <button type="button" onClick={() => controls.current.replay()} aria-label={copy.replayButton}><img src="/cds-icons/refresh.svg" width="20" height="20" alt="" /></button>
       </div>
     </div>
-    <label className="scenario-scrub"><span>{copy.scrubLabel}</span><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/><span>{copy.compressedTime}</span></label>
+    <label className="scenario-scrub"><span>{copy.scrubLabel}</span><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/></label>
     </div>
   </div>;
 }

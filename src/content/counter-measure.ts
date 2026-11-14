@@ -1,4 +1,7 @@
 export const counterMeasure = {
+  scaleTarget: "Target",
+  scaleAction: "Agent acts",
+  scaleLimit: "Liquidation",
   compactNote: "Illustrative scenario. Strategy settings and liquidation terms vary by market.",
   positionLabel: "ILLUSTRATIVE POSITION · TESTNET",
   collateralSymbol: "ETH",
@@ -8,7 +11,7 @@ export const counterMeasure = {
   pause: "Pause scenario",
   play: "Play scenario",
   marketStep: "Market falls · LTV rises",
-  ltvDefinition: "Current LTV · debt as a share of collateral value.",
+  ltvDefinition: "LTV · debt / collateral value",
   actLog: "Agent repays part of the debt",
   settleLog: "Protected position returns to target",
   scrubLabel: "Replay progress",

@@ -90,3 +90,21 @@
 .position-widget .scenario-scrub { grid-column: 2; grid-row: 2; margin: 0; column-gap: 8px; }
 .position-widget .scenario-scrub input { height: 32px; }
 .position-widget .scenario-values > div { padding-block: 8px; }
+
+/* Threshold labels live on the scale instead of a repeated legend. */
+.position-widget .ltv-scale { height: 164px; margin-top: 16px; }
+.position-widget .ltv-rail { top: 92px; height: 16px; }
+.position-widget .ltv-threshold { top: 6px; }
+.position-widget .ltv-threshold > span { display: grid; gap: 2px; text-align: center; }
+.position-widget .ltv-threshold b { font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -.04em; }
+.position-widget .ltv-threshold small { font-family: var(--font-sans); font-size: 12px; line-height: 1.4; }
+.position-widget .ltv-threshold > i { top: 78px; height: 32px; border-left-width: 2px; }
+.position-widget .marker-protected { top: 62px; }
+.position-widget .marker-protected > i { width: 22px; height: 22px; left: -11px; border-width: 4px; }
+.position-widget .marker-protected::after { top: 20px; height: 18px; }
+.position-widget .marker-exposed { top: 126px; }
+.position-widget .marker-exposed > i { width: 16px; height: 16px; left: -8px; }
+.position-widget .marker-exposed::after { height: 18px; }
+.position-widget .scale-zero, .position-widget .scale-hundred { top: 154px; font-size: 12px; }
+.position-widget .scale-definition { margin: 8px 0; }
+@media(max-width:600px) { .position-widget .ltv-threshold b { font-size: 18px; } .position-widget .ltv-threshold small { font-size: 10px; white-space: normal; max-width: 60px; } }
