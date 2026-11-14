@@ -87,3 +87,13 @@ export const borrowIntro = {
   firstLine: "Borrow against",
   secondLine: "what you hold.",
 } as const;
+
+export const positionStage = {
+  windowTitle: "CMDK / POSITION",
+  title: "Your position. Your limits.",
+  steps: [
+    { value: "50%", label: "Target", detail: "The LTV your strategy aims to restore." },
+    { value: "70%", label: "Agent acts", detail: "The agent repays part of the debt to reduce LTV." },
+    { value: "86%", label: "Liquidation threshold", detail: "The unprotected position reaches the market’s liquidation threshold." },
+  ],
+} as const;
