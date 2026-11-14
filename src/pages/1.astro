@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import HeaderSearch from '../components/concept/HeaderSearch.astro';
+import CounterMeasure from '../components/concept/CounterMeasure.astro';
 import PositionDial from '../components/concept/PositionDial.astro';
 import { links, meta, concept } from '../content/landing.ts';
 const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H', '//', 'A', '!=', 'C', '0x', 'K', '&', 'A', '<>', 'T', '{}', 'H', '01', 'O', '=>', 'N'];
@@ -70,6 +71,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
           <div class="hands-track" aria-hidden="true"><span></span></div>
         </div>
       </section>
+      <CounterMeasure />
       <div class="eyes-block" aria-hidden="true">
         <span class="eye-capsule"><span class="tracker-gaze"><i></i><i></i></span></span>
       </div>
