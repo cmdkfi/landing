@@ -9,7 +9,8 @@ export function attachTextReveal() {
   const tweens = new Set<gsap.core.Tween>();
   let keyboard = false;
   const selector = [
-    'h1', 'h2', 'h3', '.hands-subtitle', '.concept-eyebrow',
+    'h1', 'h2', 'h3', 'p', '.story-description > b', '.rail-heading',
+    '.map-stat > .label', '.control-node p', '.borrow-subtitle', '.hands-subtitle', '.concept-eyebrow',
     '.dial-intro > p', '.dial-narrative > p', '.incident-closing', '.incident-footnote > p',
     '.origin-copy > .eyebrow', '.origin-copy > p', '.origin-copy > .micro',
     '.corridor-rules > div', '.map-stat > strong', '.map-stat > .label', '.map-stat > p',
@@ -40,6 +41,7 @@ export function attachTextReveal() {
   function scan() {
     document.querySelectorAll<HTMLElement>(`main :is(${selector})`).forEach(element => {
       // Sticky story headings are revealed by their existing scene milestones.
+      if (element.closest('button, a, [role="tab"], [aria-live], .ltv-scenario, .borrow-sandbox, .borrow-presentation')) return;
       if (element.matches('#concept-title, .hands-title, #position-title') || seen.has(element)) return;
       if (element.closest('[inert], [aria-hidden="true"], .borrow-sandbox, .borrow-presentation')) return;
       if (!watched.has(element)) { watched.add(element); observer.observe(element); }
@@ -47,7 +49,7 @@ export function attachTextReveal() {
   }
   const mutations = new MutationObserver(scan);
   const main = document.querySelector('main');
-  if (main) mutations.observe(main, { subtree: true, childList: true, attributes: true, attributeFilter: ['inert', 'aria-hidden'] });
+  if (main) mutations.observe(main, { subtree: true, childList: true, attributes: true, attributeFilter: ['inert', 'aria-hidden', 'hidden'] });
   const finish = () => { tweens.forEach(tween => tween.progress(1)); tweens.clear(); };
   const key = (event: KeyboardEvent) => {
     if (['Tab', 'PageDown', 'PageUp', 'Home', 'End', 'ArrowDown', 'ArrowUp', ' '].includes(event.key)) { keyboard = true; finish(); }

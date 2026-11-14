@@ -5,7 +5,9 @@ export function attachLtvStage() {
   const card = stage?.querySelector<HTMLElement>('.ltv-stage-window');
   const copy = stage?.querySelector<HTMLElement>('.ltv-stage-copy');
   if (!stage || !card || !copy) return () => {};
-  const enabled = matchMedia('(min-width: 1001px) and (prefers-reduced-motion: no-preference)');
+  const rails = [...stage.querySelectorAll<HTMLElement>('.control-rail')];
+  const resetRails = () => rails.forEach(rail => { rail.style.removeProperty('opacity'); rail.style.removeProperty('transform'); rail.removeAttribute('aria-hidden'); rail.inert = false; });
+  const enabled = matchMedia('(min-width: 1101px) and (prefers-reduced-motion: no-preference)');
   let dirty = true;
   const invalidate = () => { dirty = true; };
   function render() {
@@ -13,6 +15,7 @@ export function attachLtvStage() {
     dirty = false;
     stage!.classList.toggle('is-motion', enabled.matches);
     if (!enabled.matches) {
+      resetRails();
       card!.style.removeProperty('transform');
       copy!.style.removeProperty('opacity');
       copy!.style.removeProperty('transform');
@@ -22,11 +25,19 @@ export function attachLtvStage() {
     }
     const rect = stage!.getBoundingClientRect();
     const travel = Math.max(1, stage!.offsetHeight - innerHeight);
-    const progress = Math.max(0, Math.min(1, (112 - rect.top) / travel));
-    const eased = progress * progress * (3 - 2 * progress);
+    const progress = Math.max(0, Math.min(1, (parseFloat(getComputedStyle(stage!.querySelector('.ltv-stage-sticky')!).top) - rect.top) / travel));
+    const departure = Math.max(0, Math.min(1, progress / .28));
+    rails.forEach(rail => {
+      rail.style.opacity = String(1 - departure);
+      rail.style.transform = `translate3d(0,${24 * departure}px,0)`;
+      rail.setAttribute('aria-hidden', String(departure === 1));
+      rail.inert = departure === 1;
+    });
+    const movement = Math.max(0, Math.min(1, (progress - .28) / .55));
+    const eased = movement * movement * (3 - 2 * movement);
     const distance = Math.max(0, (stage!.clientWidth - 48 - card!.offsetWidth) / 2);
     card!.style.transform = `translate3d(${distance * eased}px,0,0)`;
-    const reveal = Math.max(0, Math.min(1, (progress - .2) / .45));
+    const reveal = Math.max(0, Math.min(1, (progress - .48) / .35));
     copy!.style.opacity = String(reveal);
     copy!.style.transform = `translate3d(${24 * (1 - reveal)}px,0,0)`;
     const hidden = String(reveal === 0);
@@ -42,6 +53,7 @@ export function attachLtvStage() {
     removeFrame(); window.removeEventListener('scroll', invalidate);
     window.removeEventListener('resize', invalidate);
     enabled.removeEventListener('change', invalidate);
+    resetRails();
     stage.classList.remove('is-motion');
     card.style.removeProperty('transform');
     copy.style.removeProperty('opacity'); copy.style.removeProperty('transform');
