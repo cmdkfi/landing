@@ -1,8 +1,7 @@
 ---
-import { statusSection, visual, groupOrder, groupLabel, statusLabel, statusMeaning, featuresOf, type Group } from '../../content/landing.ts';
+import { statusSection, visual, groupOrder, groupLabel, statusLabel, statusMeaning, featuresOf } from '../../content/landing.ts';
+import RoadmapIcon from './RoadmapIcon.astro';
 const groups = groupOrder.map((id) => ({ id, label: groupLabel[id], items: featuresOf(id) }));
-const symbols: Record<Group, string> = { collateral: '◇', borrow: '$', venue: '⌘', chain: '↗', market: '↗', 'venue-risk': '◈', control: '◎', strategy: '✦' };
-const itemSymbols: Record<string, string> = { eth: '◇', btc: '₿', stocks: '▤', 'more-assets': '✦', gold: '◈', rwa: '▦', usdc: '$', 'best-rate': '%', 'morpho-base': 'M', aave: 'A', rhea: 'R', kamino: 'K', 'base-near': '↗', 'any-chain': '∞' };
 ---
 <section class="roadmap" id="roadmap" aria-labelledby="roadmap-title">
   <div class="roadmap-inner">
@@ -17,7 +16,7 @@ const itemSymbols: Record<string, string> = { eth: '◇', btc: '₿', stocks: '�
     {groups.map((group) => <div class="roadmap-panel" id={`roadmap-${group.id}`}>
       <div class="roadmap-feature">
         <div class="roadmap-feature-copy">
-          <div class="roadmap-feature-label"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true">{symbols[group.id]}</span><span>{group.items[0].title}</span></div>
+          <div class="roadmap-feature-label"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true"><RoadmapIcon id={group.items[0].id} group={group.id} /></span><span>{group.items[0].title}</span></div>
           <div class="roadmap-feature-body"><h3>{group.items[0].text}</h3><p>{statusMeaning[group.items[0].status]}</p><div class="roadmap-feature-actions"><a href={`#roadmap-list-${group.id}`}>{visual.directoryExplore}</a><span class="roadmap-status" data-status={group.items[0].status}>{statusLabel[group.items[0].status]}</span></div></div>
         </div>
         <div class="roadmap-stage" aria-hidden="true">
@@ -25,13 +24,13 @@ const itemSymbols: Record<string, string> = { eth: '◇', btc: '₿', stocks: '�
             <div class="roadmap-window-bar"><span class="roadmap-window-mark">{visual.directoryWindowMark}</span><span>{visual.directoryWindowBrand}</span><span class="roadmap-window-path">{visual.directoryWindowPath}</span></div>
             <div class="roadmap-window-content"><div class="roadmap-window-sidebar"><span></span><span></span><span></span><span></span></div><div class="roadmap-window-body">
               <div class="roadmap-window-head"><span>{group.label}</span><span>{group.items.length}</span></div>
-              <div class="roadmap-window-list">{group.items.slice(0, 3).map((item, index) => <div class="roadmap-window-row" data-selected={index === 0 ? '' : undefined}><span class={`roadmap-window-icon roadmap-icon-${group.id}`}>{itemSymbols[item.id] ?? symbols[group.id]}</span><span class="roadmap-window-title">{item.title}</span><span class="roadmap-window-dot" data-status={item.status}></span></div>)}</div>
+              <div class="roadmap-window-list">{group.items.slice(0, 3).map((item, index) => <div class="roadmap-window-row" data-selected={index === 0 ? '' : undefined}><span class={`roadmap-window-icon roadmap-icon-${group.id}`}><RoadmapIcon id={item.id} group={group.id} compact /></span><span class="roadmap-window-title">{item.title}</span><span class="roadmap-window-dot" data-status={item.status}></span></div>)}</div>
             </div></div>
           </div>
           <div class="roadmap-stage-detail" data-status={group.items[0].status}><span class="roadmap-stage-detail-label">{statusSection.columns.status}</span><strong>{statusLabel[group.items[0].status]}</strong><span class="roadmap-stage-detail-count">{group.items.filter((item) => item.status === 'live').length} / {group.items.length} {statusLabel.live}</span></div>
         </div>
       </div>
-      <ul class="roadmap-grid" id={`roadmap-list-${group.id}`}>{group.items.slice(1).map((item) => <li class="roadmap-card"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true">{itemSymbols[item.id] ?? symbols[group.id]}</span><div class="roadmap-card-copy"><h3>{item.title}</h3><p>{item.text}</p></div><span class="roadmap-status" data-status={item.status}>{statusLabel[item.status]}</span></li>)}</ul>
+      <ul class="roadmap-grid" id={`roadmap-list-${group.id}`}>{group.items.slice(1).map((item) => <li class="roadmap-card"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true"><RoadmapIcon id={item.id} group={group.id} /></span><div class="roadmap-card-copy"><h3>{item.title}</h3><p>{item.text}</p></div><span class="roadmap-status" data-status={item.status}>{statusLabel[item.status]}</span></li>)}</ul>
     </div>)}
     <p class="roadmap-note">{statusSection.footnote}</p>
   </div>
@@ -63,6 +62,6 @@ const itemSymbols: Record<string, string> = { eth: '◇', btc: '₿', stocks: '�
   .roadmap{scroll-margin-top:88px}.roadmap-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overflow:visible;margin:48px 0 30px;padding:0}.roadmap-tab{min-width:0;justify-content:space-between;padding-inline:16px}.roadmap-tab>span:first-of-type{min-width:0}.roadmap-tab:has(input:checked){background:#e8eaed}.roadmap-count{flex:none}.roadmap-card p{display:block;overflow:visible;-webkit-line-clamp:unset;margin-bottom:0}.roadmap-stage-detail[data-status="production"] strong{color:#916015}.roadmap-stage-detail[data-status="roadmap"] strong,.roadmap-stage-detail[data-status="exploring"] strong{color:#596167}
   @media(max-width:900px){.roadmap-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:520px){.roadmap-tabs{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;margin-top:36px;padding-bottom:10px;scrollbar-width:thin}.roadmap-tab{scroll-snap-align:start;min-height:44px;white-space:nowrap}.roadmap-card p{display:block;-webkit-line-clamp:unset}}
-  .roadmap-card{grid-template-columns:62px minmax(0,1fr) auto}.roadmap-icon{width:62px;height:48px;border-radius:12px;font-size:27px}.roadmap-feature-label .roadmap-icon{width:48px;height:38px;border-radius:10px;font-size:21px}.roadmap-window-icon{width:30px;height:23px;border-radius:6px;font-size:13px}
-  @media(max-width:480px){.roadmap-card{grid-template-columns:52px minmax(0,1fr)}.roadmap-icon{width:52px;height:42px;border-radius:11px;font-size:24px}.roadmap-feature-label .roadmap-icon{width:48px;height:38px;font-size:21px}}
+  .roadmap-card{grid-template-columns:56px minmax(0,1fr) auto}.roadmap-icon{width:56px;height:56px;border-radius:17px}.roadmap-feature-label .roadmap-icon{width:44px;height:44px;border-radius:14px}.roadmap-window-icon{width:27px;height:27px;border-radius:8px}
+  @media(max-width:480px){.roadmap-card{grid-template-columns:48px minmax(0,1fr)}.roadmap-icon{width:48px;height:48px;border-radius:15px}.roadmap-feature-label .roadmap-icon{width:44px;height:44px}}
 </style>
