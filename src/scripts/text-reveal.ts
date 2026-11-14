@@ -41,7 +41,7 @@ export function attachTextReveal() {
     document.querySelectorAll<HTMLElement>(`main :is(${selector})`).forEach(element => {
       // Sticky story headings are revealed by their existing scene milestones.
       if (element.matches('#concept-title, .hands-title, #position-title') || seen.has(element)) return;
-      if (element.closest('[inert], [aria-hidden="true"], .borrow-sandbox')) return;
+      if (element.closest('[inert], [aria-hidden="true"], .borrow-sandbox, .borrow-presentation')) return;
       if (!watched.has(element)) { watched.add(element); observer.observe(element); }
     });
   }
