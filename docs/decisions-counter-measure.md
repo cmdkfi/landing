@@ -14,3 +14,9 @@ The chart is a static illustrative comparison, not measured market history. No e
 - Technical labels and notes: shared --font-technical, 12px. Result numbers use the same family, tabular figures, 32–52px; 40px on mobile.
 - Remove decorative dots. Stack result metrics on small screens to retain legible figures.
 - Static chart: no motion needed; keyboard and reduced-motion users receive the same information.
+
+## Liveline comparison
+
+Selected Multi-series from https://benji.org/liveline: overlapping scenario lines, endpoint labels, inspection crosshair, and series toggles. A fixed 70% reference identifies intervention. The illustrative paths are paused rather than supplied with invented live ticks. The unprotected LTV ends at 86%; liquidation is not depicted as a meaningful subsequent LTV of zero. Reduced-motion users retain the static SVG comparison. The green liquid backdrop remains.
+
+Validation: build and content checks passed; rendered settled chart and toggles verified in the browser.

@@ -1,4 +1,7 @@
 export const counterMeasure = {
+  targetLabel: "50.0% · target",
+  liquidationLabel: "86.0% · liquidation",
+  actLabel: "70.0% · act line",
   "text1": "// the counter-measure",
   "text2": "close the tab.",
   "text3": "we hold the line.",
