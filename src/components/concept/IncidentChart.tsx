@@ -61,7 +61,7 @@ export default function IncidentChart({ index, label, date, evidence, source, re
     })}
     </div>
     <div className="incident-chart-actions">
-      <span className="incident-chart-caption">Two verified adjacent blocks. No values between blocks are inferred.</span>
+      <span className="incident-chart-caption">Verified block samples; connecting lines are visual guides. Write-off: {duration}s across adjacent blocks.</span>
       <details className="incident-source-menu" onPointerEnter={event => { if (event.pointerType === 'mouse') event.currentTarget.open = true; }} onPointerLeave={event => { if (event.pointerType === 'mouse' && !event.currentTarget.contains(document.activeElement)) event.currentTarget.open = false; }} onKeyDown={event => { if (event.key === 'Escape') { event.currentTarget.open = false; event.currentTarget.querySelector('summary')?.focus(); } }}>
         <summary aria-label="Incident sources"><span className="incident-info-icon" aria-hidden="true">i</span></summary>
         <div className="incident-source-popover">

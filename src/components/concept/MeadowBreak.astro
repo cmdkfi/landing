@@ -1,0 +1,60 @@
+---
+import { meadowCopy } from "../../content/counter-measure";
+---
+<section class="meadow-break" aria-label={meadowCopy.sceneLabel}>
+  <img
+    class="meadow-poster"
+    src="/images/meadow-trees.webp"
+    alt={meadowCopy.posterAlt}
+    width="1672"
+    height="941"
+    loading="lazy"
+    decoding="async"
+  />
+  <canvas class="meadow-canvas" aria-hidden="true"></canvas>
+</section>
+
+<style>
+  .meadow-break {
+    position: relative;
+    max-width: 1320px;
+    margin: 120px auto 0;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .meadow-break img,
+  .meadow-canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    mask-image: radial-gradient(ellipse 72% 65% at 50% 50%, #000 52%, transparent 100%);
+  }
+
+  .meadow-canvas {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: 1672 / 941;
+    opacity: 0;
+    transition: opacity 450ms ease-out;
+    cursor: crosshair;
+  }
+
+  .meadow-break.is-ready .meadow-canvas { opacity: 1; }
+
+  @media (max-width: 600px) {
+    .meadow-break { margin-top: 72px; }
+    .meadow-break img,
+    .meadow-canvas { width: 145%; max-width: none; margin-left: -22.5%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meadow-canvas { display: none; }
+  }
+</style>
+
+<script>
+  import { setupMeadowScene } from './meadow-scene';
+  setupMeadowScene();
+  document.addEventListener('astro:page-load', setupMeadowScene);
+</script>

@@ -1,3 +1,4 @@
+import { requestMotionFrame, cancelMotionFrame } from './motion-clock';
 /** Small decorative companion: no focus stop or action competing with the logo. */
 export function attachHeaderEyes() {
   const disposers = Array.from(
@@ -18,10 +19,10 @@ function attachGaze(gaze: HTMLElement) {
     vy += ((ty - y) * 190 - vy * 23) * dt;
     x += vx * dt; y += vy * dt;
     gaze.style.transform = `translate(${x}px, ${y}px)`;
-    if (Math.abs(tx-x)+Math.abs(ty-y)+Math.abs(vx)+Math.abs(vy) > .015) frame = requestAnimationFrame(tick);
+    if (Math.abs(tx-x)+Math.abs(ty-y)+Math.abs(vx)+Math.abs(vy) > .015) frame = requestMotionFrame(tick);
     else { frame = 0; previous = 0; }
   };
-  const start = () => { if (!frame) frame = requestAnimationFrame(tick); };
+  const start = () => { if (!frame) frame = requestMotionFrame(tick); };
   const move = (event: PointerEvent) => {
     if (event.pointerType === 'touch' || reduced.matches) return;
     const box = capsule.getBoundingClientRect();
@@ -34,13 +35,13 @@ function attachGaze(gaze: HTMLElement) {
     start();
   };
   const reset = () => { tx=0; ty=0; start(); };
-  const motionChange = () => { if(reduced.matches) { cancelAnimationFrame(frame); frame=0; x=y=vx=vy=tx=ty=previous=0; gaze.style.transform='none'; } };
+  const motionChange = () => { if(reduced.matches) { cancelMotionFrame(frame); frame=0; x=y=vx=vy=tx=ty=previous=0; gaze.style.transform='none'; } };
   window.addEventListener('pointermove', move, {passive:true});
   document.documentElement.addEventListener('pointerleave', reset);
   window.addEventListener('blur', reset);
   reduced.addEventListener('change', motionChange);
   return () => {
-    cancelAnimationFrame(frame);
+    cancelMotionFrame(frame);
     window.removeEventListener('pointermove',move);
     document.documentElement.removeEventListener('pointerleave',reset);
     window.removeEventListener('blur',reset);
