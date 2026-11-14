@@ -1,0 +1,33 @@
+---
+import {
+  Activity, ArrowDownRight, ArrowLeftRight, BadgeDollarSign, Bitcoin, Blocks,
+  ChartCandlestick, CircleDollarSign, Coins, Diamond, Fingerprint, Gem, Globe2,
+  HandCoins, Landmark, Layers3, LifeBuoy, LockKeyhole, Network, Repeat2,
+  Route, ScanEye, ShieldCheck, SlidersHorizontal, Target, TrendingDown,
+  TrendingUp, Vault, Wallet, Waypoints,
+} from '@lucide/astro';
+import type { Group } from '../../content/landing.ts';
+
+interface Props { id: string; group: Group; compact?: boolean }
+const { id, group, compact = false } = Astro.props;
+const icons = {
+  'reduce-early': TrendingDown, 'reduce-to-target': Target, 'buy-back': TrendingUp,
+  'rebalance-assets': ArrowLeftRight, migrate: Route, exit: ArrowDownRight,
+  'cross-venue': Waypoints, 'venue-caps': ShieldCheck,
+  eth: Diamond, btc: Bitcoin, stocks: ChartCandlestick, 'more-assets': Coins,
+  gold: Gem, rwa: Landmark, usdc: CircleDollarSign, 'best-rate': BadgeDollarSign,
+  'morpho-base': Blocks, aave: Landmark, rhea: Network, kamino: Layers3,
+  'base-near': Waypoints, 'any-chain': Globe2, 'private-route': LockKeyhole,
+  'more-chains': Network, 'three-actions': SlidersHorizontal,
+  'owner-withdraw': Wallet, corridor: Target, 'onchain-check': ScanEye,
+  'immutable-vault': Vault, enclave: Fingerprint, revoke: ShieldCheck,
+  'own-wallet': Wallet, 'smart-wallets': Wallet, backstop: LifeBuoy,
+  rebalancing: Repeat2, hedged: Activity, 'usdc-to-work': HandCoins,
+  'best-rate-routing': Route,
+};
+const fallback = { market: TrendingDown, 'venue-risk': ShieldCheck, collateral: Gem,
+  borrow: CircleDollarSign, venue: Blocks, chain: Network, control: ShieldCheck,
+  strategy: Activity };
+const Icon = icons[id as keyof typeof icons] ?? fallback[group];
+---
+<Icon size={compact ? 15 : 23} strokeWidth={1.8} aria-hidden="true" />

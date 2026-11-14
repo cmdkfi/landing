@@ -44,6 +44,15 @@ const items = featuresOf(migration ? 'venue-risk' : 'market');
   <nav class="protection-pagination" aria-label={migration ? "Market migration steps" : "Price protection steps"}><button type="button" data-prev disabled>{protectionPlayer.back}</button><span aria-live="polite" data-page-label>1 / 6</span><button type="button" data-next>{protectionPlayer.next}</button></nav>
 </section>
 <style>
+  /* The embedded position uses the demo window width, not its standalone cap. */
+  .price-protection[data-demo-kind=price] :global(.meadow-position) { width: 100%; max-width: none; }
+  .price-protection[data-demo-kind=price] :global(.position-widget),
+  .price-protection[data-demo-kind=price] :global(.position-label) { padding-inline: 24px; }
+  @media (max-width: 600px) {
+    .price-protection[data-demo-kind=price] :global(.position-widget),
+    .price-protection[data-demo-kind=price] :global(.position-label) { padding-inline: 14px; }
+  }
+
   .price-protection { --protection-border: #e3e7eb; color: #273846; background: #fff; }
   .migration-overview { padding:24px; }
   .migration-map { position:relative; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:20px; min-height:210px; }

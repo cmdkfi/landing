@@ -1,0 +1,22 @@
+---
+import Explorer from './evidence/Explorer';
+import './evidence/evidence.css';
+---
+
+<section id="proof" class="evidence-content evidence-landing" aria-labelledby="proof-title">
+  <p class="eyebrow">Evidence, with its limits</p>
+  <h2 id="proof-title" class="evidence-title">Check it yourself.</h2>
+  <Explorer />
+</section>
+
+<style>
+  .evidence-landing {
+    width: var(--page-width);
+    max-width: none;
+    margin: var(--section-space) auto;
+    padding: 0;
+    color: #263442;
+    font-family: Mluvka, sans-serif;
+    scroll-margin-top: 96px;
+  }
+</style>
