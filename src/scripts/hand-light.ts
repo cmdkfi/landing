@@ -56,7 +56,6 @@ export function createHandLight(renderer:THREE.WebGLRenderer){
       renderer.setRenderTarget(leftTarget);renderer.clear();renderer.render(world,view);
       right.visible=true;left.visible=false;
       renderer.setRenderTarget(handMask);renderer.clear();renderer.render(world,view);
-      world.add(compositor.particlesFine.points,compositor.particlesMedium.points);
       for(const layer of [compositor.particlesFine,compositor.particlesMedium])layer.material.uniforms.uResolution.value.set(width*renderer.getPixelRatio(),height*renderer.getPixelRatio());
       wake.update(renderer.domElement);
       compositor.screenMaterial.uniforms.uForegroundOnly.value=-1;

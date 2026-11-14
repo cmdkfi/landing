@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createWakeLayer, wakeVertex, wakeFragment } from './particle-wake';
+import { createWakeLayer, wakeVertex } from './particle-wake';
 
 /** A separate depth layer keeps the interactive atmosphere behind the hands and copy. */
 export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
@@ -34,6 +34,16 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
   geometry.setAttribute('seed',new THREE.BufferAttribute(seeds,1));
   const uniforms={time:{value:0},area:{value:new THREE.Vector2(8,4.4)},dpr:{value:renderer.getPixelRatio()},pointer:{value:new THREE.Vector2(5,5)},pointerOn:{value:0},wave:{value:new THREE.Vector2()},waveAge:{value:10},opacity:{value:1}};
   const wake=createWakeLayer();Object.assign(uniforms,wake.uniforms);
+  const glyphs='NEARHACKATHON0123456789';
+  const atlasCanvas=document.createElement('canvas');
+  atlasCanvas.width=glyphs.length*32;atlasCanvas.height=32;
+  const ctx=atlasCanvas.getContext('2d')!;
+  ctx.fillStyle='#fff';ctx.font='600 26px monospace';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  [...glyphs].forEach((glyph,i)=>ctx.fillText(glyph,i*32+16,16));
+  const glyphAtlas=new THREE.CanvasTexture(atlasCanvas);
+  glyphAtlas.generateMipmaps=false;glyphAtlas.minFilter=THREE.LinearFilter;
+  Object.assign(uniforms,{glyphAtlas:{value:glyphAtlas}});
   const material=new THREE.ShaderMaterial({
     transparent:true,depthWrite:false,uniforms,
     vertexShader:`
@@ -54,7 +64,7 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
         p.xy*=area;
         vec4 view=modelViewMatrix*vec4(p,1.);
         gl_Position=projectionMatrix*view;
-        gl_PointSize=clamp((1.7+seed*2.5)*dpr*(12./-view.z),1.,7.*dpr);
+        gl_PointSize=clamp((6.+seed*2.)*dpr*(12./-view.z),4.,10.*dpr);
         vec2 screen=(gl_Position.xy/gl_Position.w*.5+.5)*wakeResolution;
         vec3 effect=wakeAt(screen);
         vWake=wakeIndex(effect.z,wakeSeed(wakeCell(screen)));
@@ -67,13 +77,14 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
         vTone=wakeSeed(wakeCell(screen));
       }`,
     fragmentShader:`
-      ${wakeFragment}
+      uniform sampler2D glyphAtlas;
       varying float vWake;
       varying float vAlpha,vTone;
       varying vec3 vColor;
       void main(){
-        vec2 d=gl_PointCoord-.5;
-        float edge=wakeMask(vec2(gl_PointCoord.x,1.-gl_PointCoord.y),vTone,vWake);
+        vec2 uv=vec2(gl_PointCoord.x,1.-gl_PointCoord.y);
+        float glyph=mod(vTone*7.,23.);
+        float edge=texture2D(glyphAtlas,vec2((glyph+uv.x)/23.,uv.y)).a;
         vec3 ink=mix(vColor,vec3(.34,.38,.45),step(1.5,vWake));
         gl_FragColor=vec4(ink,edge*vAlpha);
       }`,
@@ -144,6 +155,6 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
   reduced.addEventListener('change',motionChange);document.addEventListener('visibilitychange',start);resize();
   return {
     update(reveal:number,progress=0){uniforms.opacity.value=1-reveal;targetTravel=Math.min(1,progress/.53);start();},
-    dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);observer.disconnect();resizeObserver.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',start);surface.removeEventListener('pointermove',move);surface.removeEventListener('pointerleave',leave);surface.removeEventListener('pointerdown',pulse);surface.removeEventListener('pointerup',leave);geometry.dispose();material.dispose();wake.dispose();skyGeometry.dispose();skyMaterial.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
+    dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);observer.disconnect();resizeObserver.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',start);surface.removeEventListener('pointermove',move);surface.removeEventListener('pointerleave',leave);surface.removeEventListener('pointerdown',pulse);surface.removeEventListener('pointerup',leave);geometry.dispose();material.dispose();glyphAtlas.dispose();wake.dispose();skyGeometry.dispose();skyMaterial.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
   };
 }
