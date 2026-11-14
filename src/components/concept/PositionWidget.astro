@@ -1,0 +1,74 @@
+---
+import LtvChart from './LtvChart';
+import { counterMeasure as copy } from '../../content/counter-measure';
+---
+<div class="meadow-position">
+  <div class="position-label">{copy.positionLabel}</div>
+  <div class="position-widget">
+    <div class="position-pair" aria-label={copy.pairDescription}>
+      <details class="collateral-select">
+        <summary class="pair-token" aria-label={copy.collateralTriggerLabel}>
+          <img src="/token-icons/eth.svg" alt="" width="28" height="28" />{copy.collateralSymbol}<span class="select-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="collateral-options" aria-label={copy.collateralListLabel}>
+          <div class="collateral-menu-head"><span>{copy.collateralChooseLabel}</span><button type="button" class="collateral-close" aria-label={copy.collateralCloseLabel}>×</button></div>
+          <button type="button" class="collateral-option selected collateral-current"><span class="asset-icon"><img src="/token-icons/eth.svg" alt="" /></span><span class="asset-name">{copy.collateralOptions.eth.symbol}<small>{copy.collateralOptions.eth.status}</small></span><span class="asset-status available">✓</span></button>
+          <div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.btc.icon}</span><span class="asset-name">{copy.collateralOptions.btc.symbol}</span><span class="asset-status">{copy.collateralOptions.btc.status}</span></div>
+          <div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.near.icon}</span><span class="asset-name">{copy.collateralOptions.near.symbol}</span><span class="asset-status">{copy.collateralOptions.near.status}</span></div>
+          <div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.gold.icon}</span><span class="asset-name">{copy.collateralOptions.gold.symbol}</span><span class="asset-status">{copy.collateralOptions.gold.status}</span></div>
+          <div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.stocks.icon}</span><span class="asset-name">{copy.collateralOptions.stocks.symbol}</span><span class="asset-status">{copy.collateralOptions.stocks.status}</span></div>
+        </div>
+      </details>
+      <span class="pair-arrow" aria-hidden="true"><img src="/cds-icons/arrowRight.svg" width="20" height="20" alt="" /></span>
+      <span class="pair-token debt-token"><img src="/token-icons/usdc.svg" alt="" width="28" height="28" />{copy.debtSymbol}</span>
+    </div>
+    <LtvChart client:visible />
+  </div>
+</div>
+
+<style>
+  .meadow-position { position: absolute; z-index: 2; bottom: 0; left: clamp(32px, 6vw, 90px); width: min(560px, calc(100% - 48px)); color: #273846; }
+  .position-label { display: inline-block; margin: 0 0 10px; padding: 5px 9px; border-radius: 6px; background: #fff; font: 11px/1.5 var(--font-technical); letter-spacing: .06em; color: #526579; }
+  .position-widget {
+    --panel: #f5f6f8;
+    --surface: #fff;
+    --ltv-safe: var(--green);
+    --ltv-safe-text: #216c4c;
+    --ltv-warning: var(--amber);
+    --ltv-danger: var(--red);
+    --ltv-ink: #273846;
+    --ltv-muted: #596675;
+    --ltv-track: #e9ebee;
+    padding: 20px 22px 24px;
+    border: 1px solid #dfe3e8;
+    border-radius: 32px 32px 0 0;
+    background: #fff;
+    box-shadow: 0 4px 18px #26364c14;
+    font-synthesis: none;
+  }
+  .position-pair { display: flex; align-items: center; gap: 14px; margin: 0 0 12px; }
+  .pair-token { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 24px; background: var(--panel); color: #273846; font-size: 20px; font-weight: 540; line-height: 1.2; }
+  .pair-token img, .pair-arrow img { display: block; width: 28px; height: 28px; }
+  .pair-arrow img { width: 20px; height: 20px; }
+  .collateral-select { position: relative; z-index: 6; }
+  .collateral-select summary { cursor: pointer; list-style: none; touch-action: manipulation; }
+  .collateral-select summary::-webkit-details-marker { display: none; }
+  .collateral-select summary:focus-visible, .collateral-close:focus-visible, .collateral-current:focus-visible { outline: 2px solid #4b657a; outline-offset: 3px; }
+  .select-chevron { color: #596675; font-size: 15px; }
+  .collateral-options { position: absolute; top: -10px; left: -10px; z-index: 10; width: min(350px, calc(100vw - 48px)); padding: 10px; border: 1px solid #dfe3e8; border-radius: 18px; background: #fff; box-shadow: 0 14px 34px #26364c24; transform-origin: 34px 28px; }
+  .collateral-menu-head { display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 0 4px 6px 10px; color: #273846; font-size: 14px; font-weight: 560; }
+  .collateral-close { display: grid; place-items: center; width: 38px; height: 38px; border: 0; border-radius: 50%; background: #f5f6f8; color: #596675; font-size: 22px; cursor: pointer; }
+  .collateral-option { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 50px; padding: 8px 10px; border: 0; border-radius: 10px; background: #fff; color: #273846; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.3; text-align: left; }
+  .collateral-option + .collateral-option { margin-top: 3px; }
+  .collateral-current { cursor: pointer; }
+  .collateral-option.selected { background: #e8f1ec; }
+  .collateral-option.unavailable { background: #f7f8f9; color: #596675; }
+  .asset-icon { display: grid; flex: none; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #fff; color: #2d7354; font-size: 12px; font-weight: 600; }
+  .asset-icon img { width: 23px; height: 23px; }
+  .asset-name { min-width: 0; }
+  .asset-name small { display: block; margin-top: 1px; color: #367457; font-size: 11px; font-weight: 400; }
+  .asset-status { margin-left: auto; padding: 4px 7px; border: 1px solid #dfe3e8; border-radius: 999px; color: #536171; font-size: 11px; line-height: 1.2; white-space: nowrap; }
+  .asset-status.available { border: 0; color: #2d7354; font-size: 17px; }
+  @media (hover:hover) and (pointer:fine) { .collateral-close:hover { background: #e9edf1; } .collateral-current:hover { background: #dcece3; } }
+  @media (max-width: 600px) { .meadow-position { left: 12px; width: calc(100% - 24px); } .position-widget { padding: 16px 14px 20px; border-radius: 24px 24px 0 0; } .collateral-options { left: -4px; } }
+</style>

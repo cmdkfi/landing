@@ -1,5 +1,4 @@
 ---
-import LtvChart from "./LtvChart";
 import { counterMeasure as copy } from "../../content/counter-measure";
 ---
 <section class="origin-map" aria-labelledby="counter-measure-title" id="counter-measure">
@@ -15,31 +14,6 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 <div><dt>{copy.text11}</dt><dd>{copy.lltvMeaning}</dd></div>
 </dl>
 <div class="micro">{copy.compactNote}</div>
-</div>
-<div class="origin-visual">
-<div class="label position-label">{copy.positionLabel}</div>
-<div class="map-mat">
-<div class="map-card position-widget">
-<div class="position-pair" aria-label={copy.pairDescription}>
-<details class="collateral-select">
-<summary class="pair-token" aria-label={copy.collateralTriggerLabel}><img src="/token-icons/eth.svg" alt="" width="36" height="36" />{copy.collateralSymbol}<span class="select-chevron" aria-hidden="true">⌄</span></summary>
-<div class="collateral-options" aria-label={copy.collateralListLabel}>
-<div class="collateral-menu-head"><span>{copy.collateralChooseLabel}</span><button type="button" class="collateral-close" aria-label={copy.collateralCloseLabel}>×</button></div>
-<button type="button" class="collateral-option selected collateral-current"><span class="asset-icon"><img src="/token-icons/eth.svg" alt="" /></span><span>{copy.collateralOptions.eth.symbol}<small>{copy.collateralOptions.eth.status}</small></span><span class="asset-status">✓</span></button>
-<div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.btc.icon}</span><span>{copy.collateralOptions.btc.symbol}</span><span class="asset-status">{copy.collateralOptions.btc.status}</span></div>
-<div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.near.icon}</span><span>{copy.collateralOptions.near.symbol}</span><span class="asset-status">{copy.collateralOptions.near.status}</span></div>
-<div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.gold.icon}</span><span>{copy.collateralOptions.gold.symbol}</span><span class="asset-status">{copy.collateralOptions.gold.status}</span></div>
-<div class="collateral-option unavailable"><span class="asset-icon">{copy.collateralOptions.stocks.icon}</span><span>{copy.collateralOptions.stocks.symbol}</span><span class="asset-status">{copy.collateralOptions.stocks.status}</span></div>
-</div>
-</details>
-<span class="pair-arrow" aria-hidden="true"><img src="/cds-icons/arrowRight.svg" width="24" height="24" alt="" /></span>
-<span class="pair-token debt-token"><img src="/token-icons/usdc.svg" alt="" width="36" height="36" />{copy.debtSymbol}</span>
-</div>
-
-<LtvChart client:visible />
-
-</div>
-</div>
 </div>
 <div class="map-results">
 <div class="map-stat">
@@ -218,6 +192,17 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   @media(max-width:1150px) { .origin-map { padding-bottom: 32px; } .origin-grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 24px; } .origin-visual { grid-column: 2; } .map-mat, .map-card { border-radius: 38px; } .map-results { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 16px 0 0; border-left: 0; border-top: 1px solid #ffffff70; } .map-stat, .map-stat:first-child { padding: 0 16px; } .map-stat:first-child { padding-left: 0; } .map-stat + .map-stat { border-top: 0; border-left: 1px solid #ffffff70; } }
   @media(max-width:900px) { .origin-grid { grid-template-columns: 1fr; gap: 24px; } .origin-visual { grid-column: 1; } .origin-map { padding-block: 32px; } }
   @media(max-width:600px) { .origin-map { padding: 24px 20px; border-radius: 24px; } .map-mat { padding: 8px; border-radius: 34px; } .map-card { border-radius: 26px; } .map-results { grid-template-columns: 1fr; margin-top: 0; padding-top: 12px; } .map-stat, .map-stat:first-child { padding: 12px 0; } .map-stat + .map-stat { border-left: 0; border-top: 1px solid #ffffff70; } }
+  /* The interactive position now concludes the following meadow scene. */
+  .origin-map { padding-bottom: 40px; }
+  .origin-grid { grid-template-columns: minmax(0, 1fr) minmax(240px, .58fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+  .map-results { grid-column: 2; }
+  @media (min-width: 901px) and (max-width: 1150px) {
+    .map-results { grid-template-columns: 1fr; padding: 0 0 0 22px; border-top: 0; border-left: 1px solid #ffffff70; }
+    .map-stat, .map-stat:first-child { padding: 14px 0; }
+    .map-stat + .map-stat { border-left: 0; border-top: 1px solid #ffffff70; }
+  }
+  @media (max-width: 900px) { .origin-grid { grid-template-columns: 1fr; gap: 24px; } .map-results { grid-column: 1; } }
+  @media (max-width: 600px) { .origin-map { padding-bottom: 24px; } }
 </style>
 <script>
   import { gsap } from 'gsap';
