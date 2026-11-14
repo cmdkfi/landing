@@ -17,18 +17,21 @@ export function attachLtvStage() {
       copy!.style.removeProperty('opacity');
       copy!.style.removeProperty('transform');
       copy!.removeAttribute('aria-hidden');
+      copy!.inert = false;
       return;
     }
     const rect = stage!.getBoundingClientRect();
     const travel = Math.max(1, stage!.offsetHeight - innerHeight);
-    const progress = Math.max(0, Math.min(1, (88 - rect.top) / travel));
+    const progress = Math.max(0, Math.min(1, (112 - rect.top) / travel));
     const eased = progress * progress * (3 - 2 * progress);
     const distance = Math.max(0, (stage!.clientWidth - 48 - card!.offsetWidth) / 2);
     card!.style.transform = `translate3d(${distance * eased}px,0,0)`;
     const reveal = Math.max(0, Math.min(1, (progress - .2) / .45));
     copy!.style.opacity = String(reveal);
     copy!.style.transform = `translate3d(${24 * (1 - reveal)}px,0,0)`;
-    copy!.setAttribute('aria-hidden', String(reveal === 0));
+    const hidden = String(reveal === 0);
+    if (copy!.getAttribute('aria-hidden') !== hidden) copy!.setAttribute('aria-hidden', hidden);
+    copy!.inert = reveal === 0;
   }
   window.addEventListener('scroll', invalidate, { passive: true });
   window.addEventListener('resize', invalidate);
@@ -43,5 +46,6 @@ export function attachLtvStage() {
     card.style.removeProperty('transform');
     copy.style.removeProperty('opacity'); copy.style.removeProperty('transform');
     copy.removeAttribute('aria-hidden');
+    copy.inert = false;
   };
 }
