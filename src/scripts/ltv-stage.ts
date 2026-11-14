@@ -24,7 +24,7 @@ export function attachLtvStage() {
       return;
     }
     const rect = stage!.getBoundingClientRect();
-    const travel = Math.max(1, stage!.offsetHeight - innerHeight);
+    const travel = Math.max(1, innerHeight * 1.1);
     const progress = Math.max(0, Math.min(1, (parseFloat(getComputedStyle(stage!.querySelector('.ltv-stage-sticky')!).top) - rect.top) / travel));
     const departure = Math.max(0, Math.min(1, progress / .28));
     rails.forEach(rail => {
@@ -43,13 +43,26 @@ export function attachLtvStage() {
     const hidden = String(reveal === 0);
     if (copy!.getAttribute('aria-hidden') !== hidden) copy!.setAttribute('aria-hidden', hidden);
     copy!.inert = reveal === 0;
+    const offset = parseFloat(getComputedStyle(stage!.querySelector('.ltv-stage-sticky')!).top) - rect.top;
+    const index = Math.max(0, Math.min(2, Math.floor((offset - travel) / (innerHeight * .9))));
+    // Never hide a form while the user is typing or operating its controls.
+    if (!card!.contains(document.activeElement)) stage!.dispatchEvent(new CustomEvent('story-scroll', { detail: index }));
   }
+  const request = (event: Event) => {
+    if (!enabled.matches) return;
+    const top = parseFloat(getComputedStyle(stage.querySelector('.ltv-stage-sticky')!).top);
+    const index = (event as CustomEvent<number>).detail;
+    const target = scrollY + stage.getBoundingClientRect().top - top + innerHeight * (1.1 + .9 * (index + .35));
+    window.dispatchEvent(new CustomEvent('cmdk-scroll-to', { detail: target }));
+  };
+  stage.addEventListener('story-request', request);
   window.addEventListener('scroll', invalidate, { passive: true });
   window.addEventListener('resize', invalidate);
   enabled.addEventListener('change', invalidate);
   const removeFrame = onMotionFrame(render);
   render();
   return () => {
+    stage.removeEventListener('story-request', request);
     removeFrame(); window.removeEventListener('scroll', invalidate);
     window.removeEventListener('resize', invalidate);
     enabled.removeEventListener('change', invalidate);
