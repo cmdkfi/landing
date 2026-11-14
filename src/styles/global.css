@@ -5,6 +5,7 @@
 @theme inline{--color-bg:var(--bg);--color-fg:var(--fg);--color-fg-muted:var(--fg-muted);--font-sans:Cmdk,Arial,sans-serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,monospace}
 @layer base{
   html{scroll-behavior:smooth;scroll-padding-top:28px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html[data-lenis]{scroll-behavior:auto}
   body{font-family:var(--font-sans);background:var(--bg);color:var(--fg);font-size:16px;line-height:1.6}
   h1,h2,h3{font-weight:650;line-height:1.15;letter-spacing:-.035em}
   h1{font-size:64px}h2{font-size:42px}h3{font-size:22px;letter-spacing:-.025em}

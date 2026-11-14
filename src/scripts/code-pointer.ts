@@ -1,3 +1,4 @@
+import { requestMotionFrame, cancelMotionFrame } from './motion-clock';
 /** A local cursor wake, independent of the glyphs' slow background drift. */
 export function attachCodePointer(surface: HTMLElement) {
   const glyphs = [...surface.querySelectorAll<HTMLElement>('.code-atmosphere span')];
@@ -27,9 +28,9 @@ export function attachCodePointer(surface: HTMLElement) {
       unsettled ||= Math.abs(s.x) + Math.abs(s.y) > .05;
       s.el.style.translate = `${s.x.toFixed(2)}px ${s.y.toFixed(2)}px`;
     });
-    if (pointer || unsettled) frame = requestAnimationFrame(tick);
+    if (pointer || unsettled) frame = requestMotionFrame(tick);
   }
-  function start() { if (!frame) { previous = 0; frame = requestAnimationFrame(tick); } }
+  function start() { if (!frame) { previous = 0; frame = requestMotionFrame(tick); } }
   function move(event: PointerEvent) {
     if (!allowed.matches || event.pointerType !== 'mouse') return;
     pointer = { x: event.clientX, y: event.clientY };
@@ -38,7 +39,7 @@ export function attachCodePointer(surface: HTMLElement) {
   function leave() { pointer = undefined; start(); }
   function reset() {
     pointer = undefined;
-    cancelAnimationFrame(frame); frame = 0;
+    cancelMotionFrame(frame); frame = 0;
     states.forEach(s => { s.x = s.y = 0; s.el.style.removeProperty('translate'); });
   }
   function visibility() { if (document.hidden) reset(); }

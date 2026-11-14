@@ -1,3 +1,4 @@
+import { requestMotionFrame, cancelMotionFrame } from './motion-clock';
 import * as THREE from 'three';
 import { createHandLight } from './hand-light';
 import { createParticleHand } from './particle-hand';
@@ -171,7 +172,7 @@ export function createHandsScene(host: HTMLElement) {
   }
   Promise.all([loadHand('left'),loadHand('right')]).then(([l,r])=> {
     if(disposed)return;
-    left=l;right=r;host.classList.add('is-ready');render();if(!frame)frame=requestAnimationFrame(tick);
+    left=l;right=r;host.classList.add('is-ready');render();if(!frame)frame=requestMotionFrame(tick);
   }).catch(error=>console.warn('Hand model unavailable',error));
   const key=new THREE.SpotLight(0xf2f5ff,600,40,.225,.35,2.6);
   key.position.set(-4,-1,4);key.target.position.set(2,-1,0);key.castShadow=true;
@@ -181,12 +182,12 @@ export function createHandsScene(host: HTMLElement) {
   const fill=new THREE.DirectionalLight(0xb9d8ff,.04);fill.position.set(-5,-2,3);scene.add(fill);
   let reach=0,turn=0,retreat=0,targetRetreat=0,targetReach=0,targetTurn=0,frame=0,lastTime=0,elapsed=0,visible=true;
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const watch=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible&&!frame&&!disposed)frame=requestAnimationFrame(tick);});watch.observe(host);
-  const motionChange=()=>{if(!frame&&!disposed)frame=requestAnimationFrame(tick);};
+  const watch=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible&&!frame&&!disposed)frame=requestMotionFrame(tick);});watch.observe(host);
+  const motionChange=()=>{if(!frame&&!disposed)frame=requestMotionFrame(tick);};
   reduced.addEventListener('change',motionChange);
   document.addEventListener('visibilitychange',motionChange);
   let contextLost=false;
-  const loseContext=(event:Event)=>{event.preventDefault();contextLost=true;cancelAnimationFrame(frame);frame=0;host.classList.remove('is-ready');};
+  const loseContext=(event:Event)=>{event.preventDefault();contextLost=true;cancelMotionFrame(frame);frame=0;host.classList.remove('is-ready');};
   const restoreContext=()=>{contextLost=false;lastTime=0;resize();if(left&&right)host.classList.add('is-ready');motionChange();};
   renderer.domElement.addEventListener('webglcontextlost',loseContext);
   renderer.domElement.addEventListener('webglcontextrestored',restoreContext);
@@ -196,7 +197,7 @@ export function createHandsScene(host: HTMLElement) {
     elapsed+=reduced.matches?0:dt/1000;
     const blend=1-Math.exp(-dt/65);
     reach+=(targetReach-reach)*blend;turn+=(targetTurn-turn)*blend;retreat+=(targetRetreat-retreat)*blend;render();
-    if(visible&&!document.hidden&&(!reduced.matches||Math.abs(targetReach-reach)+Math.abs(targetTurn-turn)>.0005)) frame=requestAnimationFrame(tick);
+    if(visible&&!document.hidden&&(!reduced.matches||Math.abs(targetReach-reach)+Math.abs(targetTurn-turn)>.0005)) frame=requestMotionFrame(tick);
     else {reach=targetReach;turn=targetTurn;retreat=targetRetreat;frame=0;lastTime=0;render();}
   }
   const padVertices=new WeakMap<THREE.SkinnedMesh,number[]>();
@@ -329,7 +330,7 @@ export function createHandsScene(host: HTMLElement) {
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);
   resize();
   return {
-    update(nextReach:number,nextTurn:number,nextRetreat=0){targetReach=nextReach;targetTurn=nextTurn;targetRetreat=nextRetreat;if(!frame)frame=requestAnimationFrame(tick);},
-    dispose(){if(disposed)return;disposed=true;renderer.domElement.removeEventListener('webglcontextlost',loseContext);renderer.domElement.removeEventListener('webglcontextrestored',restoreContext);watch.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',motionChange);draco.dispose();cancelAnimationFrame(frame);resizeObserver.disconnect();scene.traverse(obj=>{if(obj instanceof THREE.Mesh)obj.geometry.dispose();});material.dispose();particleHands.forEach(p=>p.dispose());humanMaterials.forEach(m=>{for(const map of [m.map,m.normalMap,m.roughnessMap,m.metalnessMap,m.aoMap])map?.dispose();m.dispose();});lighting.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
+    update(nextReach:number,nextTurn:number,nextRetreat=0){targetReach=nextReach;targetTurn=nextTurn;targetRetreat=nextRetreat;if(!frame)frame=requestMotionFrame(tick);},
+    dispose(){if(disposed)return;disposed=true;renderer.domElement.removeEventListener('webglcontextlost',loseContext);renderer.domElement.removeEventListener('webglcontextrestored',restoreContext);watch.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',motionChange);draco.dispose();cancelMotionFrame(frame);resizeObserver.disconnect();scene.traverse(obj=>{if(obj instanceof THREE.Mesh)obj.geometry.dispose();});material.dispose();particleHands.forEach(p=>p.dispose());humanMaterials.forEach(m=>{for(const map of [m.map,m.normalMap,m.roughnessMap,m.metalnessMap,m.aoMap])map?.dispose();m.dispose();});lighting.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
   };
 }
