@@ -86,6 +86,7 @@ export const borrowIntro = {
   sandboxLabel: "Try sandbox",
   firstLine: "An agent with limits.",
   secondLine: "A wallet only you control.",
+  subtitle: "Protection is risk management, not insurance. A price gap faster than every layer still liquidates.",
 } as const;
 
 export const positionStage = {

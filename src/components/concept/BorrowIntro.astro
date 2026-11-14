@@ -5,6 +5,7 @@ import { concept, links } from '../../content/landing';
 <section class="borrow-intro" aria-labelledby="counter-measure-title">
   <p class="near-badge"><span>{concept.eyebrow}</span><img src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /><span class="near-sparkles" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i></span></p>
   <h2 id="counter-measure-title">{copy.firstLine}<br /><span>{copy.secondLine}</span></h2>
+  <p class="borrow-subtitle">{copy.subtitle}</p>
   <div class="borrow-actions">
   <a class="borrow-cta" href={links.testnet}>{concept.testnetLabel}<svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m8 5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
   <a class="borrow-cta borrow-secondary" href={links.sandbox}>{copy.sandboxLabel}<svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
@@ -16,9 +17,9 @@ import { concept, links } from '../../content/landing';
   .near-badge img { display: block; width: 66px; height: auto; opacity: .8; }
   .near-badge .near-sparkles { position: absolute; inset: 0; pointer-events: none; color: #0a9068; }
   h2 { margin: 0; font-size: clamp(44px, 6.4vw, 88px); font-weight: 620; line-height: 1.02; letter-spacing: -.055em; }
-  h2 span { position: relative; display: inline-block; padding-bottom: 10px; }
-  h2 span::after { content: ''; position: absolute; height: 3px; bottom: 0; left: 3%; right: 3%; border-radius: 999px; background: linear-gradient(90deg, #00a5d4, #9fcba7 25%, #efcf69 48%, #eea492 72%, #e9a9d0); }
-  .borrow-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 40px; }
+  h2 span { display: inline-block; }
+  .borrow-subtitle { max-width: 64ch; margin: 28px auto 0; color: #59616e; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.5; text-wrap: balance; }
+  .borrow-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 28px; }
   .borrow-cta { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding: 12px 23px; border-radius: 999px; background: #101114; color: #fff; font-size: 16px; font-weight: 500; text-decoration: none; }
   .borrow-secondary { background: oklch(0.966 0.004 260); color: #101114; }
   .borrow-cta:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; }
