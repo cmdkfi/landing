@@ -19,10 +19,11 @@ export const counterMeasure = {
     stocks: { icon: "◇", symbol: "Tokenized stocks", status: "Roadmap" },
   },
   replaySettled: "Target restored · unprotected LTV rises",
+  replayPoster: "Outcome · target restored; unprotected position at the liquidation threshold",
   pause: "Pause scenario",
-  play: "Play scenario",
+  play: "Replay scenario",
   marketStep: "Market falls · LTV rises",
-  ltvDefinition: "LTV = debt ÷ collateral value. Distance to liquidation = 86% − current LTV.",
+  ltvDefinition: "LTV = debt ÷ collateral value. Buffer in percentage points (pp). At 86%, liquidation becomes possible.",
   actLog: "Agent repays part of the debt",
   settleLog: "Protected position returns to target",
   scrubLabel: "Replay progress",
@@ -69,7 +70,7 @@ export const counterMeasure = {
   "text23": "vs 86.0% LTV without protection",
   "text24": "36 pp",
   "text25": "02 / ROOM TO THRESHOLD",
-  "text26": "86% liquidation threshold − 50% target LTV",
+  "text26": "36 percentage points from 50% target to 86% threshold",
   "text27": "20/20",
   "text28": "03 / HISTORICAL REPLAY",
   "text29": "Simulated sample · Morpho + Aave · 2025–2026",
@@ -80,4 +81,5 @@ export const counterMeasure = {
 export const meadowCopy = {
   sceneLabel: "A green meadow with trees",
   posterAlt: "A green meadow seen from above, with leafy trees, a winding path, and a small pond",
+  transition: "A different ending starts before the limit.",
 } as const;

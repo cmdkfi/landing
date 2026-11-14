@@ -3,7 +3,7 @@ import IncidentChart from './IncidentChart';
 import { incidentStory as copy, concept } from '../../content/landing';
 ---
 <section class="position-dial" id="details" aria-labelledby="position-title" inert>
-  <div class="dial-intro"><p class="dial-kicker">{copy.note}</p><h2 id="position-title">{copy.title}</h2><p>{copy.intro.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>
+  <div class="dial-intro"><p class="dial-kicker">{copy.note}</p><h2 id="position-title">{copy.title}</h2><p>{copy.intro.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p><a class="dial-protection-link" href="#counter-measure">{concept.protectionLink} <span aria-hidden="true">↗</span></a></div>
   <div class="dial-pointer" aria-hidden="true"><i></i></div>
   <div class="dial-wheel" role="group" aria-label={copy.label}>
     <div class="dial-sky" aria-hidden="true"><i></i><i></i></div>
@@ -31,7 +31,9 @@ import { incidentStory as copy, concept } from '../../content/landing';
   .dial-kicker { font-family: var(--font-technical); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #777981; }
   .technical-number { font-family: var(--font-technical); font-size: .9em; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
   .dial-intro h2 { margin: 10px 0 12px; font-size: clamp(32px,4vw,62px); font-weight: 540; line-height: 1; letter-spacing: -.055em; }
-  .dial-intro > p:last-child { font-size: 14px; color: #75777e; margin: 0; }
+  .dial-intro > p:nth-of-type(2) { font-size: 14px; color: #75777e; margin: 0; }
+  .dial-protection-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; color: #354b5e; font-size: 13px; text-underline-offset: 4px; }
+  .dial-protection-link:focus-visible { outline: 2px solid #354b5e; outline-offset: 3px; }
   .dial-wheel { position: absolute; width: var(--wheel-size); height: var(--wheel-size); border-radius: 50%; top: calc(var(--contact-y,66svh) + 22px); left: calc(50% - var(--wheel-size)/2); background: #e9ebee; border: 1px solid #d8dce2; transform: rotate(var(--dial-angle, 0deg)); transform-origin: 50% 50%; opacity: var(--wheel-opacity,0); }
   .dial-sky { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 70% 18%, #f7fbff 0%, #e9ebee 40%, #c6ceda 78%, #a1abbd 100%); }
   .dial-sky::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, #ffffffa8, transparent 72%, #222a4238); }
@@ -69,15 +71,15 @@ import { incidentStory as copy, concept } from '../../content/landing';
   .dial-narrative p { max-width: 52ch; min-height: 42px; margin: 0; color: #6a6e77; font-size: 14px; line-height: 1.5; text-wrap: balance; }
   .incident-paper { padding: 0 32px 22px; }
   :global(.incident-chart-shell) { position: relative; z-index: 2; width: 100%; margin: 0; padding: 18px 22px 16px; box-sizing: border-box; border: 1px solid #dfe3e8; border-radius: 22px; background: #fbfcfe; box-shadow: 0 12px 30px #26364c12, 0 1px 2px #26364c0c; font-family: var(--font-technical); font-variant-numeric: tabular-nums; }
-  :global(.incident-chart-topline) { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #697987; font-size: 10px; letter-spacing: .04em; }
+  :global(.incident-chart-topline) { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #697987; font-size: 11px; letter-spacing: .04em; }
   :global(.incident-chart-topline time) { color: #858b95; text-align: right; }
   :global(.incident-chart-identity) { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
   :global(.incident-chart-identity img) { width: 28px; height: 28px; flex: none; object-fit: contain; border-radius: 50%; }
   :global(.incident-comparator) { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 10px; margin-top: 14px; }
   :global(.incident-comparator > div) { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 0 12px; border-left: 1px solid #d8dee7; }
   :global(.incident-comparator > div:first-child) { padding-left: 0; border-left: 0; }
-  :global(.incident-comparator span) { color: #7b8794; font-size: 10px; letter-spacing: .06em; }
-  :global(.incident-comparator strong) { color: #273846; font-size: clamp(14px,1.25vw,18px); line-height: 1.1; font-weight: 500; letter-spacing: -.055em; white-space: nowrap; }
+  :global(.incident-comparator span) { color: #7b8794; font-size: 11px; letter-spacing: .06em; }
+  :global(.incident-comparator strong) { color: #273846; font-size: clamp(16px,1.5vw,21px); line-height: 1.1; font-weight: 500; letter-spacing: -.055em; white-space: nowrap; }
   :global(.incident-comparator-loss strong) { color: #475f73; }
   :global(.incident-comparator small) { color: #6d7f8e; font-size: 11px; }
   :global(.incident-plot) { position: relative; padding-top: 26px; }
@@ -100,7 +102,7 @@ import { incidentStory as copy, concept } from '../../content/landing';
   :global(.incident-step-chart .chart-step) { fill: none; stroke: #4b657a; stroke-width: 2.5; stroke-linejoin: round; }
   :global(.incident-step-chart .chart-point) { fill: #4b657a; stroke: #fff; stroke-width: 2; }
   :global(.incident-step-chart text) { fill: #7a8794; font-family: var(--font-technical); font-size: 10px; }
-  :global(.incident-chart-caption) { color: #8b929b; font-size: 10px; text-align: center; }
+  :global(.incident-chart-caption) { color: #6f7884; font-size: 11px; line-height: 1.4; text-align: center; }
   :global(.incident-chart-actions) { display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; align-items: center; gap: 8px; margin-top: 16px; }
   :global(.incident-chart-actions .incident-chart-caption) { grid-column: 2; }
   :global(.incident-source-menu) { position: relative; z-index: 2; }
@@ -143,7 +145,7 @@ import { incidentStory as copy, concept } from '../../content/landing';
   .incident-closing { max-width: 52ch; margin: 0 auto 12px; text-align: center; color: #263340; font-size: 14px; font-weight: 600; line-height: 1.45; text-wrap: balance; }
   .incident-footnote { padding-top: 8px; }
   .incident-footnote p { margin: 0; max-width: 45ch; font-family: var(--font-technical); font-size: 10px; line-height: 1.5; color: #858b95; }
-  @media(max-width:600px) { .dial-intro { top: 85px; } .dial-intro > p:last-child { max-width: 280px; margin: auto; line-height: 1.4; } .dial-panels { left: 18px; right: 18px; top: calc(var(--contact-y,66svh) + 114px); } .dial-wheel { --wheel-size: 1050px; top: calc(var(--contact-y,66svh) + 22px); } .dial-pointer { --pin-home: calc(29svh - 22px); } .dial-narrative { margin-bottom: 16px; } .dial-narrative p { font-size: 12px; min-height: 36px; } .incident-paper { padding: 0 0 16px; } .incident-detail { font-size: 12px; } .incident-footnote { display: block; } .incident-footnote a { display: inline-flex; align-items: center; min-height: 44px; } }
+  @media(max-width:600px) { .dial-intro { top: 85px; } .dial-intro > p:nth-of-type(2) { max-width: 280px; margin: auto; line-height: 1.4; } .dial-panels { left: 18px; right: 18px; top: calc(var(--contact-y,66svh) + 114px); } .dial-wheel { --wheel-size: 1050px; top: calc(var(--contact-y,66svh) + 22px); } .dial-pointer { --pin-home: calc(29svh - 22px); } .dial-narrative { margin-bottom: 16px; } .dial-narrative p { font-size: 12px; min-height: 36px; } .incident-paper { padding: 0 0 16px; } .incident-detail { font-size: 12px; } .incident-footnote { display: block; } .incident-footnote a { display: inline-flex; align-items: center; min-height: 44px; } }
   @media(max-width:600px) { .position-dial { --incident-chart-height: 160px; --incident-plot-height: 98px; } .dial-narrative { gap: 8px; margin-bottom: 8px; } .incident-paper { padding-block: 10px; } .incident-ribbon { min-height: 170px; padding: 8px 0 0; } .event-chart { margin: 8px 0; } .incident-detail { margin-bottom: 6px; } }
   @media(max-width:600px) { .incident-closing { margin: 4px auto 10px; font-size: 12px; } }
   @media(max-width:600px) { .dial-panel[data-panel="0"] { --incident-chart-height: 184px; } .dial-panel[data-panel="0"] .dial-narrative { margin-bottom: 4px; } .dial-panel[data-panel="0"] .incident-paper { padding-block: 6px; } .dial-panel[data-panel="0"] .event-chart { margin: 4px 0; } .dial-panel[data-panel="0"] .incident-detail { margin-bottom: 2px; } }
