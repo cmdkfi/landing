@@ -113,7 +113,10 @@ if (index === null) {
       check(f0, 0, 'page-data', `${f.id}: ${n} section items (want 1)`);
     } else {
       const at = index.indexOf(attr);
-      const end = index.indexOf('</li>', at);
+      // The directory shows each group's first feature in a panel and the rest as list cards, so a feature's block
+      // ends at its card's </li> or where the next feature starts, whichever comes first.
+      const ends = [index.indexOf('</li>', at), index.indexOf('data-feature=', at + attr.length)].filter((i) => i > 0);
+      const end = Math.min(...ends);
       const block = index.slice(at, end);
       const txt = plain('<x ' + block);
       const chips = count(block, 'data-chip=');
@@ -125,25 +128,13 @@ if (index === null) {
       if (problems.length) check(f0, lineOf(index, at), 'page-data', `${f.id}: ${problems.join(', ')}`);
       else ok(f0, lineOf(index, at), 'page-data', `${f.id} [${statusLabel[f.status]}] ${f.text}`);
     }
-    const rowAttr = `data-status-row="${f.id}"`;
-    const r = count(index, rowAttr);
-    if (r !== 1) check(f0, 0, 'status-table', `${f.id}: ${r} rows (want 1)`);
-    else {
-      const at = index.indexOf(rowAttr);
-      const row = index.slice(at, index.indexOf('</tr>', at));
-      if (!row.includes(`data-chip="${f.status}"`)) check(f0, lineOf(index, at), 'status-table', `${f.id}: wrong status`);
-    }
   }
   // Unknown ids on the page.
   const known = new Set(features.map((f) => f.id));
-  for (const m of index.matchAll(/data-(?:feature|status-row)="([^"]+)"/g))
+  for (const m of index.matchAll(/data-feature="([^"]+)"/g))
     if (!known.has(m[1])) check(f0, lineOf(index, m.index), 'page-data', `unknown item ${m[1]}`);
-  // Status table order: live, production, roadmap, exploring.
-  const seq = [...index.matchAll(/data-status-row="([^"]+)"/g)].map((m) => features.find((f) => f.id === m[1])?.status);
-  const ranks = seq.map((s) => statusOrder.indexOf(s));
-  const sorted = ranks.every((v, i) => i === 0 || v >= ranks[i - 1]);
-  if (!sorted) check(f0, 0, 'status-table', 'rows are not grouped live, production, roadmap, exploring');
-  else ok(f0, 0, 'status-table', `${seq.length} rows in status order`);
+  // The status table of the old main page was dropped on 14 Nov 2026 (founder): the main page's feature directory
+  // shows every feature once with its status, checked above.
 }
 
 // ---------------------------------------------------------------- 3. links
@@ -295,10 +286,12 @@ if (index !== null) {
   const entryScripts = [...index.matchAll(/<script\b[^>]*src=["']([^"']+)["']/g)];
   const js = entryScripts.reduce((sum, match) => sum + scriptSize(match[1]), 0) + inlineJs;
   const html = Buffer.byteLength(index);
-  if (html + css < 100000) ok('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 100,000)`);
-  else check('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 100,000)`);
-  if (js < 5000) ok('dist/index.html', 0, 'weight', `script ${js} bytes (limit 5,000)`);
-  else check('dist/index.html', 0, 'weight', `script ${js} bytes (limit 5,000)`);
+  // Limits raised on 14 Nov 2026 (founder) when the concept page with its 3D and motion scripts became the main page
+  // (was 100,000 and 5,000): measured 458,322 and 815,953 bytes; the limits keep about 10% headroom.
+  if (html + css < 500000) ok('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 500,000)`);
+  else check('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 500,000)`);
+  if (js < 900000) ok('dist/index.html', 0, 'weight', `script ${js} bytes (limit 900,000)`);
+  else check('dist/index.html', 0, 'weight', `script ${js} bytes (limit 900,000)`);
 }
 
 // ---------------------------------------------------------------- 7. no copy in components

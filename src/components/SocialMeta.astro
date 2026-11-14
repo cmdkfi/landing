@@ -1,0 +1,28 @@
+---
+// Canonical URL, Open Graph and X card tags for every page, so a cmdk.fi link shared on X or elsewhere shows a
+// title, description and image. The image is public/og.png (1200 x 630), rendered from docs/og-image.html (served locally, screenshot at 1200 x 630).
+import { meta } from '../content/landing.ts';
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+// Built with format 'file', so the path may end in .html; the site serves it without the extension.
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/^\/index$/, '/');
+const url = new URL(path, Astro.site).href;
+const image = new URL('/og.png', Astro.site).href;
+---
+<link rel="canonical" href={url} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="cmdk" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={meta.ogImageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@cmdK_fi" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={meta.ogImageAlt} />

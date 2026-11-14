@@ -17,7 +17,7 @@ const groups = groupOrder.map((id) => ({ id, label: groupLabel[id], items: featu
       <div class="roadmap-feature">
         <div class="roadmap-feature-copy">
           <div class="roadmap-feature-label"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true"><RoadmapIcon id={group.items[0].id} group={group.id} /></span><span>{group.items[0].title}</span></div>
-          <div class="roadmap-feature-body"><h3>{group.items[0].text}</h3><p>{statusMeaning[group.items[0].status]}</p><div class="roadmap-feature-actions"><a href={`#roadmap-list-${group.id}`}>{visual.directoryExplore}</a><span class="roadmap-status" data-status={group.items[0].status}>{statusLabel[group.items[0].status]}</span></div></div>
+          <div class="roadmap-feature-body" data-feature={group.items[0].id}><h3>{group.items[0].text}</h3><p>{statusMeaning[group.items[0].status]}</p><div class="roadmap-feature-actions"><a href={`#roadmap-list-${group.id}`}>{visual.directoryExplore}</a><span class="roadmap-status" data-status={group.items[0].status} data-chip={group.items[0].status}>{statusLabel[group.items[0].status]}</span></div></div>
         </div>
         <div class="roadmap-stage" aria-hidden="true">
           <div class="roadmap-window">
@@ -30,7 +30,7 @@ const groups = groupOrder.map((id) => ({ id, label: groupLabel[id], items: featu
           <div class="roadmap-stage-detail" data-status={group.items[0].status}><span class="roadmap-stage-detail-label">{statusSection.columns.status}</span><strong>{statusLabel[group.items[0].status]}</strong><span class="roadmap-stage-detail-count">{group.items.filter((item) => item.status === 'live').length} / {group.items.length} {statusLabel.live}</span></div>
         </div>
       </div>
-      <ul class="roadmap-grid" id={`roadmap-list-${group.id}`}>{group.items.slice(1).map((item) => <li class="roadmap-card"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true"><RoadmapIcon id={item.id} group={group.id} /></span><div class="roadmap-card-copy"><h3>{item.title}</h3><p>{item.text}</p></div><span class="roadmap-status" data-status={item.status}>{statusLabel[item.status]}</span></li>)}</ul>
+      <ul class="roadmap-grid" id={`roadmap-list-${group.id}`}>{group.items.slice(1).map((item) => <li class="roadmap-card" data-feature={item.id}><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true"><RoadmapIcon id={item.id} group={group.id} /></span><div class="roadmap-card-copy"><h3>{item.title}</h3><p>{item.text}</p></div><span class="roadmap-status" data-status={item.status} data-chip={item.status}>{statusLabel[item.status]}</span></li>)}</ul>
     </div>)}
     <p class="roadmap-note">{statusSection.footnote}</p>
   </div>
