@@ -1,6 +1,7 @@
 ---
 import { meadowCopy, positionStage as copy } from '../../content/counter-measure';
 import { storyDemo as demo } from '../../content/counter-measure';
+import BorrowSandbox from './BorrowSandbox';
 import PositionWidget from './PositionWidget.astro';
 ---
 <section class="ltv-stage" aria-label={meadowCopy.sceneLabel}>
@@ -16,12 +17,7 @@ import PositionWidget from './PositionWidget.astro';
     <div class="ltv-stage-window">
       <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span></div>
       <div id="story-panel-0" role="tabpanel" aria-labelledby="story-tab-0" class="story-panel" tabindex="0">
-        <div class="demo-content"><span class="demo-label">{demo.text1}</span><h3>{demo.text2}</h3>
-          <div class="demo-asset"><span>{demo.text3}</span><b>{demo.text4}</b><small>{demo.text5}</small></div>
-          <div class="demo-asset"><span>{demo.text6}</span><b>{demo.text7}</b><small>{demo.text8}</small></div>
-          <dl class="demo-facts"><div><dt>{demo.text9}</dt><dd>{demo.text10}</dd></div><div><dt>{demo.text11}</dt><dd>{demo.text12}</dd></div><div><dt>{demo.text13}</dt><dd>{demo.text14}</dd></div></dl>
-          <a class="demo-link" href="https://testnet.cmdk.fi/#sandbox/start">{demo.text15}</a>
-        </div>
+        <BorrowSandbox client:load />
       </div>
       <div id="story-panel-1" role="tabpanel" aria-labelledby="story-tab-1" class="story-panel" tabindex="0" hidden><PositionWidget /></div>
       <div id="story-panel-2" role="tabpanel" aria-labelledby="story-tab-2" class="story-panel" tabindex="0" hidden>
