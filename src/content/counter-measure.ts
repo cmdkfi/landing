@@ -89,11 +89,48 @@ export const borrowIntro = {
 } as const;
 
 export const positionStage = {
+  tabLabel: "How CMDK works",
   windowTitle: "CMDK / POSITION",
   title: "Your position. Your limits.",
+  tabs: [
+    { title: "Borrow", summary: "Keep your ETH. Borrow USDC.", detail: "Choose your collateral, review the market and set the limits your agent follows before you sign." },
+    { title: "When prices fall", summary: "Reduce debt before the liquidation threshold.", detail: "See how the agent acts at 70% LTV and aims to restore the 50% target, while an unprotected position reaches 86%." },
+    { title: "When a market shows stress", summary: "Look beyond the LTV number.", detail: "Oracle delays and limited liquidity can create risk even at a low LTV. This example shows why market conditions also need attention." },
+  ],
   steps: [
     { value: "50%", label: "Target", detail: "The LTV your strategy aims to restore." },
     { value: "70%", label: "Agent acts", detail: "The agent repays part of the debt to reduce LTV." },
     { value: "86%", label: "Liquidation threshold", detail: "The unprotected position reaches the market’s liquidation threshold." },
   ],
+} as const;
+
+export const storyDemo = {
+  "text1": "ILLUSTRATIVE LOAN \u00b7 TESTNET",
+  "text2": "Borrow against what you hold.",
+  "text3": "Collateral",
+  "text4": "0.50 ETH",
+  "text5": "Illustrative value \u00b7 $1,600",
+  "text6": "You borrow",
+  "text7": "800 USDC",
+  "text8": "50% starting LTV",
+  "text9": "Market",
+  "text10": "Morpho \u00b7 Base",
+  "text11": "Agent action threshold",
+  "text12": "70%",
+  "text13": "Liquidation threshold",
+  "text14": "86%",
+  "text15": "Try this in sandbox \u2197",
+  "text16": "ILLUSTRATIVE MARKET STRESS",
+  "text17": "Price is only one signal.",
+  "text18": "Market review needed",
+  "text19": "Oracle updates",
+  "text20": "Delayed",
+  "text21": "A stale price can hide changes in collateral value.",
+  "text22": "Available liquidity",
+  "text23": "Reduced",
+  "text24": "Less liquidity can make an exit harder to execute.",
+  "text25": "Position LTV",
+  "text26": "50.0%",
+  "text27": "A low LTV does not remove every market risk.",
+  "text28": "Illustrative signals, not a live alert. Actions depend on supported markets, permissions and execution conditions."
 } as const;

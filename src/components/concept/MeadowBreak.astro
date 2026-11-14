@@ -1,16 +1,38 @@
 ---
 import { meadowCopy, positionStage as copy } from '../../content/counter-measure';
+import { storyDemo as demo } from '../../content/counter-measure';
 import PositionWidget from './PositionWidget.astro';
 ---
 <section class="ltv-stage" aria-label={meadowCopy.sceneLabel}>
   <div class="ltv-stage-sticky">
     <div class="ltv-stage-copy">
-      <h3>{copy.title}</h3>
-      {copy.steps.map(step => <div class="stage-step"><strong>{step.value}</strong><h4>{step.label}</h4><p>{step.detail}</p></div>)}
+      <div role="tablist" aria-label={copy.tabLabel} aria-orientation="vertical">
+        {copy.tabs.map((tab, index) => <div class="story-item">
+          <button type="button" role="tab" id={`story-tab-${index}`} aria-controls={`story-panel-${index}`} aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? 0 : -1}>{tab.title}</button>
+          <div class="story-description" hidden={index !== 0}><b>{tab.summary}</b><p>{tab.detail}</p></div>
+        </div>)}
+      </div>
     </div>
     <div class="ltv-stage-window">
       <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span></div>
-      <PositionWidget />
+      <div id="story-panel-0" role="tabpanel" aria-labelledby="story-tab-0" class="story-panel" tabindex="0">
+        <div class="demo-content"><span class="demo-label">{demo.text1}</span><h3>{demo.text2}</h3>
+          <div class="demo-asset"><span>{demo.text3}</span><b>{demo.text4}</b><small>{demo.text5}</small></div>
+          <div class="demo-asset"><span>{demo.text6}</span><b>{demo.text7}</b><small>{demo.text8}</small></div>
+          <dl class="demo-facts"><div><dt>{demo.text9}</dt><dd>{demo.text10}</dd></div><div><dt>{demo.text11}</dt><dd>{demo.text12}</dd></div><div><dt>{demo.text13}</dt><dd>{demo.text14}</dd></div></dl>
+          <a class="demo-link" href="https://testnet.cmdk.fi/#sandbox/start">{demo.text15}</a>
+        </div>
+      </div>
+      <div id="story-panel-1" role="tabpanel" aria-labelledby="story-tab-1" class="story-panel" tabindex="0" hidden><PositionWidget /></div>
+      <div id="story-panel-2" role="tabpanel" aria-labelledby="story-tab-2" class="story-panel" tabindex="0" hidden>
+        <div class="demo-content"><span class="demo-label">{demo.text16}</span><h3>{demo.text17}</h3>
+          <div class="stress-status"><span class="stress-dot"></span>{demo.text18}</div>
+          <div class="stress-row"><span>{demo.text19}</span><b>{demo.text20}</b><p>{demo.text21}</p></div>
+          <div class="stress-row"><span>{demo.text22}</span><b>{demo.text23}</b><p>{demo.text24}</p></div>
+          <div class="stress-row"><span>{demo.text25}</span><b>{demo.text26}</b><p>{demo.text27}</p></div>
+          <div class="stress-note">{demo.text28}</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -25,6 +47,29 @@ import PositionWidget from './PositionWidget.astro';
   .ltv-stage-window :global(.position-label) { display: block; margin: 0; padding: 16px 22px 0; }
   .ltv-stage-window :global(.position-widget) { border: 0; border-radius: 0; box-shadow: none; padding-top: 12px; }
   .ltv-stage-copy { position: absolute; left: 0; width: 30%; max-width: 310px; }
+  [hidden] { display: none !important; }
+  .story-item { border-top: 1px solid #e1e3e6; }
+  .story-item button { width: 100%; text-align: left; border: 0; background: transparent; padding: 22px 0; color: #17202b; font: inherit; font-size: 21px; cursor: pointer; }
+  .story-item button[aria-selected="true"] { font-weight: 600; }
+  .story-description { padding-bottom: 26px; }
+  .story-description b { display: block; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+  .story-description p { font-size: 15px; line-height: 1.7; }
+  button:focus-visible, .story-panel:focus-visible, .demo-link:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; }
+  .story-panel { min-height: 540px; }
+  .demo-content { padding: 26px; }
+  .demo-label { display: block; font: 10px/1.5 var(--font-technical); color: #65707a; letter-spacing: .07em; margin-bottom: 20px; }
+  .demo-asset { background: #f3f4f6; border-radius: 16px; padding: 18px; margin: 10px 0; display: grid; gap: 6px; }
+  .demo-asset span, .demo-asset small { color: #65707a; font-size: 13px; }
+  .demo-asset b { font-size: 30px; font-weight: 500; }
+  .demo-facts { margin: 22px 0; font-size: 14px; }
+  .demo-facts div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; }
+  .demo-facts dt { color: #65707a; } .demo-facts dd { margin: 0; }
+  .demo-link { display: inline-flex; background: #101114; color: white; border-radius: 999px; padding: 12px 20px; text-decoration: none; font-size: 14px; }
+  .stress-status { background: #faf3e5; color: #805813; padding: 14px; border-radius: 12px; margin-bottom: 18px; font-size: 14px; }
+  .stress-dot { display: inline-block; width: 7px; height: 7px; background: #ad7618; border-radius: 50%; margin-right: 8px; }
+  .stress-row { border-top: 1px solid #e1e3e6; padding: 17px 0; font-size: 14px; }
+  .stress-row b { float: right; font-weight: 500; } .stress-row p { max-width: none; margin-top: 8px; font-size: 13px; }
+  .stress-note { font-size: 12px; line-height: 1.6; color: #65707a; margin-top: 12px; }
   h3 { margin: 0 0 24px; font-size: 28px; line-height: 1.15; letter-spacing: -.035em; }
   .stage-step { border-top: 1px solid #e1e3e6; padding: 16px 0; }
   strong { float: right; font: 20px/1.4 var(--font-technical); color: #4b657a; }
@@ -35,12 +80,16 @@ import PositionWidget from './PositionWidget.astro';
     .ltv-stage { height: auto; margin-top: 40px; padding-bottom: 48px; }
     .ltv-stage-sticky { position: relative; top: auto; height: auto; min-height: 0; flex-direction: column; gap: 36px; }
     .ltv-stage-window { align-self: center; }
-    .ltv-stage-copy { position: static; width: min(620px, 100%); max-width: none; order: 2; }
+    .ltv-stage-copy { position: static; width: min(620px, 100%); max-width: none; order: -1; }
     .stage-step p { max-width: 50ch; }
   }
   @media (max-width: 600px) { .ltv-stage { padding-inline: 12px; } .ltv-stage-window { border-radius: 20px; } .ltv-stage-copy { padding-inline: 12px; } }
 </style>
 <script>
+  import { attachStoryTabs } from '../../scripts/story-tabs';
+  const disposeTabs = attachStoryTabs();
+  document.addEventListener('astro:before-swap', disposeTabs, { once: true });
+  if (import.meta.hot) import.meta.hot.dispose(disposeTabs);
   import { attachLtvStage } from '../../scripts/ltv-stage';
   const dispose = attachLtvStage();
   document.addEventListener('astro:before-swap', dispose, { once: true });
