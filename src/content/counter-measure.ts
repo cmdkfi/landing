@@ -81,3 +81,8 @@ export const meadowCopy = {
   sceneLabel: "Illustrative loan position",
   posterAlt: "Rolling green hills with trees, a small pond, and two key-shaped stones beneath the large tree on the left",
 } as const;
+
+export const borrowIntro = {
+  firstLine: "Borrow against",
+  secondLine: "what you hold.",
+} as const;
