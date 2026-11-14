@@ -1,11 +1,12 @@
 ---
 import { limits, visual } from '../../content/landing';
+const risksLabel = 'Risks';
 const titles = ['Recovery costs', 'Service outages', 'Agent compromise', 'Fast price gaps'];
 ---
 
 <section id="limits" aria-labelledby="limits-title">
   <h2 id="limits-title">{visual.limitsTitle}</h2>
-  <ul aria-label="Risks">
+  <ul aria-label={risksLabel}>
     {limits.honesty.map((risk, i) => <li><strong>{titles[i]}</strong><p>{risk}</p></li>)}
   </ul>
   <div class="questions">

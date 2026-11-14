@@ -1,11 +1,13 @@
 ---
 import Explorer from './evidence/Explorer';
 import './evidence/evidence.css';
+const eyebrow = 'Evidence, with its limits';
+const title = 'Check it yourself.';
 ---
 
 <section id="proof" class="evidence-content evidence-landing" aria-labelledby="proof-title">
-  <p class="eyebrow">Evidence, with its limits</p>
-  <h2 id="proof-title" class="evidence-title">Check it yourself.</h2>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 id="proof-title" class="evidence-title">{title}</h2>
   <Explorer />
 </section>
 

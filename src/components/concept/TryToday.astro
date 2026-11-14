@@ -1,5 +1,13 @@
 ---
 import TestnetShow from './try-today/TestnetShow';
+const copy = {
+  status: 'LIVE ON TESTNET',
+  title: 'What you can try today.',
+  intro: 'Your ETH. Your limits. Three steps to your first loan.',
+  caption: 'On testnet today: ETH to USDC on Morpho with preset limits.',
+  opening: 'Two transactions and three signatures for a fresh open.',
+  cta: 'Open testnet',
+};
 const steps = [
   ['Choose', 'Choose an amount of ETH on testnet.'],
   ['Sign', 'Review the limits and sign with your wallet.'],
@@ -7,9 +15,9 @@ const steps = [
 ];
 ---
 <section id="try-today" class="try-today" aria-labelledby="try-today-title">
-  <p class="eyebrow">LIVE ON TESTNET</p>
-  <h2 id="try-today-title">What you can try today.</h2>
-  <p class="intro">Your ETH. Your limits. Three steps to your first loan.</p>
+  <p class="eyebrow">{copy.status}</p>
+  <h2 id="try-today-title">{copy.title}</h2>
+  <p class="intro">{copy.intro}</p>
   <div class="guided">
     <ol class="steps">
       {steps.map(([title, description], index) => <li>
@@ -20,8 +28,8 @@ const steps = [
     <div class="show"><TestnetShow client:visible /></div>
   </div>
   <footer>
-    <p>On testnet today: ETH to USDC on Morpho with preset limits.<br />Two transactions and three signatures for a fresh open.</p>
-    <a href="https://testnet.cmdk.fi/#start">Open testnet <span aria-hidden="true">↗</span></a>
+    <p>{copy.caption}<br />{copy.opening}</p>
+    <a href="https://testnet.cmdk.fi/#start">{copy.cta} <span aria-hidden="true">↗</span></a>
   </footer>
 </section>
 <style>
