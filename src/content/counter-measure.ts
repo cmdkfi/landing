@@ -1,4 +1,8 @@
 export const counterMeasure = {
+  positionLabel: "ILLUSTRATIVE POSITION · TESTNET",
+  collateralSymbol: "ETH",
+  debtSymbol: "USDC",
+  pairDescription: "ETH collateral, USDC debt",
   replaySettled: "Target restored · unprotected LTV rises",
   pause: "Pause scenario",
   play: "Play scenario",

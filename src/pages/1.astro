@@ -92,7 +92,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .concept-header .concept-header-cta {
     font-weight: 500;
   }
-  .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px 5%; display: flex; align-items: center; gap: 16px; background: transparent; }
+  .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px max(48px, calc((100% - 1320px) / 2 + 48px)); display: flex; align-items: center; gap: 16px; background: transparent; }
   .eyes-block {
     display: grid;
     place-items: center;
@@ -248,7 +248,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   @media (max-width: 959px) { .concept-wallet-note { display: block; } }
   @media (max-width: 600px) { .concept-hero { width: calc(100% - 36px); } .concept-header { padding: 8px 16px; } .concept-header .concept-header-cta { --cta-padding: 15px; font-size: 12px; } .concept-hero { padding-top: 70px; padding-bottom: 42px; } h1 { font-size: clamp(49px, 13vw, 70px); } .concept-lead { margin-top: 23px; } .concept-button { width: 100%; } .concept-sandbox-note { margin-left: 0; } .concept-proof { display: grid; gap: 9px; } .concept-mark-stage { min-height: 320px; } .concept-mark-stage img { width: min(84%, 360px); } .concept-moon { top: 5%; } }
   @media (max-width: 600px) {
-    .concept-header { padding-inline: 10px; }
+    .concept-header { padding-inline: 20px; }
   }
   @media (prefers-reduced-motion: reduce) { :global(html) { scroll-behavior: auto; } .concept-button { transition: none; } .concept-button:hover { transform: none; } }
 </style>
