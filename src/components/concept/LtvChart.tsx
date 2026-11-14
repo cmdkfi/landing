@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { counterMeasure as copy } from '../../content/counter-measure';
-import { Liveline } from 'liveline';
 import { DURATION, progressAt, valuesAt } from './ltv-scenario';
 import './ltv-chart.css';
 
@@ -48,13 +47,6 @@ export default function LtvChart() {
   }, []);
   const phases = [copy.replayFalling, copy.replayActing, copy.replayRecovering, copy.replaySettled, copy.replayComplete];
   const current = valuesAt(progress);
-  const samples = Array.from({ length: Math.floor(progress * 40) + 1 }, (_, i) => i / 40);
-  if (samples.length === 1 || samples.at(-1) !== progress) samples.push(Math.max(.0001, progress));
-  const series = (['protected', 'exposed'] as const).map((id, i) => ({
-    id, color: i ? '#b44440' : '#4b657a',
-    data: samples.map(p => ({ time: p * 100, value: valuesAt(p)[id] })),
-    value: current[id],
-  }));
   return <div className="ltv-scenario" ref={root} data-phase={state.phase}>
     <div className="scenario-toolbar">
       <p role="status" aria-live="polite">{phases[state.phase]}</p>
@@ -67,17 +59,20 @@ export default function LtvChart() {
       <div><span>{copy.text9}</span><strong>{current.protected.toFixed(1)}%</strong></div>
       <div><span>{copy.text10}</span><strong>{current.exposed.toFixed(1)}%</strong></div>
     </div>
-    <div className="scenario-liveline" role="img" aria-label={copy.chartDescription}>
-      <Liveline data={series[0].data} value={current.protected} series={series}
-        time={Math.max(.01, progress * 100)} timeRange={[-8, 320]} valueRange={[45, 90]}
-        window={328} theme="light" grid badge={false} fill={false} pulse={false}
-        momentum={false} scrub={false} referenceLine={{ value: 70, label: copy.actLabel }}
-        formatValue={v => `${v.toFixed(1)}%`} formatTime={() => ''}
-        padding={{ top: 28, bottom: 20, left: 12, right: 50 }} />
+    <div className="ltv-scale" role="img" aria-label={`${copy.chartDescription} ${copy.text9}: ${current.protected.toFixed(1)}%. ${copy.text10}: ${current.exposed.toFixed(1)}%.`}>
+      <div className="ltv-rail" />
+      {[50, 70, 86].map((value, i) => <div key={value} className={`ltv-threshold threshold-${i}`} style={{ left: `${value}%` }}><span>{value}%</span><i /></div>)}
+      <div className="ltv-marker marker-protected" style={{ left: `${current.protected}%` }}><i /></div>
+      <div className="ltv-marker marker-exposed" style={{ left: `${current.exposed}%` }}><i /></div>
+      <span className="scale-zero">0%</span><span className="scale-hundred">100%</span>
     </div>
+    <div className="scale-key">
+      <span>{copy.targetLabel}</span><span>{copy.actLabel}</span><span>{copy.liquidationLabel}</span>
+    </div>
+    <p className="scale-definition">{copy.ltvDefinition}</p>
     <label className="scenario-scrub"><span>{copy.scrubLabel}</span><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/><span>{copy.compressedTime}</span></label>
     <ol className="scenario-log" aria-label={copy.logLabel}>
-      {[{time:copy.actTime,text:copy.actLog,at:1},{time:copy.settleTime,text:copy.settleLog,at:3},{time:copy.liquidateTime,text:copy.liquidateLog,at:4}].map((event,i)=><li key={event.time} data-reached={state.phase>=event.at} className={i===2?'danger':''}><time>{event.time}</time><span>{event.text}</span></li>)}
+      {[{text:copy.marketStep,at:0},{text:copy.actLog,at:1},{text:copy.settleLog,at:3}].map((event,i)=><li key={i} data-reached={state.phase>=event.at}><span className="step-number">{String(i+1).padStart(2,'0')}</span><span>{event.text}</span></li>)}
     </ol>
   </div>;
 }

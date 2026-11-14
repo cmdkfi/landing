@@ -99,7 +99,7 @@ import { counterMeasure as copy } from "../../content/counter-measure";
     .map-stat p { max-width: 40ch; }
   }
 
-  .map-mat { position: relative; isolation: isolate; overflow: hidden; padding: 34px; background: #edf4df; border-color: #e1e8d6; }
+  .map-mat { position: relative; isolation: isolate; overflow: clip; padding: 34px; background: #edf4df; border-color: #e1e8d6; }
   .liquid-field { position: absolute; inset: -30%; z-index: -1; pointer-events: none; overflow: hidden; }
   .liquid-field i { position: absolute; width: 85%; height: 85%; border-radius: 45%; background: radial-gradient(ellipse, #8cba4f 0%, #b3d47b 32%, #d4e7b3 55%, transparent 72%); animation: liquid-drift 17s ease-in-out infinite alternate; }
   .liquid-field i:nth-child(1) { left: -18%; top: -12%; }
@@ -117,7 +117,7 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   .corridor-rules dt { color: #273846; font-weight: 500; }
   .corridor-rules dd { color: #596675; margin: 0; }
   .scenario-label { font: 11px/1.5 var(--font-technical); color: #596675; margin: -8px 0 8px; }
-  .map-card h2 { font-family: var(--font-technical); font-weight: 400; letter-spacing: -.04em; }
+
   .map-stat { border-left: 1px solid #d7dfe8; padding-left: 24px; }
   .map-stat:first-child { border-left: 0; padding-left: 0; }
   .backtest-link { display: inline-block; font: 12px/1.5 var(--font-technical); color: #4b657a; text-underline-offset: 4px; padding: 12px 0; }
