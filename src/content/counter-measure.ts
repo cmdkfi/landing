@@ -83,6 +83,7 @@ export const meadowCopy = {
 } as const;
 
 export const borrowIntro = {
+  sandboxLabel: "Try sandbox",
   firstLine: "Borrow against",
   secondLine: "what you hold.",
 } as const;

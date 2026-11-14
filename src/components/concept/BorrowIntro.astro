@@ -4,16 +4,22 @@ import { concept, links } from '../../content/landing';
 ---
 <section class="borrow-intro" aria-labelledby="counter-measure-title">
   <h2 id="counter-measure-title">{copy.firstLine}<br /><span>{copy.secondLine}</span></h2>
+  <div class="borrow-actions">
   <a class="borrow-cta" href={links.testnet}>{concept.testnetLabel}<svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m8 5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+  <a class="borrow-cta borrow-secondary" href={links.sandbox}>{copy.sandboxLabel}<svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+  </div>
 </section>
 <style>
   .borrow-intro { max-width: 1320px; margin: 0 auto; padding: 112px 24px 0; text-align: center; color: #101114; }
   h2 { margin: 0; font-size: clamp(44px, 7.6vw, 104px); font-weight: 620; line-height: 1.02; letter-spacing: -.055em; }
   h2 span { position: relative; display: inline-block; padding-bottom: 10px; }
   h2 span::after { content: ''; position: absolute; height: 3px; bottom: 0; left: 3%; right: 3%; border-radius: 999px; background: linear-gradient(90deg, #00a5d4, #9fcba7 25%, #efcf69 48%, #eea492 72%, #e9a9d0); }
-  .borrow-cta { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; margin-top: 40px; padding: 12px 23px; border-radius: 999px; background: #101114; color: #fff; font-size: 16px; font-weight: 500; text-decoration: none; }
+  .borrow-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 40px; }
+  .borrow-cta { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding: 12px 23px; border-radius: 999px; background: #101114; color: #fff; font-size: 16px; font-weight: 500; text-decoration: none; }
+  .borrow-secondary { background: transparent; color: #101114; }
+  .borrow-secondary:active { background: #f0f1f3; }
   .borrow-cta:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; }
   .borrow-cta:active { background: #303238; }
-  @media (hover: hover) and (pointer: fine) { .borrow-cta:hover { background: #303238; } }
-  @media (max-width: 600px) { .borrow-intro { padding: 72px 20px 0; } h2 { font-size: clamp(40px, 9.5vw, 56px); } .borrow-cta { margin-top: 28px; } }
+  @media (hover: hover) and (pointer: fine) { .borrow-cta:hover { background: #303238; } .borrow-secondary:hover { background: #f0f1f3; } }
+  @media (max-width: 600px) { .borrow-intro { padding: 72px 20px 0; } h2 { font-size: clamp(40px, 9.5vw, 56px); } .borrow-actions { margin-top: 28px; gap: 8px; } }
 </style>
