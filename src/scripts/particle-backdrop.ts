@@ -90,7 +90,7 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
         gl_FragColor=vec4(ink,edge*vAlpha);
       }`,
   });
-  const skyUniforms={time:uniforms.time,opacity:uniforms.opacity,drift:{value:new THREE.Vector2()},travel:{value:0}};
+  const skyUniforms={time:uniforms.time,opacity:{value:1},drift:{value:new THREE.Vector2()},travel:{value:0}};
   const skyGeometry=new THREE.PlaneGeometry(2,2);
   const skyMaterial=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,transparent:true,uniforms:skyUniforms,
     vertexShader:`varying vec2 uvScene;void main(){uvScene=uv;gl_Position=vec4(position.xy,.999,1.);}`,
@@ -129,7 +129,7 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
     camera.lookAt(gaze);
     skyUniforms.drift.value.set(camera.position.x*.025,camera.position.y*.025);skyUniforms.travel.value=travel;
     renderer.render(scene,camera);
-    if(visible&&!document.hidden&&!reduced.matches&&uniforms.opacity.value>.001)frame=requestMotionFrame(draw);
+    if(visible&&!document.hidden&&!reduced.matches&&skyUniforms.opacity.value>.001)frame=requestMotionFrame(draw);
     else last=0;
   }
   function start(){if(!frame&&!disposed)frame=requestMotionFrame(draw);}
@@ -155,7 +155,7 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
   function motionChange(){pointerActive=0;uniforms.pointerOn.value=0;waveStart=-100;start();}
   reduced.addEventListener('change',motionChange);document.addEventListener('visibilitychange',start);resize();
   return {
-    update(reveal:number,progress=0){uniforms.opacity.value=1-reveal;targetTravel=Math.min(1,progress/.53);start();},
+    update(reveal:number,progress=0,hideWave=0){cloud.visible=hideWave<1;uniforms.opacity.value=(1-reveal)*(1-hideWave);skyUniforms.opacity.value=1-reveal;targetTravel=Math.min(1,progress/.53);start();},
     dispose(){if(disposed)return;disposed=true;cancelMotionFrame(frame);observer.disconnect();resizeObserver.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',start);surface.removeEventListener('pointermove',move);surface.removeEventListener('pointerleave',leave);surface.removeEventListener('pointerdown',pulse);surface.removeEventListener('pointerup',leave);geometry.dispose();material.dispose();glyphAtlas.dispose();wake.dispose();skyGeometry.dispose();skyMaterial.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
   };
 }

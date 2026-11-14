@@ -80,7 +80,20 @@ import { incidentStory as copy, concept } from '../../content/landing';
   :global(.incident-comparator strong) { color: #273846; font-size: clamp(14px,1.25vw,18px); line-height: 1.1; font-weight: 500; letter-spacing: -.055em; white-space: nowrap; }
   :global(.incident-comparator-loss strong) { color: #475f73; }
   :global(.incident-comparator small) { color: #6d7f8e; font-size: 11px; }
-  :global(.incident-liveline) { height: 150px; width: 100%; }
+  :global(.incident-plot) { position: relative; padding-top: 26px; }
+  :global(.incident-event-label) { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font: 11px/1.2 var(--font-technical); color: #475f73; white-space: nowrap; }
+  :global(.incident-point-anchor) { position: absolute; left: 50%; z-index: 3; }
+  :global(.incident-point-anchor--0) { top: calc(34px + (100% - 34px) * .166667); }
+  :global(.incident-point-anchor--1) { top: calc(34px + (100% - 34px) * .708333); }
+  :global(.incident-point-button) { position: absolute; width: 44px; height: 44px; left: -22px; top: -22px; padding: 0; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; border-radius: 50%; }
+  :global(.incident-point-button span) { width: 9px; height: 9px; border: 2px solid #fff; border-radius: 50%; background: #4b657a; box-sizing: border-box; }
+  :global(.incident-point-button:focus-visible) { outline: 2px solid #4b657a; outline-offset: -5px; }
+  :global(.incident-point-button:active span) { transform: scale(.9); }
+  :global(.incident-point-anchor:not([data-open]) .incident-point-tooltip) { display: none; }
+  :global(.incident-point-tooltip) { position: absolute; bottom: 18px; right: 14px; display: grid; gap: 5px; width: max-content; max-width: 240px; padding: 12px; border: 1px solid #dce2e9; border-radius: 12px; background: #fff; box-shadow: 0 8px 24px #26364c20; color: #354354; font: 11px/1.4 var(--font-technical); }
+  :global(.incident-point-anchor--1 .incident-point-tooltip) { right: auto; left: 14px; }
+  @media(max-width:600px) { :global(.incident-point-tooltip), :global(.incident-point-anchor--1 .incident-point-tooltip) { left: 0; right: auto; transform: translateX(-50%); font-size: 10px; } }
+  .dial-panel { transform-origin: top center; }
   :global(.incident-step-chart) { display: block; width: 100%; margin: 8px 0 0; overflow: visible; }
   :global(.incident-step-chart .chart-axis) { stroke: #d7dfe8; stroke-width: 1; }
   :global(.incident-step-chart .chart-event) { stroke: #9eacba; stroke-width: 1; stroke-dasharray: 3 5; }
