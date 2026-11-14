@@ -637,6 +637,8 @@ export const venue = {
 export const assets = {
   id: 'assets',
   h2: 'One vault for what you hold, wherever the best market is.', // PRD 5.7 l.153
+  eyebrow: 'Assets and markets',
+  tabsLabel: 'Explore assets and markets',
   grids: ['collateral', 'borrow', 'venue', 'chain'] as Group[],
   note: 'Live means the testnet build: ETH is deposited as WETH on Base Sepolia.', // PRD 5.7 l.175; SCOPE l.7
 };
