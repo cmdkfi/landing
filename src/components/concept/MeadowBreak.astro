@@ -2,6 +2,7 @@
 import { meadowCopy, positionStage as copy } from '../../content/counter-measure';
 import { storyDemo as demo } from '../../content/counter-measure';
 import BorrowShow from './borrow-show/BorrowShow';
+import { statusLabel } from '../../content/landing';
 import PriceProtection from './PriceProtection.astro';
 ---
 <section class="ltv-stage" aria-label={meadowCopy.sceneLabel}>
@@ -15,7 +16,7 @@ import PriceProtection from './PriceProtection.astro';
       </div>
     </div>
     <div class="ltv-stage-window" data-lenis-prevent>
-      <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span></div>
+      <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span><span class="stage-availability">{statusLabel.live}</span></div>
       <div id="story-panel-0" role="tabpanel" aria-labelledby="story-tab-0" class="story-panel" tabindex="0">
         <BorrowShow client:load />
       </div>
@@ -36,7 +37,8 @@ import PriceProtection from './PriceProtection.astro';
   .ltv-stage { max-width: 1200px; margin: 64px auto 0; padding-inline: 24px; height: 175svh; }
   .ltv-stage-sticky { position: sticky; top: 112px; min-height: 0; height: calc(100svh - 136px); display: flex; align-items: center; justify-content: center; }
   .ltv-stage-window { align-self: center; position: relative; z-index: 2; width: min(620px, 100%); flex: none; border: 1px solid #e1e3e6; border-radius: 22px; background: #fff; box-shadow: 0 18px 48px #17202b16, 0 3px 10px #17202b08; overflow: clip; }
-  .stage-window-bar { height: 40px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #f1f2f4; border-bottom: 1px solid #e1e3e6; color: #65707a; font: 10px/1 var(--font-technical); letter-spacing: .07em; }
+  .stage-window-bar { position: sticky; top: 0; z-index: 5; flex-shrink: 0; height: 40px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #f1f2f4; border-bottom: 1px solid #e1e3e6; color: #65707a; font: 10px/1 var(--font-technical); letter-spacing: .07em; }
+  .stage-availability { margin-left: auto; flex-shrink: 0; padding: 3px 8px; border: 1px solid #cce1d4; border-radius: 999px; background: #edf5f0; color: #216c4c; font: 12px/1.4 var(--font-sans, sans-serif); letter-spacing: normal; white-space: nowrap; }
   .window-dots { display: flex; gap: 6px; }
   .window-dots i { width: 8px; height: 8px; border-radius: 50%; background: #c3c7cd; }
   .ltv-stage-window :global(.meadow-position) { width: 100%; }
