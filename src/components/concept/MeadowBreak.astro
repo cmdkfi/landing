@@ -2,7 +2,7 @@
 import { meadowCopy, positionStage as copy } from '../../content/counter-measure';
 import { storyDemo as demo } from '../../content/counter-measure';
 import BorrowShow from './borrow-show/BorrowShow';
-import PositionWidget from './PositionWidget.astro';
+import PriceProtection from './PriceProtection.astro';
 ---
 <section class="ltv-stage" aria-label={meadowCopy.sceneLabel}>
   <div class="ltv-stage-sticky">
@@ -14,12 +14,12 @@ import PositionWidget from './PositionWidget.astro';
         </div>)}
       </div>
     </div>
-    <div class="ltv-stage-window">
+    <div class="ltv-stage-window" data-lenis-prevent>
       <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span></div>
       <div id="story-panel-0" role="tabpanel" aria-labelledby="story-tab-0" class="story-panel" tabindex="0">
         <BorrowShow client:load />
       </div>
-      <div id="story-panel-1" role="tabpanel" aria-labelledby="story-tab-1" class="story-panel" tabindex="0" hidden><PositionWidget /></div>
+      <div id="story-panel-1" role="tabpanel" aria-labelledby="story-tab-1" class="story-panel" tabindex="0" hidden><PriceProtection /></div>
       <div id="story-panel-2" role="tabpanel" aria-labelledby="story-tab-2" class="story-panel" tabindex="0" hidden>
         <div class="demo-content"><span class="demo-label">{demo.text16}</span><h3>{demo.text17}</h3>
           <div class="stress-status"><span class="stress-dot"></span>{demo.text18}</div>
