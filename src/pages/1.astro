@@ -303,12 +303,6 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .hands-heading-first .hands-subtitle { max-width: 44ch; }
   .hands-copy-head .concept-eyebrow { white-space: nowrap; }
   .hands-heading span { color: inherit; }
-  :global(.reveal-heading .reveal-word) { display: inline-block; }
-  @media (prefers-reduced-motion: no-preference) {
-    :global(.reveal-heading[data-reveal-ready]:not([data-reveal-visible]) .reveal-word) { opacity: 0; transform: translateY(8px); filter: blur(8px); }
-    :global(.reveal-heading[data-reveal-visible]:not([data-reveal-instant]) .reveal-word) { animation: heading-word-enter 800ms cubic-bezier(.25,.46,.45,.94) both; animation-delay: calc(var(--word-index) * 80ms); }
-  }
-  @keyframes heading-word-enter { from { opacity: 0; transform: translateY(8px); filter: blur(8px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
   .hands-copy-head { opacity: calc(1 - var(--hero-exit,0)); }
   .hands-heading-first { opacity: calc(var(--first-heading-opacity,1) * (1 - var(--hero-exit,0))); }
   .hands-heading-second { opacity: calc(var(--second-heading-opacity,0) * (1 - var(--hero-exit,0))); }
@@ -380,29 +374,10 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   let motionTime=0;
   const firstHeading=document.querySelector<HTMLElement>('.hands-heading-first')!;
   const secondHeading=document.querySelector<HTMLElement>('.hands-heading-second')!;
-  const revealHeadings=[...document.querySelectorAll<HTMLElement>('#concept-title, .hands-title, #position-title, .dial-panel:not([data-panel="0"]) .dial-narrative h3')];
-  revealHeadings.forEach(heading=>{
-    const lines=heading.textContent?.trim().split('\n')??[];
-    heading.replaceChildren();
-    heading.classList.add('reveal-heading');
-    let wordIndex=0;
-    lines.forEach((line,lineIndex)=>{
-      if(lineIndex)heading.append(document.createElement('br'));
-      line.trim().split(/\s+/).forEach((word,index)=>{
-        if(index)heading.append(' ');
-        const span=document.createElement('span');
-        span.className='reveal-word';
-        span.style.setProperty('--word-index',String(wordIndex++));
-        span.textContent=word;
-        heading.append(span);
-      });
-    });
-    heading.dataset.revealReady='';
-  });
-  function revealHeading(heading:HTMLElement|null,instant=false){
-    if(!heading||heading.dataset.revealVisible!==undefined)return;
-    if(instant)heading.dataset.revealInstant='';
-    heading.dataset.revealVisible='';
+  import { attachTextReveal } from '../scripts/text-reveal';
+  const textReveal = attachTextReveal();
+  function revealHeading(heading: HTMLElement | null, instant = false) {
+    textReveal.reveal(heading, instant);
   }
   const scrollLink=document.querySelector<HTMLAnchorElement>('.hands-scroll');
   let pending = false;
@@ -572,6 +547,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   const disposePage = () => {
     cancelMotionFrame(scheduledFrame);
     pageMotion.dispose();
+    textReveal.dispose();
     disposeCodePointer?.();
     disposeEyes();
     dial.removeEventListener('wheel',horizontalWheel);
