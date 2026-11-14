@@ -1,4 +1,4 @@
-.borrow-sandbox{padding:24px;color:#202730;max-height:min(680px,calc(100svh - 180px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;font-size:14px;line-height:1.5}
+.borrow-sandbox{padding:24px;color:#202730;max-height:none;overflow:visible;font-size:14px;line-height:1.5}
 .borrow-sandbox *{box-sizing:border-box}.borrow-sandbox h3{font-size:27px;letter-spacing:-.04em;line-height:1.15;margin:20px 0}.borrow-sandbox h3:focus{outline:none}
 .bs-badge{font:10px/1.5 var(--font-technical);letter-spacing:.05em;color:#647182}.bs-steps{display:flex;gap:14px;padding:0;list-style:none;margin:20px 0}.bs-steps li{display:flex;gap:6px;align-items:center;font-size:11px;color:#78818c}.bs-steps li[aria-current]{color:#17202b}.bs-steps span{display:grid;place-items:center;width:22px;height:22px;background:#eef0f2;border-radius:50%;flex-shrink:0}.bs-steps [aria-current] span{background:#253c34;color:#fff}
 .bs-pair{display:flex;align-items:center;gap:12px;margin-bottom:12px}.bs-pair b{background:#f1f2f4;border-radius:999px;padding:8px 14px}.bs-pair small{margin-left:auto;color:#647182;font-size:11px}
@@ -13,3 +13,14 @@
 @media(hover:hover) and (pointer:fine){.borrow-sandbox button:hover:not(:disabled){filter:brightness(.94)}}
 @media(max-width:1000px){.borrow-sandbox{max-height:none;overflow:visible}}
 @media(max-width:600px){.borrow-sandbox{padding:18px}.bs-steps{gap:8px}.bs-steps li{font-size:10px}.bs-pair{flex-wrap:wrap}.bs-pair small{width:100%;margin-left:0}.bs-balances>div{padding:10px 8px}.bs-balances b{font-size:17px}}
+
+.borrow-sandbox { position:relative; padding:18px 24px; }
+.borrow-sandbox [hidden]{display:none!important}
+.borrow-sandbox h3 {margin:14px 0;font-size:25px}
+.bs-steps {margin:12px 0}
+.bs-estimate {margin:12px 0;padding:14px}
+.bs-actions,.bs-scenarios {margin:12px 0 8px}
+.borrow-sandbox footer {margin-top:14px;padding-top:10px}
+.borrow-sandbox details[open] {position:absolute;inset:16px;z-index:10;padding:20px;background:white;border:1px solid #e5e8ec;border-radius:16px;box-shadow:0 8px 24px #17202b14}
+.borrow-sandbox details[open] summary::after {content:' ×';float:right;font-size:22px}
+.borrow-sandbox details[open] summary {min-height:44px}

@@ -16,7 +16,7 @@ import PriceProtection from './PriceProtection.astro';
       </div>
     </div>
     <div class="ltv-stage-window" data-lenis-prevent>
-      <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span><span class="stage-availability">{statusLabel.live}</span></div>
+      <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="stage-availability">{statusLabel.live}</span><span>{copy.windowTitle}</span></div>
       <div id="story-panel-0" role="tabpanel" aria-labelledby="story-tab-0" class="story-panel" tabindex="0">
         <BorrowShow client:load />
       </div>
@@ -38,7 +38,7 @@ import PriceProtection from './PriceProtection.astro';
   .ltv-stage-sticky { position: sticky; top: 112px; min-height: 0; height: calc(100svh - 136px); display: flex; align-items: center; justify-content: center; }
   .ltv-stage-window { align-self: center; position: relative; z-index: 2; width: min(620px, 100%); flex: none; border: 1px solid #e1e3e6; border-radius: 22px; background: #fff; box-shadow: 0 18px 48px #17202b16, 0 3px 10px #17202b08; overflow: clip; }
   .stage-window-bar { position: sticky; top: 0; z-index: 5; flex-shrink: 0; height: 40px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #f1f2f4; border-bottom: 1px solid #e1e3e6; color: #65707a; font: 10px/1 var(--font-technical); letter-spacing: .07em; }
-  .stage-availability { margin-left: auto; flex-shrink: 0; padding: 3px 8px; border: 1px solid #cce1d4; border-radius: 999px; background: #edf5f0; color: #216c4c; font: 12px/1.4 var(--font-sans, sans-serif); letter-spacing: normal; white-space: nowrap; }
+  .stage-availability { flex-shrink: 0; padding: 3px 8px; border: 1px solid #cce1d4; border-radius: 999px; background: #edf5f0; color: #216c4c; font: 12px/1.4 var(--font-sans, sans-serif); letter-spacing: normal; white-space: nowrap; }
   .window-dots { display: flex; gap: 6px; }
   .window-dots i { width: 8px; height: 8px; border-radius: 50%; background: #c3c7cd; }
   .ltv-stage-window :global(.meadow-position) { width: 100%; }
@@ -53,7 +53,7 @@ import PriceProtection from './PriceProtection.astro';
   .story-description b { display: block; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
   .story-description p { font-size: 15px; line-height: 1.7; }
   button:focus-visible, .story-panel:focus-visible, .demo-link:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; }
-  .story-panel { min-height: 540px; }
+  .story-panel { min-height: 0; height:calc(100% - 40px); }
   .demo-content { padding: 26px; }
   .demo-label { display: block; font: 10px/1.5 var(--font-technical); color: #65707a; letter-spacing: .07em; margin-bottom: 20px; }
   .demo-asset { background: #f3f4f6; border-radius: 16px; padding: 18px; margin: 10px 0; display: grid; gap: 6px; }
@@ -73,7 +73,7 @@ import PriceProtection from './PriceProtection.astro';
   strong { float: right; font: 20px/1.4 var(--font-technical); color: #4b657a; }
   h4 { margin: 0 0 8px; font-size: 16px; font-weight: 550; }
   p { margin: 0; max-width: 28ch; font-size: 14px; line-height: 1.5; color: #596675; }
-  @media (min-width: 1001px) and (prefers-reduced-motion: no-preference) { .ltv-stage-window { max-height: 100%; overflow-y: auto; overscroll-behavior: contain; } .ltv-stage-copy > div { width: 100%; max-height: 100%; overflow-y: auto; } }
+  @media (min-width: 1001px) and (prefers-reduced-motion: no-preference) { .ltv-stage-window { height: 740px; max-height: none; overflow: clip; } .ltv-stage-copy > div { width: 100%; max-height: 100%; overflow-y: auto; } }
   @media (min-width: 1001px) and (prefers-reduced-motion: no-preference) { .ltv-stage.is-motion .ltv-stage-copy { opacity: 0; } }
   @media (max-width: 1000px), (prefers-reduced-motion: reduce) {
     .ltv-stage { height: auto; margin-top: 40px; padding-bottom: 48px; }
@@ -83,6 +83,10 @@ import PriceProtection from './PriceProtection.astro';
     .stage-step p { max-width: 50ch; }
   }
   @media (max-width: 600px) { .ltv-stage { padding-inline: 12px; } .ltv-stage-window { border-radius: 20px; } .ltv-stage-copy { padding-inline: 12px; } }
+
+  .ltv-stage-window { height: 740px; }
+  @media (min-width:1001px) and (max-height:850px) { .ltv-stage-sticky { top:80px; height:calc(100svh - 96px); } .ltv-stage-window { height:650px; } }
+  @media (max-width:1000px) { .ltv-stage-window { height:780px; } }
 </style>
 <script>
   import { attachStoryTabs } from '../../scripts/story-tabs';

@@ -5,6 +5,7 @@ import { crashDemo, DEMO_PRICE, openDemo, positionLtv, validDeposit } from './bo
 import './borrow-sandbox.css';
 const money = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 2 });
 export default function BorrowSandbox() {
+  const [positionPage, setPositionPage] = useState(0);
   const [step, setStep] = useState(0), [amount, setAmount] = useState('0.5'), [accepted, setAccepted] = useState(false);
   const [progress, setProgress] = useState(0), [job, setJob] = useState<null | 'open' | 'crash' | 'stress'>(null);
   const [position, setPosition] = useState(openDemo(.5)), [agent, setAgent] = useState(true), [backup, setBackup] = useState(false);
@@ -47,17 +48,19 @@ export default function BorrowSandbox() {
       <div className="bs-estimate"><span>{c.borrow}</span><b>{valid ? money(qty * DEMO_PRICE * .5) : '—'} USDC</b><small>50% LTV</small></div>
       <p className="bs-note">{c.rate}</p><div className="bs-actions"><button type="submit" disabled={!valid}>{c.next}</button></div>
     </form>}
-    {step === 1 && <form onSubmit={e => { e.preventDefault(); if (accepted) setStep(2); }}><div className="bs-limits">{c.limits.map(([value,label]) => <div key={label}><b>{value}</b><small>{label}</small></div>)}</div><p className="bs-note">{c.preset}</p><details open><summary>{c.steps[1]}</summary><ul>{c.rules.map(rule => <li key={rule}>{rule}</li>)}</ul></details><label className="bs-check"><input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)}/><span>{c.accept}</span></label>{buttons}</form>}
+    {step === 1 && <form onSubmit={e => { e.preventDefault(); if (accepted) setStep(2); }}><div className="bs-limits">{c.limits.map(([value,label]) => <div key={label}><b>{value}</b><small>{label}</small></div>)}</div><p className="bs-note">{c.preset}</p><details><summary>{c.steps[1]}</summary><ul>{c.rules.map(rule => <li key={rule}>{rule}</li>)}</ul></details><label className="bs-check"><input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)}/><span>{c.accept}</span></label>{buttons}</form>}
     {step === 2 && <><div className="bs-estimate"><b>{c.wallet}</b><span>{c.network}</span><small>{c.balance}</small></div><p>{c.walletNote}</p><dl><div><dt>{c.collateral}</dt><dd>{amount} ETH</dd></div><div><dt>{c.borrow}</dt><dd>{money(qty * DEMO_PRICE * .5)} USDC</dd></div></dl><div className="bs-actions"><button className="bs-secondary" onClick={() => setStep(1)}>{c.back}</button><button onClick={() => start('open')}>{c.create}</button></div></>}
     {step === 3 && <><ol className="bs-opening" aria-live="polite">{c.opening.map((label,i) => <li key={label}><span>{label}</span><small>{i < progress ? c.done : i === progress ? c.confirming : c.waiting}</small></li>)}</ol><p className="bs-note">{c.walletNote}</p></>}
-    {step === 4 && <><div className="bs-position-meta"><span>{agent ? c.active : c.revoked}</span><span>{backup ? c.backup : c.live}</span></div><div className="bs-balances"><div><small>{c.collateral}</small><b>{position.collateral.toFixed(4)}</b><small>WETH</small></div><div><small>{c.debt}</small><b>{money(position.debt)}</b><small>USDC</small></div><div><small>{c.ltv}</small><b>{ltv.toFixed(1)}%</b><small>{ltv >= 86 ? c.warning : c.safe}</small></div></div>
+    {step === 4 && <><div hidden={positionPage !== 0}><div className="bs-position-meta"><span>{agent ? c.active : c.revoked}</span><span>{backup ? c.backup : c.live}</span></div><div className="bs-balances"><div><small>{c.collateral}</small><b>{position.collateral.toFixed(4)}</b><small>WETH</small></div><div><small>{c.debt}</small><b>{money(position.debt)}</b><small>USDC</small></div><div><small>{c.ltv}</small><b>{ltv.toFixed(1)}%</b><small>{ltv >= 86 ? c.warning : c.safe}</small></div></div>
       <div className="bs-corridor" role="img" aria-label={`${c.ltv} ${ltv.toFixed(1)}%. ${c.limits.map(([v,l]) => `${l} ${v}`).join(', ')}`}><i style={{left: `${Math.min(100,ltv)}%`}}/></div><div className="bs-limits">{c.limits.map(([value,label]) => <div key={label}><b>{value}</b><small>{label}</small></div>)}</div>
+      </div><div hidden={positionPage !== 1}>
       {job && <p role="status">{job === 'crash' ? c.runningCrash : c.runningStress}</p>}
       <div className="bs-scenarios"><button className="bs-secondary" disabled={!!job || crashed} onClick={() => start('crash')}>{c.crash}</button><button className="bs-secondary" disabled={!!job || backup || !agent || ltv >= 86} onClick={() => start('stress')}>{c.stress}</button></div>
       <details><summary>{c.crash}</summary><p className="bs-note">{c.crashNote}</p></details><details><summary>{c.stress}</summary><p className="bs-note">{c.stressNote}</p></details>
       {ltv >= 86 && <p className="bs-error">{c.liquidation}</p>}
       <details><summary>{c.recent}</summary><ul>{logs.map((log,i) => <li key={i}>{log}</li>)}</ul></details><details><summary>{c.verify}</summary><p className="bs-note">{c.verifyNote}</p></details>
       <div className="bs-actions"><button className="bs-secondary" disabled={!agent || !!job} onClick={() => setConfirm('revoke')}>{c.revoke}</button><button disabled={!!job} onClick={() => setConfirm('close')}>{c.close}</button></div>
+      </div><div className="bs-actions"><button className="bs-secondary" disabled={positionPage===0} onClick={()=>setPositionPage(0)}>← Position</button><button disabled={positionPage===1} onClick={()=>setPositionPage(1)}>Actions →</button></div>
     </>}
     {step === 5 && <><p>{c.closed}</p><div className="bs-estimate"><span>{c.returned}</span><b>{position.collateral.toFixed(4)} WETH</b></div><button onClick={reset}>{c.reset}</button></>}
     </>}

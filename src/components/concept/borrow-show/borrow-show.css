@@ -5,3 +5,4 @@
 @media(max-width:500px){.borrow-show-controls{padding:12px;gap:6px}.borrow-show-controls button{padding:10px 12px;font-size:11px}}
 
 .borrow-show-controls button:disabled{opacity:.4;cursor:default}
+@media(min-width:1001px) and (max-height:850px){.borrow-show .borrow-show-body{padding:16px 24px}.borrow-show .borrow-show-title{margin:8px 0 14px}.borrow-show .borrow-show-loan{padding-bottom:12px}.borrow-show .borrow-show-limits{margin:12px 0}.borrow-show .borrow-show-result{margin-top:12px;padding:12px 18px}.borrow-show .borrow-show-foot{margin-top:10px}.borrow-show-controls{padding:10px 24px}}
