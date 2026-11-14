@@ -57,9 +57,11 @@ export const concept = {
   chart: { label: 'Write-off only · verified before/after blocks · USDC', start: 'Before', event: 'Incident', end: 'After' },
   search: { explore: 'Explore cmdk', shortcut: '⌘K', escape: 'Esc', label: 'Search', open: 'Search cmdk', placeholder: 'Search sections and incidents…', close: 'Close search', results: 'Search results', section: 'Section', empty: 'No results. Try a section or protocol name.', help: '↑ ↓ to navigate · Enter to open · Esc to close' },
   storyHeading: 'Borrow against crypto.\nClose the tab.',
-  storySubheading: 'LTV sat at 65.0%. At 04:12 AM liquidation triggered. 100.0% of your collateral wiped while you slept.',
+  // Morpho's liquidation on our market (LLTV 86%): incentive factor 1/(0.3 x 0.86 + 0.7) = 1.0438, a 4.4% penalty; from 65.0% LTV
+  // a fall of 24.4% reaches 86%, so a 25.0% fall leaves LTV at 86.7% and the liquidator takes 86.7% x 1.0438 = 90.5% of the collateral.
+  storySubheading: 'LTV sat at 65.0%. At 04:12 AM liquidation triggered. 90.5% of your collateral sold while you slept.',
   gestureHeading: 'But the protocol\nsays fuck you',
-  gestureSubheading: 'A 12.0% flash drop. A delayed oracle. A bot liquidates 100.0% of the collateral at the bottom to collect a 5.0% penalty.',
+  gestureSubheading: 'A 25.0% flash drop. A delayed oracle. A bot liquidates 90.5% of the collateral at the bottom to collect a 4.4% penalty.',
   headingStart: 'Borrow against',
   headingEnd: 'what you hold.',
   lead: 'An agent looks after your loan while you are away. You choose the limits. Only your wallet can withdraw.',
