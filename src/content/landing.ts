@@ -537,6 +537,9 @@ export const visual = {
   strategyDetails: 'Explore future strategies',
   directoryTitle: 'The complete feature directory',
   directoryExplore: 'Explore',
+  directoryWindowMark: '⌘K',
+  directoryWindowBrand: 'cmdk',
+  directoryWindowPath: '/ roadmap',
   directoryIntro: 'Live means testnet only. Production release is not available today and follows an audit. Exploring means no commitment.', // statusMeaning
   directorySearch: 'Find an asset, market or feature',
   directoryFilter: 'Filter features by status',
