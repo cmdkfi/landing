@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { header, footer, links, cta, testnetLine, walletBrowserCaption, meta, visual, commandMenu } from '../content/landing.ts';
+import CompactFooter from '../components/CompactFooter.astro';
 import CommandMenu from '../components/CommandMenu.astro';
 import AgentPanel from '../components/AgentPanel.astro';
 import AgentBar from '../components/AgentBar.astro';
@@ -31,10 +32,10 @@ const anchorBase = onIndex ? '' : '/';
       </div>
     </header>
     <main id="main-content"><slot /></main>
-    <footer class="site-footer"><div class="wrap">
+    {onIndex ? <CompactFooter home="/" agentDialog /> : <footer class="site-footer"><div class="wrap">
       <div class="footer-top"><a class="brand" href="/">{footer.brand}</a><nav aria-label={footer.linksLabel}><ul>{footer.links.map((l) => <li><a href={l.href} data-agent-open={l.agent ? '' : undefined}>{l.label}</a></li>)}</ul></nav></div>
       <div class="footer-bottom"><div><p>{testnetLine}</p><p>{footer.insurance}</p></div><p>{footer.copyright}</p></div>
-    </div></footer>
+    </div></footer>}
     {onIndex && <dialog class="agent-dialog" data-agent-dialog aria-labelledby="agent-panel-title"><AgentPanel level={2} inDialog /></dialog>}
     {onIndex && <AgentBar />}
     <CommandMenu onIndex={onIndex} />
