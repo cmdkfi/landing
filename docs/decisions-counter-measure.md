@@ -30,3 +30,12 @@ Play, pause, refresh and arrowRight SVGs are from Coinbase CDS, served locally w
 Only the right position card changed. Mobbin's Uniswap screen f6df1b99-91e7-4bf3-9076-31c7140da276 informed paired soft amount panels and compact token grouping. Base search returned no relevant Base screen. Replay controls sit below the scale (local adaptation), preserving every control and label. The scale mechanics, data, incident charts and outer section styling are unchanged.
 
 Validation: build, check and diff whitespace checks passed. Browser measured the section at 688.74 CSS px at a 1366 × 767 viewport, leaving room for the 72 px header. Keyboard End on the replay slider yields protected 50.0% and unprotected 86.0%.
+
+
+## Shared motion clock and spectrum rail — 2026-11-14
+
+GSAP 3.15.1 supplies the only animation ticker for /1. A cancellable frame queue feeds hands, particles, cursor effects, the scroll scene, the LTV replay and Liveline. Lenis 1.3.27 has autoRaf disabled and receives milliseconds from this clock. Authored CSS keyframes and transitions retain their easing; their browser playheads are paused and advanced by GSAP tweens. This is a playhead adapter, not a rewrite of the visual keyframes. Hidden documents pause the queue and CSS tweens; existing reduced-motion rules remain, and Lenis is destroyed for reduced motion.
+
+Search dialogs stop Lenis until closed. Native touch scrolling remains enabled. Anchor routing avoids Lenis' automatic anchors, which otherwise overrode the scroll-story's custom incident destination. Keyboard anchors are immediate. Renderer subscriptions, observers and tweens clean up on navigation/HMR. Liveline's existing patch now accepts an optional frameScheduler while preserving its default behavior for other consumers.
+
+At the user's explicit request the LTV rail uses an orange → pale center → blue → violet spectrum and a soft static glow. This spectrum is decorative; labelled thresholds and the circle/diamond markers retain their semantic risk colors. Values, animation and compact layout are unchanged.

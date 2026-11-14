@@ -1,3 +1,4 @@
+import { requestMotionFrame, cancelMotionFrame } from '../../scripts/motion-clock';
 import { useEffect, useRef, useState } from 'react';
 import { counterMeasure as copy } from '../../content/counter-measure';
 import { DURATION, progressAt, valuesAt } from './ltv-scenario';
@@ -22,16 +23,16 @@ export default function LtvChart() {
       slider.value = String(elapsed);
       if (next !== phase) updateState(next);
     };
-    const stop = () => { cancelAnimationFrame(frame); previous = 0; };
+    const stop = () => { cancelMotionFrame(frame); previous = 0; };
     const tick = (now: number) => {
       if (!playing || !visible || document.hidden || reduced) { stop(); return; }
       if (previous) elapsed = Math.min(DURATION, elapsed + now - previous);
       previous = now;
       if (now - lastDraw >= 32 || elapsed === DURATION) { draw(); lastDraw = now; }
       if (elapsed === DURATION) { playing = false; updateState(4); stop(); return; }
-      frame = requestAnimationFrame(tick);
+      frame = requestMotionFrame(tick);
     };
-    const schedule = () => { stop(); if (playing && visible && !document.hidden && !reduced) frame = requestAnimationFrame(tick); };
+    const schedule = () => { stop(); if (playing && visible && !document.hidden && !reduced) frame = requestMotionFrame(tick); };
     controls.current = {
       toggle: () => { if (reduced) return; if (elapsed === DURATION) elapsed = 0; playing = !playing; draw(); updateState(phase); schedule(); },
       replay: () => { elapsed = reduced ? DURATION : 0; playing = !reduced; draw(); updateState(phase); schedule(); },

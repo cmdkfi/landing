@@ -81,7 +81,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
 
 <style>
   @font-face { font-family: "Kecal"; src: url("/fonts/KecalVariable.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
-  :global(html) { scroll-behavior: smooth; }
+  :global(html) { scroll-behavior: auto; }
   :global(body.concept-page) { --header-ink: oklch(0.51 0.016 260); --font-technical: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; margin: 0; min-height: 100vh; background: #fff; color: #181a1f; font-family: "Kecal", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; overflow-x: hidden; }
   :global(body.concept-page *) { box-sizing: border-box; }
   .concept-header, main { position: relative; z-index: 1; }
@@ -342,6 +342,10 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   }
 </style>
 <script>
+  import { requestMotionFrame, cancelMotionFrame, motionNow } from '../scripts/motion-clock';
+  import { attachPageMotion } from '../scripts/page-motion';
+  const pageMotion = attachPageMotion();
+
   import { attachCodePointer } from '../scripts/code-pointer';
   const codeSurface = document.querySelector<HTMLElement>('.hands-sticky');
   const disposeCodePointer = codeSurface ? attachCodePointer(codeSurface) : undefined;
@@ -398,6 +402,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   }
   const scrollLink=document.querySelector<HTMLAnchorElement>('.hands-scroll');
   let pending = false;
+  let scheduledFrame = 0;
   let horizontalTravel=0;
   let lastHorizontalStep=0;
   let touchStartX=0,touchStartY=0;
@@ -416,7 +421,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     const handoffStart=.54;
     const retreat=smooth(clamp((progress-handoffStart)/.075));
     const settle=smooth(clamp((progress-handoffStart)/.10));
-    const now=performance.now();
+    const now=motionNow();
     const delta=Math.min(64,now-(motionTime||now));motionTime=now;
     const target=selectedStep;
     const instant=reduced.matches||story.classList.contains('keyboard-step');
@@ -493,7 +498,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     selectStep(selectedStep+offset);
   }
   stops.forEach(button=>button.addEventListener('click',goToStep));
-  function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+  function schedule() { if (!pending) { pending = true; scheduledFrame = requestMotionFrame(paint); } }
   function selectStep(index:number){
     selectedStep=index;
     schedule();
@@ -502,7 +507,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     if(dial.inert||Math.abs(event.deltaX)<=Math.abs(event.deltaY)*1.15){horizontalTravel=0;return;}
     if(event.cancelable)event.preventDefault();
     const unit=event.deltaMode===1?16:event.deltaMode===2?window.innerWidth:1;
-    const now=performance.now();
+    const now=motionNow();
     if(now-lastHorizontalStep<380)return;
     horizontalTravel+=event.deltaX*unit;
     if(Math.abs(horizontalTravel)<42)return;
@@ -534,7 +539,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     if(!story||reduced.matches)return;
     event.preventDefault();
     const total=story.offsetHeight-window.innerHeight;
-    window.scrollTo({top:window.scrollY+story.getBoundingClientRect().top+total*.74,behavior:'smooth'});
+    pageMotion.scrollTo(window.scrollY+story.getBoundingClientRect().top+total*.74, event.detail === 0);
   }
   scrollLink?.addEventListener('click',goToDial);
   dial.addEventListener('wheel',horizontalWheel,{passive:false});
@@ -545,8 +550,12 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   window.addEventListener('resize', schedule);
   reduced.addEventListener('change', schedule);
   paint();
-  requestAnimationFrame(()=>revealHeading(firstHeading.querySelector('#concept-title'),reduced.matches));
-  if (import.meta.hot) import.meta.hot.dispose(() => {
+  requestMotionFrame(()=>revealHeading(firstHeading.querySelector('#concept-title'),reduced.matches));
+  const disposePage = () => {
+    cancelMotionFrame(scheduledFrame);
+    pageMotion.dispose();
+    disposeCodePointer?.();
+    disposeEyes();
     dial.removeEventListener('wheel',horizontalWheel);
     dial.removeEventListener('touchstart',beginTouch);
     dial.removeEventListener('touchend',endTouch);
@@ -560,5 +569,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     scene?.dispose();
     atmosphere?.dispose();
     disposeWake?.();
-  });
+  };
+  document.addEventListener('astro:before-swap', disposePage, {once:true});
+  if (import.meta.hot) import.meta.hot.dispose(disposePage);
 </script>

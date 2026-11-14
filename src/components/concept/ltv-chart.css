@@ -108,3 +108,14 @@
 .position-widget .scale-zero, .position-widget .scale-hundred { top: 154px; font-size: 12px; }
 .position-widget .scale-definition { margin: 8px 0; }
 @media(max-width:600px) { .position-widget .ltv-threshold b { font-size: 18px; } .position-widget .ltv-threshold small { font-size: 10px; white-space: normal; max-width: 60px; } }
+
+/* Reference spectrum: decorative color, with risk defined by labelled thresholds. */
+.position-widget .ltv-rail {
+  height: 14px;
+  background: linear-gradient(90deg, #ff4a19 0%, #ffab24 31%, #e2eee4 51%, #a7c9f6 66%, #6245d6 100%);
+  box-shadow: 0 0 0 7px #f1f2f366, 0 0 12px #b7c4cc55;
+}
+.position-widget .ltv-rail::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: inherit; filter: blur(6px); opacity: .6; pointer-events: none;
+}

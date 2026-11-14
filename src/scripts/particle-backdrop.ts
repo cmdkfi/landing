@@ -1,3 +1,4 @@
+import { requestMotionFrame, cancelMotionFrame } from './motion-clock';
 import * as THREE from 'three';
 import { createWakeLayer, wakeVertex } from './particle-wake';
 
@@ -128,10 +129,10 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
     camera.lookAt(gaze);
     skyUniforms.drift.value.set(camera.position.x*.025,camera.position.y*.025);skyUniforms.travel.value=travel;
     renderer.render(scene,camera);
-    if(visible&&!document.hidden&&!reduced.matches&&uniforms.opacity.value>.001)frame=requestAnimationFrame(draw);
+    if(visible&&!document.hidden&&!reduced.matches&&uniforms.opacity.value>.001)frame=requestMotionFrame(draw);
     else last=0;
   }
-  function start(){if(!frame&&!disposed)frame=requestAnimationFrame(draw);}
+  function start(){if(!frame&&!disposed)frame=requestMotionFrame(draw);}
   function point(event:PointerEvent){
     const rect=host.getBoundingClientRect();
     return new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1,1-(event.clientY-rect.top)/rect.height*2);
@@ -155,6 +156,6 @@ export function createParticleBackdrop(host:HTMLElement, surface:HTMLElement) {
   reduced.addEventListener('change',motionChange);document.addEventListener('visibilitychange',start);resize();
   return {
     update(reveal:number,progress=0){uniforms.opacity.value=1-reveal;targetTravel=Math.min(1,progress/.53);start();},
-    dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);observer.disconnect();resizeObserver.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',start);surface.removeEventListener('pointermove',move);surface.removeEventListener('pointerleave',leave);surface.removeEventListener('pointerdown',pulse);surface.removeEventListener('pointerup',leave);geometry.dispose();material.dispose();glyphAtlas.dispose();wake.dispose();skyGeometry.dispose();skyMaterial.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
+    dispose(){if(disposed)return;disposed=true;cancelMotionFrame(frame);observer.disconnect();resizeObserver.disconnect();reduced.removeEventListener('change',motionChange);document.removeEventListener('visibilitychange',start);surface.removeEventListener('pointermove',move);surface.removeEventListener('pointerleave',leave);surface.removeEventListener('pointerdown',pulse);surface.removeEventListener('pointerup',leave);geometry.dispose();material.dispose();glyphAtlas.dispose();wake.dispose();skyGeometry.dispose();skyMaterial.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
   };
 }

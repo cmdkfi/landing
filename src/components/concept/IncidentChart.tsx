@@ -1,3 +1,4 @@
+import { motionScheduler } from '../../scripts/motion-clock';
 import { Liveline } from 'liveline';
 import histories from '../../content/incident-history.json';
 
@@ -39,7 +40,7 @@ export default function IncidentChart({ index, label, date, evidence, source, re
       <div><span>REMAINING</span><strong>{exact(afterAmount)}</strong></div>
     </div>
     <div className="incident-liveline" role="img" aria-label={`Historical block samples. Verified write-off across blocks ${blocks} in ${duration} seconds.`}>
-      <Liveline data={history.points.slice(0, eventIndex + 1)} value={after.value}
+      <Liveline frameScheduler={motionScheduler} data={history.points.slice(0, eventIndex + 1)} value={after.value}
         time={after.time}
         timeRange={[history.points[0].time, after.time + 1800]}
         window={after.time - history.points[0].time + 1800}
