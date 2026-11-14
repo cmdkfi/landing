@@ -1,17 +1,16 @@
 import { gsap } from 'gsap';
 
-const WIDTH = 1672;
-const HEIGHT = 941;
+const WIDTH = 1670;
+const HEIGHT = 942;
 
 type Tree = { x: number; y: number; rx: number; ry: number; phase: number; patch?: HTMLCanvasElement };
 type Seed = { x: number; y: number; phase: number; size: number; speed: number };
 
 const trees: Tree[] = [
-  { x: 345, y: 245, rx: 135, ry: 135, phase: .3 },
-  { x: 1060, y: 135, rx: 100, ry: 105, phase: 1.4 },
-  { x: 1270, y: 385, rx: 74, ry: 80, phase: 2.2 },
-  { x: 1110, y: 705, rx: 80, ry: 80, phase: 3.8 },
-  { x: 505, y: 680, rx: 63, ry: 70, phase: 4.6 },
+  { x: 350, y: 270, rx: 150, ry: 155, phase: .3 },
+  { x: 1100, y: 135, rx: 105, ry: 110, phase: 1.4 },
+  { x: 1440, y: 390, rx: 75, ry: 80, phase: 2.2 },
+  { x: 545, y: 170, rx: 60, ry: 65, phase: 3.8 },
 ];
 
 function makePatch(image: HTMLImageElement, tree: Tree): HTMLCanvasElement {
