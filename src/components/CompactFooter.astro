@@ -1,0 +1,76 @@
+---
+import { footer, header, testnetLine } from '../content/landing';
+
+interface Props {
+  home: '/' | '/1';
+  agentDialog?: boolean;
+}
+
+const { home, agentDialog = false } = Astro.props;
+---
+<footer id="footer" class="compact-footer">
+  <div class="wrap footer-inner">
+    <a class="footer-brand" href={home} aria-label={header.brandLabel}>
+      <span class="key command" aria-hidden="true"></span>
+      <span class="key letter" aria-hidden="true"></span>
+    </a>
+    <nav aria-label={footer.linksLabel}>
+      <ul>
+        {footer.links.map(link => (
+          <li><a href={link.href} data-agent-open={agentDialog && link.agent ? '' : undefined}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="footer-status">
+      <p>{testnetLine}</p>
+      <p>{footer.insurance}</p>
+    </div>
+    <small>{footer.copyright}</small>
+  </div>
+</footer>
+
+<style>
+  .compact-footer { background: #f1f3f5; color: #202831; }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 24px 40px;
+    padding-block: 44px;
+  }
+  .footer-brand { display: inline-flex; align-items: center; gap: 6px; justify-self: start; min-height: 44px; }
+  .key {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d9dce0;
+    border-radius: 8px;
+    background: linear-gradient(175deg, #fff 35%, #f0f1f3);
+    box-shadow: 0 4px 0 #a1abbd, 0 6px 10px #20263026;
+  }
+  .key::after {
+    content: '';
+    width: 22px;
+    height: 22px;
+    background: #535d6d;
+    mask: var(--glyph) center / contain no-repeat;
+  }
+  .command { --glyph: url('/cmdk-mark-flat.svg#svgView(viewBox(-31,-32,439,439))'); }
+  .letter { --glyph: url('/cmdk-mark-flat.svg#svgView(viewBox(422,-28,439,439))'); }
+  @media (forced-colors: active) {
+    .key::after { forced-color-adjust: none; background: LinkText; }
+  }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  @media (hover: hover) { nav a:hover { text-decoration: underline; text-underline-offset: .25em; } }
+  ul { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 0; padding: 0; list-style: none; }
+  nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  p { margin: 0; }
+  .footer-status, small { font-size: .875rem; line-height: 1.55; color: #505f6f; }
+  small { justify-self: end; align-self: end; white-space: nowrap; }
+  @media (max-width: 700px) {
+    .footer-inner { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 32px; }
+    small { justify-self: start; }
+  }
+</style>

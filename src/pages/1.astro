@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/concept-grid.css';
+import CompactFooter from '../components/CompactFooter.astro';
 import HeaderSearch from '../components/concept/HeaderSearch.astro';
 import BorrowIntro from '../components/concept/BorrowIntro.astro';
 import TryToday from '../components/concept/TryToday.astro';
@@ -88,6 +89,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
       <ConceptRoadmap />
       <ConceptLimits />
     </main>
+    <CompactFooter home="/1" />
   </body>
 </html>
 
