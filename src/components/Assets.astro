@@ -1,12 +1,29 @@
 ---
-import { assets, visual, features, groupLabel } from '../content/landing.ts';
-import FeatureList from './FeatureList.astro';
+import { assets, visual, features, groupLabel, type Group } from '../content/landing.ts';
 import StatusChip from './StatusChip.astro';
-const summary = ['eth', 'btc', 'stocks', 'gold'].map((id) => features.find((f) => f.id === id)!);
+const groups = assets.grids.map((id) => ({ id, label: groupLabel[id], items: features.filter((feature) => feature.group === id) }));
+const symbols: Record<Group, string> = { collateral: '◇', borrow: '$', venue: '⌘', chain: '↗', market: '↗', 'venue-risk': '◈', control: '◎', strategy: '✦' };
+const itemSymbols: Record<string, string> = { eth: '◇', btc: '₿', stocks: '▤', 'more-assets': '✦', gold: '◈', rwa: '▦', usdc: '$', 'best-rate': '%', 'morpho-base': 'M', aave: 'A', rhea: 'R', kamino: 'K', 'base-near': '↗', 'any-chain': '∞' };
 ---
-<section id={assets.id} class="section">
-  <div class="section-heading"><h2>{visual.assetsTitle}</h2><p class="muted">{visual.assetsIntro}</p></div>
-  <ul class="panel asset-summary">{summary.map((f) => <li><span class="asset-symbol" aria-hidden="true">{f.id === 'eth' ? '◇' : f.id === 'btc' ? '₿' : f.id === 'gold' ? '◈' : '▤'}</span><strong>{f.title}</strong><StatusChip status={f.status} /></li>)}</ul>
-  <p class="section-note">{assets.note}</p>
-  <details class="disclosure"><summary>{visual.assetsDetails}</summary><div class="two-columns asset-groups">{assets.grids.map((g) => <div><h3>{groupLabel[g]}</h3><FeatureList group={g} /></div>)}</div></details>
+<section id={assets.id} class="section asset-showcase" aria-labelledby="asset-showcase-title">
+  <div class="section-heading asset-showcase-heading">
+    <div><p class="eyebrow">{assets.eyebrow}</p><h2 id="asset-showcase-title">{visual.assetsTitle}</h2></div>
+    <p class="muted">{visual.assetsIntro}</p>
+  </div>
+  <div class="asset-tabs" role="group" aria-label={assets.tabsLabel}>
+    {groups.map((group, index) => <label class="asset-tab"><input type="radio" name="asset-category" value={group.id} checked={index === 0} /><span>{group.label}</span><span class="asset-tab-count">{group.items.length}</span></label>)}
+  </div>
+  {groups.map((group) => <div class="asset-panel" id={`asset-panel-${group.id}`}>
+    <ul class="asset-feature-list"><li class="asset-feature panel" data-feature={group.items[0].id}>
+      <div class="asset-feature-copy">
+        <div class="asset-feature-kicker"><span class={`asset-icon asset-icon-${group.id}`} aria-hidden="true">{symbols[group.id]}</span><span>{group.label}</span></div>
+        <h3>{group.items[0].title}</h3>
+        <p>{group.items[0].text}</p>
+        <StatusChip status={group.items[0].status} />
+      </div>
+      <div class={`asset-feature-art asset-feature-art-${group.id}`} aria-hidden="true"><span class="asset-art-orbit"></span><span class="asset-art-glyph">{symbols[group.id]}</span><span class="asset-art-caption">{group.label}</span></div>
+    </li></ul>
+    <ul class="asset-card-grid">{group.items.slice(1).map((item) => <li class="asset-card panel" data-feature={item.id}><span class={`asset-icon asset-icon-${group.id}`} aria-hidden="true">{itemSymbols[item.id] ?? symbols[group.id]}</span><div class="asset-card-copy"><h3>{item.title}</h3><p>{item.text}</p></div><StatusChip status={item.status} /></li>)}</ul>
+  </div>)}
+  <p class="section-note asset-showcase-note">{assets.note}</p>
 </section>
