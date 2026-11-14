@@ -31,23 +31,18 @@ const nodes = ids.map(id => features.find(feature => feature.id === id)!);
 <style>
   .control-rail { position:relative; min-width:0; color:#243340; }
   .rail-heading { margin:0 0 16px; font-size:12px; line-height:1.5; color:#596675; font-weight:500; }
-  .control-nodes { display:grid; gap:14px; position:relative; }
-  .control-node { position:relative; padding:16px; border:1px solid #17202b12; border-radius:16px; background:#f5f6f7; }
+  .control-nodes { display:grid; gap:16px; position:relative; }
+  .control-node { position:relative; padding:16px; border:1px solid transparent; border-radius:14px; background:#f7f8f9; }
   .node-title { display:flex; align-items:center; gap:10px; }
-  .node-icon { display:grid; place-items:center; flex:none; width:32px; height:32px; background:white; border:1px solid #17202b0b; border-radius:10px; }
+  .node-icon { display:grid; place-items:center; flex:none; width:32px; height:32px; background:transparent; color:#65707a; }
   svg { width:20px; height:20px; }
   h3 { margin:0; font-size:14px; line-height:1.35; font-weight:600; letter-spacing:-.01em; text-wrap:balance; }
-  .control-node p { margin:10px 0 0; font-size:13px; line-height:1.55; color:#596675; text-wrap:pretty; }
+  .control-node p { margin:8px 0 0; font-size:13px; line-height:1.55; color:#596675; text-wrap:pretty; }
+  /* One direct connection per card: no shared spine or overlapping junction. */
   @media (min-width:1101px) {
-    .control-nodes::before { content:''; position:absolute; top:50%; width:32px; height:1px; background:var(--map-line); }
-    .agent .control-nodes::before { right:-32px; }
-    .owner .control-nodes::before { left:-32px; }
-    .control-node::after { content:''; position:absolute; top:50%; width:16px; height:1px; background:var(--map-line); }
-    .agent .control-node::after { right:-17px; }
-    .owner .control-node::after { left:-17px; }
-    .control-nodes::after { content:''; position:absolute; top:0; bottom:0; width:1px; background:linear-gradient(transparent,var(--map-line) 12%,var(--map-line) 88%,transparent); }
-    .agent .control-nodes::after { right:-17px; }
-    .owner .control-nodes::after { left:-17px; }
+    :global(.is-motion) .control-node::after { content:''; position:absolute; top:50%; width:32px; height:1px; background:#e1e5e9; pointer-events:none; }
+    .agent .control-node::after { right:-33px; }
+    .owner .control-node::after { left:-33px; }
   }
   @media (max-width:1100px) {
     .control-nodes { grid-template-columns:repeat(2,minmax(0,1fr)); }
