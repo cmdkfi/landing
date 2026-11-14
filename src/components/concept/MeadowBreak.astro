@@ -17,7 +17,7 @@ import PositionWidget from './PositionWidget.astro';
 <style>
   .ltv-stage { max-width: 1200px; margin: 64px auto 0; padding-inline: 24px; height: 175svh; }
   .ltv-stage-sticky { position: sticky; top: 88px; min-height: 620px; height: calc(100svh - 112px); display: flex; align-items: center; justify-content: center; }
-  .ltv-stage-window { position: relative; z-index: 2; width: min(620px, 100%); flex: none; border: 1px solid #e1e3e6; border-radius: 22px; background: #fff; box-shadow: 0 18px 48px #17202b16, 0 3px 10px #17202b08; overflow: clip; }
+  .ltv-stage-window { align-self: flex-start; position: relative; z-index: 2; width: min(620px, 100%); flex: none; border: 1px solid #e1e3e6; border-radius: 22px; background: #fff; box-shadow: 0 18px 48px #17202b16, 0 3px 10px #17202b08; overflow: clip; }
   .stage-window-bar { height: 40px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #f1f2f4; border-bottom: 1px solid #e1e3e6; color: #65707a; font: 10px/1 var(--font-technical); letter-spacing: .07em; }
   .window-dots { display: flex; gap: 6px; }
   .window-dots i { width: 8px; height: 8px; border-radius: 50%; background: #c3c7cd; }
@@ -34,6 +34,7 @@ import PositionWidget from './PositionWidget.astro';
   @media (max-width: 1000px), (prefers-reduced-motion: reduce) {
     .ltv-stage { height: auto; margin-top: 40px; padding-bottom: 48px; }
     .ltv-stage-sticky { position: relative; top: auto; height: auto; min-height: 0; flex-direction: column; gap: 36px; }
+    .ltv-stage-window { align-self: center; }
     .ltv-stage-copy { position: static; width: min(620px, 100%); max-width: none; order: 2; }
     .stage-step p { max-width: 50ch; }
   }
