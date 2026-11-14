@@ -59,6 +59,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
         <div class="hands-sticky">
           <div class="hero-atmosphere" aria-hidden="true"></div>
           <div class="code-atmosphere" aria-hidden="true">{Array.from({length: 72}, (_, i) => <span style={`--x:${(i * 47 + 13) % 100}%;--y:${(i * 67 + 19) % 100}%;--delay:-${(i * 13) % 24}s;--duration:${18 + (i % 9) * 2}s;--size:${10 + (i % 4) * 2}px;--turn:${(i % 7 - 3) * 7}deg`}>{atmosphereGlyphs[i % atmosphereGlyphs.length]}</span>)}</div>
+          <div class="code-atmosphere code-atmosphere--incidents" aria-hidden="true">{Array.from({length: 96}, (_, i) => <span style={`--x:${(i * 43 + 29) % 100}%;--y:${(i * 61 + 7) % 100}%;--delay:-${(i * 13) % 24}s;--duration:${18 + (i % 9) * 2}s;--size:${10 + (i % 4) * 2}px;--turn:${(i % 7 - 3) * 7}deg`}>{atmosphereGlyphs[i % atmosphereGlyphs.length]}</span>)}</div>
           <div class="hands-copy-head"><p class="concept-eyebrow"><span class="near-gradient-copy">{concept.eyebrow}</span><span class="near-gradient-mark"><img class="near-logo" src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /></span><span class="near-sparkles" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i></span></p></div>
           <div class="hands-heading hands-heading-first"><p class="familiar-script">{concept.marginNote}</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading}</p></div>
           <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="hands-title">{concept.gestureHeading}</p><p class="hands-subtitle">{concept.gestureSubheading}</p></div>
@@ -256,6 +257,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .hands-sticky { position: sticky; top: 0; height: 100svh; min-height: 540px; overflow: clip; }
   .hero-atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(to bottom, #fff, #f2f4f8); }
   .code-atmosphere { position: absolute; inset: 12% 0 4%; z-index: 2; overflow: hidden; pointer-events: none; opacity: calc(1 - var(--hero-exit,0)); mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent); }
+  .code-atmosphere--incidents {opacity:var(--incident-background,0);inset:3% 0 35%}
   .code-atmosphere span { position: absolute; left: var(--x); top: var(--y); color: #727e8d; opacity: .35; font: 500 var(--size)/1 var(--font-technical); transform: rotate(var(--turn)); }
   @media (prefers-reduced-motion: no-preference) { .code-atmosphere span { animation: code-drift var(--duration) linear var(--delay) infinite; } }
   @keyframes code-drift { 0% { transform: translate3d(-12px, 28px, 0) rotate(var(--turn)); opacity: 0; } 20% { opacity: .3; } 75% { opacity: .3; } 100% { transform: translate3d(16px, -55px, 0) rotate(var(--turn)); opacity: 0; } }
@@ -309,7 +311,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .hands-heading-second .hands-title { line-height: 1; }
   .hands-webgl { position: absolute; inset: -20% 0 -12%; z-index: 1; pointer-events: none; }
   .hands-webgl :global(canvas) { width: 100%; height: 100%; display: block; }
-  :global(.hands-light-backdrop) { position: absolute; top: 11.2%; height: 97.68%; width: 100%; left: 0; z-index: 1; pointer-events: none; }
+  :global(.hands-light-backdrop) { position: absolute; top: 11.2%; height: 97.68%; width: 100%; left: 0; z-index: 1; pointer-events: none; opacity: var(--hands-opacity, 1); }
   .hands-stage { position: absolute; inset: 23% 0 0; z-index: 5; pointer-events: none; perspective: 1200px; opacity: var(--hands-opacity,1); }
   .header-key:focus-visible, .concept-logo:focus-visible { outline: 2px solid #606a78; outline-offset: 4px; }
   .hands-scroll { position: absolute; z-index: 8; bottom: 35px; left: calc(50% - 22px); width: 44px; height: 44px; display: grid; place-items: center; color: var(--header-ink); border: 1px solid #d9dce0; border-radius: 50%; background: linear-gradient(175deg, #fff 35%, #f0f1f3); box-shadow: inset 0 1px 0 #fff, 0 2px 6px #2026301a; text-decoration: none; font-size: 22px; opacity: calc(1 - var(--hero-exit,0)); }
@@ -409,7 +411,9 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     const progress = reduced.matches ? 0 : clamp(-box.top / Math.max(1, box.height - window.innerHeight));
     const hands=clamp(progress/.42);
     const reveal=smooth(clamp((progress-.43)/.20));
-    atmosphere?.update(0,progress);
+    const incidentBackground=smooth(clamp((progress-.45)/.09));
+    atmosphere?.update(0,progress,incidentBackground);
+    story.style.setProperty('--incident-background',String(incidentBackground));
     // After the wheel fades in, its rise and the hands' exit begin together.
     const handoffStart=.54;
     const retreat=smooth(clamp((progress-handoffStart)/.075));
@@ -441,7 +445,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     story.style.setProperty('--pin-opacity',String(reduced.matches?0:smooth(clamp((hands-.38)/.02))));
     story.style.setProperty('--pin-heat',String(smooth(clamp((hands-.7)/.28))));
     story.style.setProperty('--pin-line',String(smooth(clamp((progress-.40)/.06))));
-    story.style.setProperty('--hands-opacity',String(1-smooth(clamp((reveal-.88)/.12))));
+    story.style.setProperty('--hands-opacity',String(1-incidentBackground));
     story.style.setProperty('--dial-surface','0');
     story.style.setProperty('--dial-opacity',String(reduced.matches?1:smooth(clamp((progress-.56)/.07))));
     story.style.setProperty('--dial-settle',String(settle));
