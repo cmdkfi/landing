@@ -64,4 +64,11 @@ const groups = groupOrder.map((id) => ({ id, label: groupLabel[id], items: featu
   @media(max-width:520px){.roadmap-tabs{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;margin-top:36px;padding-bottom:10px;scrollbar-width:thin}.roadmap-tab{scroll-snap-align:start;min-height:44px;white-space:nowrap}.roadmap-card p{display:block;-webkit-line-clamp:unset}}
   .roadmap-card{grid-template-columns:56px minmax(0,1fr) auto}.roadmap-icon{width:56px;height:56px;border-radius:17px}.roadmap-feature-label .roadmap-icon{width:44px;height:44px;border-radius:14px}.roadmap-window-icon{width:27px;height:27px;border-radius:8px}
   @media(max-width:480px){.roadmap-card{grid-template-columns:48px minmax(0,1fr)}.roadmap-icon{width:48px;height:48px;border-radius:15px}.roadmap-feature-label .roadmap-icon{width:44px;height:44px}}
+  .roadmap{--roadmap-text-secondary:#606771;--roadmap-status-live-ink:#2c6649;--roadmap-status-production-ink:#80551b;--roadmap-status-neutral-ink:#565d67}
+  .roadmap-card p,.roadmap-feature-body>p,.roadmap-note{color:var(--roadmap-text-secondary)}
+  .roadmap-status,.roadmap-card>.roadmap-status,.roadmap-stage-detail[data-status="roadmap"] strong,.roadmap-stage-detail[data-status="exploring"] strong{color:var(--roadmap-status-neutral-ink)}
+  .roadmap-status[data-status="live"],.roadmap-card>.roadmap-status[data-status="live"],.roadmap-stage-detail[data-status="live"] strong{color:var(--roadmap-status-live-ink)}
+  .roadmap-status[data-status="production"],.roadmap-card>.roadmap-status[data-status="production"],.roadmap-stage-detail[data-status="production"] strong{color:var(--roadmap-status-production-ink)}
+  .roadmap-icon,.roadmap-icon-borrow,.roadmap-icon-venue,.roadmap-icon-chain{border-color:#cad7de;background:linear-gradient(145deg,#dce8ee,#b8cdda 58%,#e7edf1);color:#32576c}
+  .roadmap-window-icon{background:#dce8ee;color:#32576c}
 </style>
