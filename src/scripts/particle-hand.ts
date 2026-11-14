@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { createWakeLayer, wakeVertex, wakeFragment } from './particle-wake';
+import { createWakeLayer, wakeVertex } from './particle-wake';
 
 /** Surface samples retain bone weights, so every particle follows the fingers in 3D. */
 export function createParticleHand(source: THREE.BufferGeometry) {
-  const count = 46000;
+  const count = 60000;
   const p=source.getAttribute('position'), n=source.getAttribute('normal');
   const si=source.getAttribute('skinIndex'), sw=source.getAttribute('skinWeight');
   const indices=source.index!.array;
@@ -39,8 +39,18 @@ export function createParticleHand(source: THREE.BufferGeometry) {
   geometry.setAttribute('skinWeight',new THREE.InstancedBufferAttribute(skinWeights,4));
   geometry.setAttribute('seed',new THREE.InstancedBufferAttribute(seeds,1));
   const wake=createWakeLayer();
+  // One shared glyph atlas keeps the skinned hand in a single instanced draw.
+  const glyphs='NEARHACKATHON0123456789';
+  const atlasCanvas=document.createElement('canvas');
+  atlasCanvas.width=glyphs.length*32;atlasCanvas.height=32;
+  const ctx=atlasCanvas.getContext('2d')!;
+  ctx.fillStyle='#fff';ctx.font='600 26px monospace';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  [...glyphs].forEach((glyph,i)=>ctx.fillText(glyph,i*32+16,16));
+  const glyphAtlas=new THREE.CanvasTexture(atlasCanvas);
+  glyphAtlas.generateMipmaps=false;glyphAtlas.minFilter=THREE.LinearFilter;
   const material=new THREE.ShaderMaterial({
-    transparent:true,depthWrite:true,uniforms:{resolution:{value:new THREE.Vector2(1200,900)},...wake.uniforms,time:{value:0}},
+    transparent:true,depthWrite:true,uniforms:{resolution:{value:new THREE.Vector2(1200,900)},...wake.uniforms,handAtlas:{value:glyphAtlas},time:{value:0}},
     vertexShader:`
       attribute vec2 corner; attribute float seed;
       uniform vec2 resolution; uniform float time;
@@ -66,20 +76,21 @@ export function createParticleHand(source: THREE.BufferGeometry) {
         // Preserve the true surface between interactions; only warm glyphs use the ASCII grid.
         vec2 projected=mix(screen+effect.xy,wakePosition(screen,effect),wakeBlend(vWake));
         gl_Position.xy+=(projected-screen)*2./wakeResolution*gl_Position.w;
-        vec2 diameter=mix(vec2(1.2+seed*1.2+(1.-vLight)*1.2),vec2(14.),wakeBlend(vWake));
+        vec2 diameter=mix(vec2(5.5+seed*2.5),vec2(14.),wakeBlend(vWake));
         gl_Position.xy+=corner*diameter/resolution*gl_Position.w;
-        vUv=corner*.5+.5;vSeed=wakeSeed(wakeCell(screen));
+        vUv=corner*.5+.5;vSeed=seed;
 
       }`,
     fragmentShader:`
-      ${wakeFragment}
+      uniform sampler2D handAtlas;
       varying float vWake; varying vec2 vUv;varying float vSeed;varying float vLight; varying float vFade;
       void main(){
-        float alpha=wakeMask(vUv,vSeed,vWake);
+        float glyph=floor(vSeed*23.);
+        float alpha=texture2D(handAtlas,vec2((glyph+vUv.x)/23.,vUv.y)).a;
         if(alpha<.08)discard;
         vec3 ink=mix(vec3(.10,.12,.16),vec3(.52,.56,.63),pow(vLight,1.25));
         gl_FragColor=vec4(ink,alpha*(.94-.20*vLight)*vFade);
       }`,
   });
-  return {geometry,material,update:(time:number,canvas:HTMLCanvasElement)=>{material.uniforms.time.value=time;wake.update(canvas);},resize:(w:number,h:number)=>material.uniforms.resolution.value.set(w,h),dispose:()=>{material.dispose();wake.dispose();}};
+  return {geometry,material,update:(time:number,canvas:HTMLCanvasElement)=>{material.uniforms.time.value=time;wake.update(canvas);},resize:(w:number,h:number)=>material.uniforms.resolution.value.set(w,h),dispose:()=>{material.dispose();glyphAtlas.dispose();wake.dispose();}};
 }

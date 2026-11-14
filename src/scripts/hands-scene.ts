@@ -56,7 +56,8 @@ export function createHandsScene(host: HTMLElement) {
         object.castShadow=true;object.receiveShadow=true;object.frustumCulled=false;
         const skin=object.material as THREE.MeshStandardMaterial;
         humanMaterials.push(skin);
-        skin.color.setRGB(1,1,1);
+        skin.color.set('#f2bcaa');
+        skin.emissive.set('#a65f48');skin.emissiveIntensity=.16;
         skin.metalness=0;skin.roughness=1;skin.envMapIntensity=.08;skin.normalScale.set(1,1);
         if(object instanceof THREE.SkinnedMesh){
           const vertices=object.geometry.getAttribute('position');
@@ -75,7 +76,7 @@ export function createHandsScene(host: HTMLElement) {
             shader.vertexShader='attribute float handExposure; varying float vHandExposure;\n'+shader.vertexShader;
             shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvHandExposure=handExposure;');
             shader.fragmentShader='varying float vHandExposure;\n'+shader.fragmentShader;
-            shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>','outgoingLight*=mix(.18,1.,smoothstep(0.,.85,vHandExposure));\n#include <opaque_fragment>');
+            shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>','outgoingLight*=mix(.25,.78,smoothstep(0.,.85,vHandExposure));\n#include <opaque_fragment>');
           };
           skin.customProgramCacheKey=()=> 'hand-forearm-falloff';
         }
