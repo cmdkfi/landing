@@ -1,6 +1,6 @@
 ---
 import PositionWidget from './PositionWidget.astro';
-import { featuresOf, market, venue, visual, statusLabel } from '../../content/landing';
+import { featuresOf, market, venue, visual, statusLabel } from '../../content/concept-landing';
 interface Props { kind?: 'price' | 'venue' }
 const { kind = 'price' } = Astro.props;
 const migration = kind === 'venue';

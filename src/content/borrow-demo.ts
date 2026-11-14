@@ -1,4 +1,6 @@
-export const borrowDemo = {
+import { readableCopy } from '../utils/typography';
+
+export const borrowDemo = readableCopy({
   badge: 'SANDBOX · SIMULATED · NO REAL FUNDS',
   steps: ['Choose loan', 'Review limits', 'Connect & sign'],
   titles: ['Borrow against what you hold.', 'Review your protection.', 'Your simulated wallet.', 'Opening your position', 'Your position', 'Position closed'],
@@ -39,4 +41,4 @@ export const borrowDemo = {
   simulated: 'Demo balances · no live data',
   sandboxLink: 'Open full sandbox ↗',
   returned: 'WETH returned', repay: 'USDC to repay',
-} as const;
+} as const);

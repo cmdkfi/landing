@@ -5,7 +5,7 @@ import BorrowIntro from '../components/concept/BorrowIntro.astro';
 import CounterMeasure from '../components/concept/CounterMeasure.astro';
 import MeadowBreak from '../components/concept/MeadowBreak.astro';
 import PositionDial from '../components/concept/PositionDial.astro';
-import { links, meta, concept } from '../content/landing.ts';
+import { links, meta, concept } from '../content/concept-landing';
 const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H', '//', 'A', '!=', 'C', '0x', 'K', '&', 'A', '<>', 'T', '{}', 'H', '01', 'O', '=>', 'N'];
 ---
 <!doctype html>
@@ -571,3 +571,9 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   document.addEventListener('astro:before-swap', disposePage, {once:true});
   if (import.meta.hot) import.meta.hot.dispose(disposePage);
 </script>
+
+<style is:global>
+  body.concept-page main :is(h1, h2, h3, .borrow-show-title) { text-wrap: balance; }
+  body.concept-page main :is(p, dd, .borrow-show-foot, .borrow-show-label, .story-tab-copy) { text-wrap: pretty; overflow-wrap: break-word; }
+  body.concept-page main :is(.availability, .stage-availability, .borrow-cta) { white-space: nowrap; }
+</style>

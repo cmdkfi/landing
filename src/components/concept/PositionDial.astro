@@ -1,6 +1,6 @@
 ---
 import IncidentChart from './IncidentChart';
-import { incidentStory as copy, concept } from '../../content/landing';
+import { incidentStory as copy, concept } from '../../content/concept-landing';
 ---
 <section class="position-dial" id="details" aria-labelledby="position-title" inert>
   <div class="dial-intro"><p class="dial-kicker">{copy.note}</p><h2 id="position-title">{copy.title}</h2><p>{copy.intro.split(/(\d[\d.,:%–-]*)/g).map(function(part) { return Number.isFinite(Number.parseFloat(part)) ? <span class="technical-number">{part}</span> : part; })}</p></div>

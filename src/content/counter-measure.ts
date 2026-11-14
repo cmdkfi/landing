@@ -1,4 +1,6 @@
-export const counterMeasure = {
+import { readableCopy } from '../utils/typography';
+
+export const counterMeasure = readableCopy({
   scaleTarget: "Target",
   scaleAction: "Agent acts",
   scaleLimit: "Liquidation",
@@ -75,21 +77,21 @@ export const counterMeasure = {
   "text29": "Simulated sample · Morpho + Aave · 2025–2026",
   "text30": "The tab stayed closed.",
   "chartDescription": "LTV scale from 0 to 100 percent. Target 50, CMDK action threshold 70, market liquidation threshold 86. The green pin above the scale shows CMDK; the red pin below shows the unprotected position."
-} as const;
+} as const);
 
-export const meadowCopy = {
+export const meadowCopy = readableCopy({
   sceneLabel: "Illustrative loan position",
   posterAlt: "Rolling green hills with trees, a small pond, and two key-shaped stones beneath the large tree on the left",
-} as const;
+} as const);
 
-export const borrowIntro = {
+export const borrowIntro = readableCopy({
   sandboxLabel: "Try sandbox",
   firstLine: "An agent with limits.",
   secondLine: "A wallet only you control.",
   subtitle: "Protection is risk management, not insurance. A price gap faster than every layer still liquidates.",
-} as const;
+} as const);
 
-export const positionStage = {
+export const positionStage = readableCopy({
   tabLabel: "How CMDK works",
   windowTitle: "CMDK / POSITION",
   title: "Your position. Your limits.",
@@ -103,9 +105,9 @@ export const positionStage = {
     { value: "70%", label: "Agent acts", detail: "The agent repays part of the debt to reduce LTV." },
     { value: "86%", label: "Liquidation threshold", detail: "The unprotected position reaches the market’s liquidation threshold." },
   ],
-} as const;
+} as const);
 
-export const storyDemo = {
+export const storyDemo = readableCopy({
   "text1": "ILLUSTRATIVE LOAN \u00b7 TESTNET",
   "text2": "Borrow against what you hold.",
   "text3": "Collateral",
@@ -134,4 +136,4 @@ export const storyDemo = {
   "text26": "50.0%",
   "text27": "A low LTV does not remove every market risk.",
   "text28": "Illustrative signals, not a live alert. Actions depend on supported markets, permissions and execution conditions."
-} as const;
+} as const);

@@ -163,7 +163,7 @@ function RollNow({
     : view
   const now = text.slice(head, text.length - tail)
   // Characters for numbers, whole words (with their spaces) for text
-  const units = numeric ? now.split('') : now.split(/(?<=\s)/)
+  const units = numeric ? now.split('') : now.split(/(?<=[ \t\n])/)
   return (
     <span ref={root} className={`ss-roll${className ? ` ${className}` : ''}`} data-variant={variant} data-align={side} style={style}>
       {text.slice(0, head)}
