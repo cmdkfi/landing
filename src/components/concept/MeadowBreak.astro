@@ -3,11 +3,12 @@ import { meadowCopy, positionStage as copy } from '../../content/counter-measure
 import BorrowShow from './borrow-show/BorrowShow';
 import { statusLabel } from '../../content/concept-landing';
 import PriceProtection from './PriceProtection.astro';
+import ControlRail from './ControlRail.astro';
 ---
 <section class="ltv-stage" aria-label={meadowCopy.sceneLabel}>
   <div class="ltv-stage-sticky">
     <div class="ltv-stage-copy">
-      <div role="tablist" aria-label={copy.tabLabel} aria-orientation="vertical">
+      <div role="tablist" aria-label={copy.tabLabel} aria-orientation="horizontal">
         {copy.tabs.map((tab, index) => <div class="story-item">
           <button type="button" role="tab" id={`story-tab-${index}`} aria-controls={`story-panel-${index}`} aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? 0 : -1}>{tab.title}</button>
           <div class="story-description" hidden={index !== 0}><b>{tab.summary}</b><p>{tab.detail}</p></div>
@@ -24,70 +25,54 @@ import PriceProtection from './PriceProtection.astro';
         <PriceProtection kind="venue" />
       </div>
     </div>
+    <ControlRail side="agent" />
+    <ControlRail side="owner" />
   </div>
 </section>
 <style>
-  .ltv-stage { max-width: 1200px; margin: 64px auto 0; padding-inline: 24px; height: 175svh; }
-  .ltv-stage-sticky { position: sticky; top: 112px; min-height: 0; height: calc(100svh - 136px); display: flex; align-items: center; justify-content: center; }
-  .ltv-stage-window { align-self: center; position: relative; z-index: 2; width: min(620px, 100%); flex: none; border: 1px solid #e1e3e6; border-radius: 22px; background: #fff; box-shadow: 0 18px 48px #17202b16, 0 3px 10px #17202b08; overflow: clip; }
-  .stage-window-bar { position: sticky; top: 0; z-index: 5; flex-shrink: 0; height: 40px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #f1f2f4; border-bottom: 1px solid #e1e3e6; color: #65707a; font: 10px/1 var(--font-technical); letter-spacing: .07em; }
-  .stage-availability { flex-shrink: 0; padding: 3px 8px; border: 1px solid #cce1d4; border-radius: 999px; background: #edf5f0; color: #216c4c; font: 12px/1.4 var(--font-sans, sans-serif); letter-spacing: normal; white-space: nowrap; }
-  .window-dots { display: flex; gap: 6px; }
-  .window-dots i { width: 8px; height: 8px; border-radius: 50%; background: #c3c7cd; }
-  .ltv-stage-window :global(.meadow-position) { width: 100%; }
-  .ltv-stage-window :global(.position-label) { display: block; margin: 0; padding: 16px 22px 0; }
-  .ltv-stage-window :global(.position-widget) { border: 0; border-radius: 0; box-shadow: none; padding-top: 12px; }
-  .ltv-stage-copy { position: absolute; inset-block: 0; left: 0; display: flex; align-items: center; width: 30%; max-width: 310px; }
-  [hidden] { display: none !important; }
+  .ltv-stage { --map-line: #d6dce2; max-width: 1360px; margin: 48px auto 100px; padding-inline: 24px; }
+  .ltv-stage-sticky { display: grid; grid-template-columns: minmax(210px,1fr) minmax(0,620px) minmax(210px,1fr); gap: 32px; align-items: center; }
+  .ltv-stage-copy { grid-column: 1 / -1; width: 100%; margin-bottom: 16px; }
+  [role="tablist"] { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
   .story-item { border-top: 1px solid #e1e3e6; }
-  .story-item button { width: 100%; text-align: left; border: 0; background: transparent; padding: 22px 0; color: #17202b; font: inherit; font-size: 21px; cursor: pointer; }
-  .story-item button[aria-selected="true"] { font-weight: 600; }
-  .story-description { padding-bottom: 26px; }
-  .story-description b { display: block; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
-  .story-description p { font-size: 15px; line-height: 1.7; }
-  button:focus-visible, .story-panel:focus-visible, .demo-link:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; }
-  .story-panel { min-height: 0; height:calc(100% - 40px); }
-  .demo-content { padding: 26px; }
-  .demo-label { display: block; font: 10px/1.5 var(--font-technical); color: #65707a; letter-spacing: .07em; margin-bottom: 20px; }
-  .demo-asset { background: #f3f4f6; border-radius: 16px; padding: 18px; margin: 10px 0; display: grid; gap: 6px; }
-  .demo-asset span, .demo-asset small { color: #65707a; font-size: 13px; }
-  .demo-asset b { font-size: 30px; font-weight: 500; }
-  .demo-facts { margin: 22px 0; font-size: 14px; }
-  .demo-facts div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; }
-  .demo-facts dt { color: #65707a; } .demo-facts dd { margin: 0; }
-  .demo-link { display: inline-flex; background: #101114; color: white; border-radius: 999px; padding: 12px 20px; text-decoration: none; font-size: 14px; }
-  .stress-status { background: #faf3e5; color: #805813; padding: 14px; border-radius: 12px; margin-bottom: 18px; font-size: 14px; }
-  .stress-dot { display: inline-block; width: 7px; height: 7px; background: #ad7618; border-radius: 50%; margin-right: 8px; }
-  .stress-row { border-top: 1px solid #e1e3e6; padding: 17px 0; font-size: 14px; }
-  .stress-row b { float: right; font-weight: 500; } .stress-row p { max-width: none; margin-top: 8px; font-size: 13px; }
-  .stress-note { font-size: 12px; line-height: 1.6; color: #65707a; margin-top: 12px; }
-  h3 { margin: 0 0 24px; font-size: 28px; line-height: 1.15; letter-spacing: -.035em; }
-  .stage-step { border-top: 1px solid #e1e3e6; padding: 16px 0; }
-  strong { float: right; font: 20px/1.4 var(--font-technical); color: #4b657a; }
-  h4 { margin: 0 0 8px; font-size: 16px; font-weight: 550; }
-  p { margin: 0; max-width: 28ch; font-size: 14px; line-height: 1.5; color: #596675; }
-  @media (min-width: 1001px) and (prefers-reduced-motion: no-preference) { .ltv-stage-window { height: 740px; max-height: none; overflow: clip; } .ltv-stage-copy > div { width: 100%; max-height: 100%; overflow-y: auto; } }
-  @media (min-width: 1001px) and (prefers-reduced-motion: no-preference) { .ltv-stage.is-motion .ltv-stage-copy { opacity: 0; } }
-  @media (max-width: 1000px), (prefers-reduced-motion: reduce) {
-    .ltv-stage { height: auto; margin-top: 40px; padding-bottom: 48px; }
-    .ltv-stage-sticky { position: relative; top: auto; height: auto; min-height: 0; flex-direction: column; gap: 36px; }
-    .ltv-stage-window { align-self: center; }
-    .ltv-stage-copy { position: static; width: min(620px, 100%); max-width: none; order: -1; }
-    .stage-step p { max-width: 50ch; }
+  .story-item:has([aria-selected="true"]) { border-top-color: #243340; }
+  .story-item button { width:100%; min-height:56px; text-align:left; border:0; background:transparent; padding:16px 0; color:#596675; font:inherit; font-size:19px; cursor:pointer; }
+  .story-item button[aria-selected="true"] { color:#17202b; font-weight:600; }
+  .story-item button:hover { color:#17202b; }
+  .story-description { min-height: 108px; max-width: 44ch; }
+  .story-description b { display:block; font-size:14px; line-height:1.5; margin-bottom:8px; }
+  .story-description p { margin:0; font-size:14px; line-height:1.6; color:#596675; }
+  .ltv-stage-window { position:relative; z-index:2; width:100%; height:740px; border:1px solid #e1e3e6; border-radius:22px; background:#fff; box-shadow:0 18px 48px #17202b12,0 3px 10px #17202b08; overflow:clip; }
+  .stage-window-bar { position:relative; z-index:5; height:40px; display:flex; align-items:center; gap:16px; padding:0 18px; background:#f1f2f4; border-bottom:1px solid #e1e3e6; color:#65707a; font:10px/1 var(--font-technical); letter-spacing:.07em; }
+  .stage-availability { flex-shrink:0; padding:3px 8px; border:1px solid #cce1d4; border-radius:999px; background:#edf5f0; color:#216c4c; font:12px/1.4 var(--font-sans,sans-serif); letter-spacing:normal; white-space:nowrap; }
+  .window-dots { display:flex; gap:6px; }
+  .window-dots i { width:8px; height:8px; border-radius:50%; background:#c3c7cd; }
+  .story-panel { min-height:0; height:calc(100% - 40px); }
+  [hidden] { display:none!important; }
+  button:focus-visible,.story-panel:focus-visible { outline:2px solid #4b657a; outline-offset:4px; }
+  .ltv-stage-window :global(.position-widget) { border:0; border-radius:0; box-shadow:none; padding-top:12px; }
+  .ltv-stage-window :global(.position-label) { display:block; margin:0; padding:16px 22px 0; }
+  @media (min-width:1101px) { .ltv-stage-window { grid-column:2; grid-row:2; } .ltv-stage-sticky > :global(.control-rail.agent) { grid-column:1; grid-row:2; } .ltv-stage-sticky > :global(.control-rail.owner) { grid-column:3; grid-row:2; } }
+  @media (min-width:1101px) and (max-height:850px) { .ltv-stage-window { height:650px; } }
+  @media (max-width:1100px) {
+    .ltv-stage-sticky { grid-template-columns: minmax(0,620px); justify-content:center; gap:28px; }
+    .ltv-stage-copy { grid-column:1; }
+    .ltv-stage-window { grid-row:2; height:780px; }
+    .story-description { min-height:0; }
+    .story-item button { font-size:16px; }
+    [role="tablist"] { gap:16px; }
   }
-  @media (max-width: 600px) { .ltv-stage { padding-inline: 12px; } .ltv-stage-window { border-radius: 20px; } .ltv-stage-copy { padding-inline: 12px; } }
-
-  .ltv-stage-window { height: 740px; }
-  @media (min-width:1001px) and (max-height:850px) { .ltv-stage-sticky { top:80px; height:calc(100svh - 96px); } .ltv-stage-window { height:650px; } }
-  @media (max-width:1000px) { .ltv-stage-window { height:780px; } }
+  @media (max-width:600px) {
+    .ltv-stage { padding-inline:16px; margin-top:32px; }
+    [role="tablist"] { grid-template-columns:1fr; gap:0; }
+    .story-description { padding-bottom:20px; }
+    .stage-window-bar { gap:10px; padding-inline:12px; }
+    .ltv-stage-window { border-radius:20px; }
+  }
 </style>
 <script>
   import { attachStoryTabs } from '../../scripts/story-tabs';
   const disposeTabs = attachStoryTabs();
   document.addEventListener('astro:before-swap', disposeTabs, { once: true });
   if (import.meta.hot) import.meta.hot.dispose(disposeTabs);
-  import { attachLtvStage } from '../../scripts/ltv-stage';
-  const dispose = attachLtvStage();
-  document.addEventListener('astro:before-swap', dispose, { once: true });
-  if (import.meta.hot) import.meta.hot.dispose(dispose);
 </script>

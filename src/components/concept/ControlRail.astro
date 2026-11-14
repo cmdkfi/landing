@@ -1,0 +1,57 @@
+---
+import { featuresOf } from '../../content/concept-landing';
+interface Props { side: 'agent' | 'owner' }
+const { side } = Astro.props;
+const ids = side === 'agent'
+  ? ['three-actions', 'onchain-check', 'enclave']
+  : ['corridor', 'owner-withdraw', 'immutable-vault', 'revoke'];
+const icons: Record<string, string> = {
+  'three-actions': 'M5 6h14M5 12h10M5 18h6M16 15l3 3-3 3',
+  'onchain-check': 'M12 3l8 4v5c0 5-8 9-8 9s-8-4-8-9V7l8-4Zm-4 9 3 3 5-6',
+  'enclave': 'M7 7h10v10H7zM9 2v5m6-5v5M9 17v5m6-5v5M2 9h5m-5 6h5m10-6h5m-5 6h5',
+  'corridor': 'M4 7h16M4 17h16M8 4v6m8 4v6',
+  'owner-withdraw': 'M4 6h15v14H4zM4 6V4h12M14 11h7v5h-7z',
+  'immutable-vault': 'M5 10h14v11H5zM8 10V7a4 4 0 0 1 8 0v3M12 14v3',
+  'revoke': 'M9 8V5a3 3 0 0 1 6 0v3M5 8h14v13H5zM9 13l6 5m0-5-6 5',
+};
+const features = featuresOf('control');
+const nodes = ids.map(id => features.find(feature => feature.id === id)!);
+---
+<aside class:list={['control-rail', side]} aria-label={side === 'agent' ? 'What the agent can do and how it is checked' : 'The control you keep'}>
+  <p class="rail-heading">{side === 'agent' ? 'The agent acts. The vault checks.' : 'You set the boundaries.'}</p>
+  <div class="control-nodes">
+    {nodes.map(item => (
+      <article class="control-node">
+        <div class="node-title"><span class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={icons[item.id]} /></svg></span><h3>{item.title}</h3></div>
+        <p>{item.text}</p>
+      </article>
+    ))}
+  </div>
+</aside>
+<style>
+  .control-rail { position:relative; min-width:0; color:#243340; }
+  .rail-heading { margin:0 0 16px; font-size:12px; line-height:1.5; color:#596675; font-weight:500; }
+  .control-nodes { display:grid; gap:14px; position:relative; }
+  .control-node { position:relative; padding:16px; border:1px solid #17202b12; border-radius:16px; background:#f5f6f7; }
+  .node-title { display:flex; align-items:center; gap:10px; }
+  .node-icon { display:grid; place-items:center; flex:none; width:32px; height:32px; background:white; border:1px solid #17202b0b; border-radius:10px; }
+  svg { width:20px; height:20px; }
+  h3 { margin:0; font-size:14px; line-height:1.35; font-weight:600; letter-spacing:-.01em; text-wrap:balance; }
+  .control-node p { margin:10px 0 0; font-size:13px; line-height:1.55; color:#596675; text-wrap:pretty; }
+  @media (min-width:1101px) {
+    .control-nodes::before { content:''; position:absolute; top:50%; width:32px; height:1px; background:var(--map-line); }
+    .agent .control-nodes::before { right:-32px; }
+    .owner .control-nodes::before { left:-32px; }
+    .control-node::after { content:''; position:absolute; top:50%; width:16px; height:1px; background:var(--map-line); }
+    .agent .control-node::after { right:-17px; }
+    .owner .control-node::after { left:-17px; }
+    .control-nodes::after { content:''; position:absolute; top:0; bottom:0; width:1px; background:linear-gradient(transparent,var(--map-line) 12%,var(--map-line) 88%,transparent); }
+    .agent .control-nodes::after { right:-17px; }
+    .owner .control-nodes::after { left:-17px; }
+  }
+  @media (max-width:1100px) {
+    .control-nodes { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .control-rail { border-top:1px solid #e1e3e6; padding-top:24px; }
+  }
+  @media (max-width:600px) { .control-nodes { grid-template-columns:1fr; } .control-node p { font-size:14px; } }
+</style>
