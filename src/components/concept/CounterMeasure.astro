@@ -135,10 +135,14 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   @media (prefers-reduced-motion: reduce) { .liquid-field i { animation: none; } }
 
   .ltv-static { display: none; }
-  .ltv-interactive { height: 320px; margin-top: 20px; }
+  .ltv-interactive { height: 370px; margin-top: 20px; }
   .ltv-interactive :global(.ltv-live) { height: 100%; }
   .ltv-interactive :global(button) { min-height: 44px; font-family: inherit; }
   .ltv-interactive :global(button:focus-visible) { outline: 2px solid #4b657a; outline-offset: 2px; }
   .ltv-thresholds { display: flex; justify-content: space-between; gap: 12px; font: 11px/1.5 var(--font-technical); color: var(--muted); }
   @media (prefers-reduced-motion: reduce) { .ltv-interactive { display: none; } .ltv-static { display: block; } }
+
+  .ltv-interactive :global(.ltv-replay-bar) { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font: 11px/1.4 var(--font-technical); color: var(--muted); }
+  .ltv-interactive :global(.ltv-replay-bar button) { flex-shrink: 0; padding: 8px 10px; border: 1px solid #d7dfe8; border-radius: 8px; background: #fff; color: #273846; cursor: pointer; }
+  .ltv-interactive :global(.ltv-replay-bar button:disabled) { opacity: .55; cursor: default; }
 </style>

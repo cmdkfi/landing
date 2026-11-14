@@ -1,4 +1,10 @@
 export const counterMeasure = {
+  replayFalling: "Market falls · LTV rises",
+  replayActing: "70.0% · agent acts",
+  replayRecovering: "Debt repaid · returning to 50.0%",
+  replayComplete: "50.0% protected · 86.0% liquidated",
+  replayPlaying: "Playing…",
+  replayButton: "Replay scenario",
   targetLabel: "50.0% · target",
   liquidationLabel: "86.0% · liquidation",
   actLabel: "70.0% · act line",

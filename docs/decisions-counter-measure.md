@@ -20,3 +20,7 @@ The chart is a static illustrative comparison, not measured market history. No e
 Selected Multi-series from https://benji.org/liveline: overlapping scenario lines, endpoint labels, inspection crosshair, and series toggles. A fixed 70% reference identifies intervention. The illustrative paths are paused rather than supplied with invented live ticks. The unprotected LTV ends at 86%; liquidation is not depicted as a meaningful subsequent LTV of zero. Reduced-motion users retain the static SVG comparison. The green liquid backdrop remains.
 
 Validation: build and content checks passed; rendered settled chart and toggles verified in the browser.
+
+## Scenario playback
+
+The comparison now plays once when visible, pauses at the 70% intervention moment, and reveals the protected return to 50% while the other series reaches 86%. Replay restarts it. The illustrative timeline advances three seconds per sample (12 scenario seconds between intervention and liquidation), accelerated for presentation. Timers stop while the page is hidden or chart leaves view. Reduced-motion retains the static outcome.
