@@ -94,6 +94,12 @@ export function attachPageMotion() {
     }
   };
   document.addEventListener('click', anchorClick);
+  const scrollRequest = (event: Event) => {
+    const top = (event as CustomEvent<number>).detail;
+    if (lenis) lenis.scrollTo(top, { immediate: true });
+    else window.scrollTo({ top, behavior: 'instant' });
+  };
+  window.addEventListener('cmdk-scroll-to', scrollRequest);
 
   return {
     scrollTo(top: number, immediate = false) {
@@ -101,6 +107,7 @@ export function attachPageMotion() {
       else window.scrollTo({ top, behavior: 'instant' });
     },
     dispose() {
+      window.removeEventListener('cmdk-scroll-to', scrollRequest);
       removeScroll(); dialogObserver.disconnect(); lenis?.destroy();
       reduced.removeEventListener('change', configure);
       document.removeEventListener('animationstart', onAnimation, true);
