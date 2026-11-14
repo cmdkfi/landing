@@ -84,8 +84,8 @@ export const meadowCopy = {
 
 export const borrowIntro = {
   sandboxLabel: "Try sandbox",
-  firstLine: "Borrow against",
-  secondLine: "what you hold.",
+  firstLine: "An agent with limits.",
+  secondLine: "A wallet only you control.",
 } as const;
 
 export const positionStage = {
