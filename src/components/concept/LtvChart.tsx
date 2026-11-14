@@ -51,8 +51,8 @@ export default function LtvChart() {
     <div className="scenario-toolbar">
       <p role="status" aria-live="polite">{phases[state.phase]}</p>
       <div className="scenario-actions">
-        <button type="button" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}>{state.playing ? 'Ⅱ' : '▶'}</button>
-        <button type="button" onClick={() => controls.current.replay()} aria-label={copy.replayButton}>↻</button>
+        <button type="button" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}><img src={state.playing ? "/cds-icons/pause.svg" : "/cds-icons/play.svg"} width="20" height="20" alt="" /></button>
+        <button type="button" onClick={() => controls.current.replay()} aria-label={copy.replayButton}><img src="/cds-icons/refresh.svg" width="20" height="20" alt="" /></button>
       </div>
     </div>
     <div className="scenario-values">
@@ -71,8 +71,6 @@ export default function LtvChart() {
     </div>
     <p className="scale-definition">{copy.ltvDefinition}</p>
     <label className="scenario-scrub"><span>{copy.scrubLabel}</span><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/><span>{copy.compressedTime}</span></label>
-    <ol className="scenario-log" aria-label={copy.logLabel}>
-      {[{text:copy.marketStep,at:0},{text:copy.actLog,at:1},{text:copy.settleLog,at:3}].map((event,i)=><li key={i} data-reached={state.phase>=event.at}><span className="step-number">{String(i+1).padStart(2,'0')}</span><span>{event.text}</span></li>)}
-    </ol>
+
   </div>;
 }

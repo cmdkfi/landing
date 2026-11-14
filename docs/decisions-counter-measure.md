@@ -17,3 +17,9 @@ The public cmdkfi/app backtest at 11f9e2ff8f26638051b9afcfdd7d6833bd02479e suppo
 The result metrics show 50% restored LTV and a 36 percentage-point buffer to the 86% example threshold, alongside the sourced 20/20 simulation. No guaranteed 100% collateral loss or universal 5% fee is claimed. Liquidation eligibility does not establish execution or the amount liquidated. Liveline remains unchanged for the historical incidents.
 
 Validation: build and content checks pass. Browser inspection confirms both markers at 70%, the protected marker at 50% after repayment, and the unprotected marker at 86% at completion. Keyboard Home/End can inspect the start/end without an animated transition. The existing reduced-motion behavior shows the final outcome and disables autoplay.
+
+## Compact desktop layout
+
+Removed the redundant card headline, scenario subtitle and repeated step list. The current phase remains visible in the playback toolbar; the short market/strategy qualification sits in the left column. Reduced panel padding and result spacing while retaining 12px threshold labels, 24px current LTV values and 44px playback targets. At a measured 1366×767 CSS viewport, section height is 677.7px and fixed header height is 72px, leaving room for the full section on a 768px-high desktop. The scale remains 511.8px wide. Mobile keeps the stacked layout and scrolls.
+
+Play, pause, refresh and arrowRight SVGs are from Coinbase CDS, served locally with their Apache-2.0 license. ETH/USDC retain the requested color token assets. Build, copy checks and diff checks passed; the complete section and all three bottom figures were verified in the rendered desktop view.

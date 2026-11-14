@@ -53,3 +53,19 @@
 .scenario-values span::before { width: 8px; height: 8px; border: 0; border-radius: 50%; background: #4b657a; }
 .scenario-values div + div span::before { border: 0; border-radius: 0; background: #b44440; transform: rotate(45deg); }
 @media(max-width:600px) { .scenario-log li { grid-template-columns: 26px 1fr; gap: 8px; } .scale-key { font-size: 10px; gap: 8px; } }
+
+.scenario-actions button { display: grid; place-items: center; }
+.scenario-actions img { display: block; }
+.scenario-toolbar { min-height: 44px; margin-top: 8px; }
+.scenario-values { padding-top: 8px; }
+.ltv-scale { margin-top: 4px; height: 122px; }
+.ltv-threshold { top: 4px; }
+.ltv-rail { top: 64px; }
+.marker-protected { top: 37px; }
+.marker-exposed { top: 91px; }
+.scale-zero, .scale-hundred { top: 112px; }
+.scale-key { padding-block: 6px; }
+.scale-definition { margin: 6px 0; }
+.scenario-log { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 4px; }
+.scenario-log li { grid-template-columns: 1fr; gap: 2px; padding: 6px 0 0; border: 0; font-size: 12px; line-height: 1.35; }
+@media(max-width:600px) { .scenario-log { grid-template-columns: 1fr; gap: 0; } .scenario-log li { grid-template-columns: 26px 1fr; } }

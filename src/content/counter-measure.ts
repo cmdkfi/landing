@@ -1,4 +1,5 @@
 export const counterMeasure = {
+  compactNote: "Illustrative scenario. Strategy settings and liquidation terms vary by market.",
   positionLabel: "ILLUSTRATIVE POSITION · TESTNET",
   collateralSymbol: "ETH",
   debtSymbol: "USDC",
