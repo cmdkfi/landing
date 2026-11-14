@@ -31,7 +31,7 @@ export default function BorrowShow() {
       {!manual && <><button type="button" disabled={ended || reducedMotion} onClick={() => setPaused(p => !p)}>{paused ? 'Resume' : 'Pause'}</button><button type="button" onClick={() => { setPaused(false); setEnded(false); setRun(n => n + 1); }}>Replay ↻</button></>}
     </div>
     <div hidden={manual}>
-      <Stage<Scene> key={run} width={620} height={540} compact={{below: 500,width:358,height:590}}
+      <Stage<Scene> key={run} width={620} height={580} compact={{below: 500,width:358,height:620}}
         initial={opening} poster={poster} play="once" script={play} greys="cool" fidelity="realistic"
         accent="#267855" className="borrow-show" tokens={{'--ss-font':'var(--font-sans, Arial, sans-serif)','--ss-canvas':'#fff','--ss-surface':'#fff'}}>
         {s => <div className="borrow-show-body">
