@@ -18,17 +18,17 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 <span>{copy.text10}</span>
 </div>
 <svg class="map-plot" viewBox="0 0 460 290" role="img" aria-label={copy.chartDescription}>
-<g stroke="#e5e9ec" stroke-width="1">
+<g stroke="var(--chart-grid)" stroke-width="1">
 <path d="M48 40H440M48 125H440M48 232H440"/>
 </g>
 <text x="0" y="44">{copy.text11}</text>
 <text x="0" y="129">{copy.text12}</text>
 <text x="0" y="236">{copy.text13}</text>
-<path d="M48 232L112 218L179 181L245 125L294 89L350 40L350 250" fill="none" stroke="#c4736b" stroke-width="2" stroke-dasharray="4 5"/>
-<path d="M48 232L112 218L179 181L245 125L290 232L440 232" fill="none" stroke="#25775f" stroke-width="2.7" stroke-linejoin="round"/>
-<circle cx="245" cy="125" r="5" fill="#25775f" stroke="white" stroke-width="2"/>
-<circle cx="350" cy="40" r="4" fill="#c4736b"/>
-<circle cx="440" cy="232" r="4" fill="#25775f"/>
+<path d="M48 232L112 218L179 181L245 125L294 89L350 40L350 250" fill="none" stroke="var(--chart-danger)" stroke-width="2" stroke-dasharray="4 5"/>
+<path d="M48 232L112 218L179 181L245 125L290 232L440 232" fill="none" stroke="var(--chart-ink)" stroke-width="2.7" stroke-linejoin="round"/>
+<circle cx="245" cy="125" r="5" fill="var(--chart-ink)" stroke="white" stroke-width="2"/>
+<circle cx="350" cy="40" r="4" fill="var(--chart-danger)"/>
+<circle cx="440" cy="232" r="4" fill="var(--chart-ink)"/>
 <text class="red-text" x="276" y="23">{copy.text14}</text>
 <text class="green-text" x="159" y="109">{copy.text15}</text>
 <text class="green-text" x="313" y="216">{copy.text16}</text>
@@ -44,26 +44,7 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 <strong class="green">{copy.text21}</strong>
 <div class="label">{copy.text22}</div>
 <p>{copy.text23}</p>
-<div class="map-dots" aria-hidden="true">
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-<i>
-</i>
-</div>
+
 </div>
 <div class="map-stat">
 <strong>{copy.text24}</strong>
@@ -81,65 +62,59 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 </div>
 </section>
 <style>
-.origin-map{padding:0 0 30px}
-.origin-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:70px;align-items:center}
-.origin-copy h2{font-size:clamp(40px,4.6vw,64px);line-height:1.04;letter-spacing:-.065em;margin:23px 0}
-.origin-copy>p{font-size:17px;line-height:1.65;color:#697077;max-width:390px}
-.origin-copy .micro{font:11px ui-monospace,monospace;line-height:1.7;color:#7d858a;margin-top:30px}
-.map-mat{padding:34px;background:#e9ebef;border-radius:18px}
-.map-card{background:#fcfdff;border:1px solid #d8dce0;border-radius:24px;padding:28px 24px 20px;box-shadow:0 3px 9px #242b3507}
-.map-card .label{font:10px ui-monospace,monospace;color:#788088;letter-spacing:.09em}
-.map-card h2{font-size:26px;letter-spacing:-.05em;margin:14px 0 18px}
-.legend{display:flex;gap:20px;font-size:11px;color:#727a80}
-.legend span:before{content:'';display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:#25775f}
-.legend span+span:before{background:#c4736b}
-.map-plot{width:100%;height:auto;display:block;margin-top:22px;overflow:visible}
-.map-plot text{font:10px ui-monospace,monospace;fill:#879097}
-.map-plot .green-text{fill:#24745c}
-.map-plot .red-text{fill:#b46b65}
-.map-note{font:10px ui-monospace,monospace;line-height:1.6;color:#79838a;border-top:1px solid #e5e8ec;padding-top:14px;margin-top:12px}
-.map-results{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:32px;margin-top:48px;padding-top:30px;border-top:1px solid #dadfe3}
-.map-stat{position:relative;min-height:140px}
-.map-stat strong{display:block;font-size:clamp(42px,5vw,66px);font-weight:550;letter-spacing:-.065em;line-height:1.1;font-variant-numeric:tabular-nums}
-.map-stat p{font-size:13px;color:#727980;line-height:1.5;margin:12px 0;max-width:210px}
-.map-stat .label{font:10px ui-monospace,monospace;letter-spacing:.08em;color:#737c83;margin-top:12px}
-.origin-map .foot{text-align:left;margin-top:10px}
-.origin-map .proof{font:10px ui-monospace,monospace;border:0;padding-left:0;color:#737f7b}
-.map-dots{position:absolute;right:10px;top:6px;display:grid;grid-template-columns:repeat(3,9px);gap:5px;opacity:.6}
-.map-dots i{height:9px;border-radius:50%;background:#b7cfc2}
-.map-dots i:last-child{background:#237359}
-.origin-map{animation:none}
-@media(max-width:800px){.origin-grid{grid-template-columns:1fr;gap:26px}
-.origin-copy h2{font-size:44px}
-.origin-copy>p{max-width:520px}
-.origin-copy .micro{margin-top:16px}
-.map-mat{padding:20px}
-.map-results{gap:18px;margin-top:30px}
-.map-stat strong{font-size:40px}
-.map-dots{display:none}
-.map-stat p{font-size:12px}
-.origin-map .proof{line-height:1.6}}
-@media(max-width:460px){.map-results{grid-template-columns:1fr 1fr}
-.map-stat:last-child{grid-column:1/-1;min-height:100px}
-.map-card{padding:22px 16px}
-.map-mat{padding:12px}
-.origin-copy h2{font-size:40px}}
-
-.origin-map{max-width:1320px;margin:0 auto;padding:100px 48px 80px;color:#2d323c;scroll-margin-top:90px}
-.eyebrow{font-family:var(--font-technical);font-size:11px;letter-spacing:.08em;color:#737b83}
-.origin-copy h2{font-weight:620;letter-spacing:-.035em;text-wrap:balance}
-.origin-copy>p{font-family:"Mluvka",sans-serif}
-.green{color:#25775f}
-.foot{margin-top:24px}
-.proof{display:inline-flex;align-items:center;gap:8px}
-.proof:before{content:"";width:6px;height:6px;border-radius:50%;background:#25775f}
-.map-card h2{font-weight:580;line-height:1.15}
-.map-stat strong{font-weight:580}
-.map-card{box-shadow:0 2px 8px #252b3408}
-.map-mat{background:#e9ebf0}
-@media(max-width:800px){.origin-map{padding:64px 24px 56px}
-.origin-copy h2{font-size:42px}}
-@media(max-width:460px){.origin-map{padding-inline:20px}
-.origin-copy h2{font-size:38px}}
-
+  .origin-map {
+    --chart-ink: #4b657a;
+    --chart-danger: #b44440;
+    --chart-grid: #d7dfe8;
+    --ink: #273846;
+    --muted: #596675;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 88px 48px 72px;
+    color: #2d323c;
+    scroll-margin-top: 90px;
+    font-synthesis: none;
+  }
+  .origin-grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: 64px; align-items: center; }
+  .eyebrow, .label, .micro, .map-note, .proof { font-family: var(--font-technical); color: var(--muted); }
+  .eyebrow, .label { font-size: 12px; line-height: 1.5; letter-spacing: .06em; }
+  .origin-copy h2 { font-size: clamp(36px, 4vw, 58px); font-weight: 540; letter-spacing: -.055em; line-height: 1.08; margin: 20px 0 24px; text-wrap: balance; }
+  .origin-copy > p { font-family: inherit; font-size: 16px; line-height: 1.6; color: #59616d; max-width: 43ch; text-wrap: pretty; }
+  .micro { font-size: 12px; line-height: 1.7; margin-top: 28px; }
+  .map-mat { padding: 24px; border-radius: 22px; background: #e9ebee; border: 1px solid #e1e3e7; }
+  .map-card { padding: 24px; border-radius: 20px; background: #fbfcfe; border: 1px solid #dfe3e8; box-shadow: 0 12px 30px #26364c12, 0 1px 2px #26364c0c; }
+  .map-card h2 { font-size: clamp(22px, 2vw, 28px); font-weight: 540; letter-spacing: -.045em; line-height: 1.15; margin: 14px 0 18px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px 20px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend span::before { content: ''; width: 16px; border-top: 2.5px solid var(--chart-ink); }
+  .legend span + span::before { border-color: var(--chart-danger); border-top-style: dashed; }
+  .map-plot { width: 100%; height: auto; display: block; margin-top: 24px; overflow: visible; }
+  .map-plot text { font-family: var(--font-technical); font-size: 12px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+  .map-plot .green-text { fill: var(--chart-ink); }
+  .map-plot .red-text { fill: var(--chart-danger); }
+  .map-note { font-size: 12px; line-height: 1.65; border-top: 1px solid var(--chart-grid); padding-top: 16px; margin-top: 12px; }
+  .map-results { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 32px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--chart-grid); }
+  .map-stat { min-width: 0; }
+  .map-stat strong { display: block; font-family: var(--font-technical); font-size: clamp(32px, 3.8vw, 52px); font-weight: 500; letter-spacing: -.055em; line-height: 1.15; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .map-stat .label { margin-top: 14px; }
+  .map-stat p { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 8px 0 0; max-width: 25ch; }
+  .foot { margin-top: 28px; }
+  .proof { font-size: 12px; line-height: 1.5; }
+  @media (max-width: 900px) {
+    .origin-grid { grid-template-columns: 1fr; gap: 32px; }
+    .origin-copy > p { max-width: 55ch; }
+    .map-mat { max-width: 650px; width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .origin-map { padding: 56px 20px; }
+    .origin-copy h2 { font-size: 36px; }
+    .map-mat { padding: 12px; border-radius: 22px; }
+    .map-card { padding: 18px 14px; border-radius: 12px; }
+    .map-card h2 { font-size: 24px; }
+    .map-plot text { font-size: 15px; }
+    .map-results { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+    .map-stat + .map-stat { border-top: 1px solid var(--chart-grid); padding-top: 24px; }
+    .map-stat strong { font-size: 40px; }
+    .map-stat p { max-width: 40ch; }
+  }
 </style>
