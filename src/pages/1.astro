@@ -3,6 +3,7 @@ import '../styles/global.css';
 import HeaderSearch from '../components/concept/HeaderSearch.astro';
 import PositionDial from '../components/concept/PositionDial.astro';
 import { links, meta, concept } from '../content/landing.ts';
+const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H', '//', 'A', '!=', 'C', '0x', 'K', '&', 'A', '<>', 'T', '{}', 'H', '01', 'O', '=>', 'N'];
 ---
 <!doctype html>
 <html lang="en">
@@ -57,7 +58,7 @@ import { links, meta, concept } from '../content/landing.ts';
       <section class="hands-story" aria-labelledby="concept-title">
         <div class="hands-sticky">
           <div class="hero-atmosphere" aria-hidden="true"></div>
-          <div class="code-atmosphere" aria-hidden="true">{Array.from({length: 72}, (_, i) => <span style={`--x:${(i * 47 + 13) % 100}%;--y:${(i * 67 + 19) % 100}%;--delay:-${(i * 13) % 24}s;--duration:${18 + (i % 9) * 2}s;--size:${10 + (i % 4) * 2}px;--turn:${(i % 7 - 3) * 7}deg`}>{['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H', '//', 'A', '!=', 'C', '0x', 'K', '&', 'A', '<>', 'T', '{}', 'H', '01', 'O', '=>', 'N'][i % 26]}</span>)}</div>
+          <div class="code-atmosphere" aria-hidden="true">{Array.from({length: 72}, (_, i) => <span style={`--x:${(i * 47 + 13) % 100}%;--y:${(i * 67 + 19) % 100}%;--delay:-${(i * 13) % 24}s;--duration:${18 + (i % 9) * 2}s;--size:${10 + (i % 4) * 2}px;--turn:${(i % 7 - 3) * 7}deg`}>{atmosphereGlyphs[i % atmosphereGlyphs.length]}</span>)}</div>
           <div class="hands-copy-head"><p class="concept-eyebrow"><span class="near-gradient-copy">{concept.eyebrow}</span><span class="near-gradient-mark"><img class="near-logo" src="/near-logo.svg" alt={concept.networkLogo} width="66" height="16" /></span><span class="near-sparkles" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i></span></p></div>
           <div class="hands-heading hands-heading-first"><p class="familiar-script">{concept.marginNote}</p><h1 id="concept-title">{concept.storyHeading}</h1><p class="hands-subtitle">{concept.storySubheading}</p></div>
           <div class="hands-heading hands-heading-second" aria-hidden="true"><p class="hands-title">{concept.gestureHeading}</p><p class="hands-subtitle">{concept.gestureSubheading}</p></div>
