@@ -65,7 +65,7 @@ import ControlRail from './ControlRail.astro';
     .is-motion .ltv-stage-sticky { position:sticky; top:88px; height:calc(100svh - 112px); display:flex; justify-content:center; }
     .is-motion .ltv-stage-window { flex:none; }
     .is-motion .ltv-stage-copy { position:absolute; left:0; width:calc((100% - var(--grid-gap)) / 2.25); margin:0; }
-    .is-motion .ltv-stage-sticky > :global(.control-rail) { position:absolute; width:calc((100% - 684px) / 2); }
+    .is-motion .ltv-stage-sticky > :global(.control-rail) { position:absolute; width:calc((100% - (100% - var(--grid-gap)) * 1.25 / 2.25) / 2 - 32px); }
     .is-motion .ltv-stage-sticky > :global(.control-rail.agent) { left:0; }
     .is-motion .ltv-stage-sticky > :global(.control-rail.owner) { right:0; }
   }
