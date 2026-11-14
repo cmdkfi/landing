@@ -1,7 +1,7 @@
 ---
 import { meadowCopy, positionStage as copy } from '../../content/counter-measure';
 import { storyDemo as demo } from '../../content/counter-measure';
-import BorrowSandbox from './BorrowSandbox';
+import BorrowShow from './borrow-show/BorrowShow';
 import PositionWidget from './PositionWidget.astro';
 ---
 <section class="ltv-stage" aria-label={meadowCopy.sceneLabel}>
@@ -17,7 +17,7 @@ import PositionWidget from './PositionWidget.astro';
     <div class="ltv-stage-window">
       <div class="stage-window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{copy.windowTitle}</span></div>
       <div id="story-panel-0" role="tabpanel" aria-labelledby="story-tab-0" class="story-panel" tabindex="0">
-        <BorrowSandbox client:load />
+        <BorrowShow client:load />
       </div>
       <div id="story-panel-1" role="tabpanel" aria-labelledby="story-tab-1" class="story-panel" tabindex="0" hidden><PositionWidget /></div>
       <div id="story-panel-2" role="tabpanel" aria-labelledby="story-tab-2" class="story-panel" tabindex="0" hidden>
