@@ -1,0 +1,42 @@
+---
+import { assets, visual, features, groupLabel, statusLabel, type Group } from '../../content/landing.ts';
+const groups = assets.grids.map((id) => ({ id, label: groupLabel[id], items: features.filter((feature) => feature.group === id) }));
+const symbols: Record<Group, string> = { collateral: '◇', borrow: '$', venue: '⌘', chain: '↗', market: '↗', 'venue-risk': '◈', control: '◎', strategy: '✦' };
+const itemSymbols: Record<string, string> = { eth: '◇', btc: '₿', stocks: '▤', 'more-assets': '✦', gold: '◈', rwa: '▦', usdc: '$', 'best-rate': '%', 'morpho-base': 'M', aave: 'A', rhea: 'R', kamino: 'K', 'base-near': '↗', 'any-chain': '∞' };
+---
+<section class="roadmap" id="roadmap" aria-labelledby="roadmap-title">
+  <div class="roadmap-inner">
+    <div class="roadmap-heading">
+      <p class="roadmap-kicker">{groupLabel.collateral} · {groupLabel.borrow} · {groupLabel.venue} · {groupLabel.chain}</p>
+      <h2 id="roadmap-title">{visual.assetsTitle}</h2>
+      <p>{visual.assetsIntro}</p>
+    </div>
+    <div class="roadmap-tabs" role="group" aria-label={visual.assetsDetails}>
+      {groups.map((group, index) => <label class="roadmap-tab"><input type="radio" name="concept-roadmap-category" value={group.id} checked={index === 0} /><span>{group.label}</span><span class="roadmap-count">{group.items.length}</span></label>)}
+    </div>
+    {groups.map((group) => <div class="roadmap-panel" id={`roadmap-${group.id}`}>
+      <div class="roadmap-feature">
+        <div class="roadmap-feature-copy">
+          <span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true">{symbols[group.id]}</span>
+          <span class="roadmap-feature-label">{group.label}</span>
+          <h3>{group.items[0].title}</h3>
+          <p>{group.items[0].text}</p>
+          <span class="roadmap-status" data-status={group.items[0].status}>{statusLabel[group.items[0].status]}</span>
+        </div>
+        <div class={`roadmap-art roadmap-art-${group.id}`} aria-hidden="true"><span class="roadmap-art-ring"></span><span class="roadmap-art-symbol">{symbols[group.id]}</span><span class="roadmap-art-caption">{group.label}</span></div>
+      </div>
+      <ul class="roadmap-grid">{group.items.slice(1).map((item) => <li class="roadmap-card"><span class={`roadmap-icon roadmap-icon-${group.id}`} aria-hidden="true">{itemSymbols[item.id] ?? symbols[group.id]}</span><div><h3>{item.title}</h3><p>{item.text}</p><span class="roadmap-status" data-status={item.status}>{statusLabel[item.status]}</span></div></li>)}</ul>
+    </div>)}
+    <p class="roadmap-note">{assets.note}</p>
+  </div>
+</section>
+
+<style>
+  .roadmap{position:relative;background:#fff;color:#111318;padding:clamp(90px,10vw,150px) 20px 130px;border-top:1px solid #e4e5e7;font-family:Kecal,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .roadmap-inner{max-width:1240px;margin-inline:auto}.roadmap-heading{max-width:1120px}.roadmap-kicker{margin:0 0 24px;color:#777b84;font-size:12px;font-weight:650;letter-spacing:.11em;text-transform:uppercase}.roadmap-heading h2{margin:0;font-size:clamp(44px,4.8vw,68px);font-weight:600;line-height:1.03;letter-spacing:-.055em}.roadmap-heading>p:last-child{max-width:620px;margin:24px 0 0;color:#656972;font-size:clamp(17px,1.7vw,22px);line-height:1.48}
+  .roadmap-tabs{display:flex;gap:8px;overflow-x:auto;margin:66px 0 36px;padding:2px 2px 8px;scrollbar-width:thin}.roadmap-tab{position:relative;display:flex;align-items:center;gap:12px;flex:none;min-height:46px;padding:9px 16px;border:1px solid #e0e2e5;border-radius:11px;background:#fff;color:#747780;font-size:15px;line-height:1.2;cursor:pointer;transition:border-color .16s ease,background .16s ease,color .16s ease}.roadmap-tab:hover{background:#f8f9fb;color:#111318}.roadmap-tab:has(input:checked){background:#f7f8fa;border-color:#bfc3ca;color:#111318}.roadmap-tab:has(input:focus-visible){outline:3px solid #596775;outline-offset:3px}.roadmap-tab input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}.roadmap-count{display:grid;place-items:center;min-width:23px;height:23px;padding-inline:5px;border-radius:7px;background:#e9ebee;color:#777b84;font-size:12px;font-variant-numeric:tabular-nums}
+  .roadmap-panel{display:none}.roadmap:has(input[value="collateral"]:checked) #roadmap-collateral,.roadmap:has(input[value="borrow"]:checked) #roadmap-borrow,.roadmap:has(input[value="venue"]:checked) #roadmap-venue,.roadmap:has(input[value="chain"]:checked) #roadmap-chain{display:block}
+  .roadmap-feature{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;min-height:390px;padding:28px;border:1px solid #e5e6e9;border-radius:30px;background:#fafbfc;overflow:hidden}.roadmap-feature-copy{display:flex;align-items:flex-start;flex-direction:column;justify-content:center;padding:20px 12px}.roadmap-feature-label{margin-top:14px;color:#4c5058;font-size:14px;font-weight:550}.roadmap-feature h3{margin:32px 0 0;font-size:clamp(30px,3vw,45px);font-weight:550;line-height:1.1;letter-spacing:-.035em}.roadmap-feature-copy>p{margin:12px 0 0;color:#686c75;font-size:18px;line-height:1.5}.roadmap-feature .roadmap-status{margin-top:22px}.roadmap-art{position:relative;display:grid;place-items:center;min-height:330px;border:1px solid #dce5e5;border-radius:23px;overflow:hidden;background:radial-gradient(circle at 62% 42%,#f7fbfb 0,#e5f0ee 42%,#c6dfd9 100%)}.roadmap-art-borrow{background:radial-gradient(circle at 62% 42%,#fafcf9 0,#e9f1e3 45%,#cddfbe 100%)}.roadmap-art-venue{background:radial-gradient(circle at 62% 42%,#f9fbfd 0,#e5edf5 45%,#c6d6e7 100%)}.roadmap-art-chain{background:radial-gradient(circle at 62% 42%,#fbfafc 0,#eee8f3 45%,#d7c9e2 100%)}.roadmap-art-ring{position:absolute;width:240px;height:240px;border:1px solid #fff;border-radius:50%;box-shadow:0 0 0 50px #ffffff47,0 0 0 100px #ffffff29}.roadmap-art-symbol{position:relative;display:grid;place-items:center;width:135px;height:135px;border:1px solid #ffffffd9;border-radius:32px;background:linear-gradient(145deg,#fff9,#ffffff4d);box-shadow:0 26px 60px #57646b2b,inset 0 1px #fff;color:#346c69;font-size:79px;line-height:1}.roadmap-art-caption{position:absolute;right:22px;bottom:18px;color:#52666b;font-size:12px;font-weight:600}
+  .roadmap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0 0;padding:0;list-style:none}.roadmap-card{display:grid;grid-template-columns:56px minmax(0,1fr);gap:17px;min-height:148px;padding:22px;border:1px solid #e5e6e9;border-radius:26px;background:#fafbfc}.roadmap-icon{display:grid;place-items:center;width:56px;height:56px;border:1px solid #c4d8d4;border-radius:17px;background:linear-gradient(145deg,#d5eff0,#a7d2cb 55%,#f2e1c8);box-shadow:inset 0 1px #fff9;color:#246762;font-size:30px;line-height:1}.roadmap-icon-borrow{background:linear-gradient(145deg,#e9f2da,#bed7ad 60%,#f2e6c8);color:#4e7048}.roadmap-icon-venue{background:linear-gradient(145deg,#dfebf9,#a9cae0 60%,#e9e0f0);color:#396c86}.roadmap-icon-chain{background:linear-gradient(145deg,#f0e7fa,#cdbddd 60%,#e5e6f3);color:#705c83}.roadmap-card h3{margin:2px 0 0;font-size:19px;font-weight:560;line-height:1.25;letter-spacing:-.02em}.roadmap-card p{margin:7px 0 13px;color:#737780;font-size:14px;line-height:1.4}.roadmap-status{display:inline-flex;align-items:center;min-height:27px;padding:4px 10px;border:1px solid #dce1e3;border-radius:999px;background:#eff1f2;color:#596167;font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap}.roadmap-status[data-status="live"]{border-color:#c7ded3;background:#e5f2e9;color:#2d7050}.roadmap-status[data-status="production"]{border-color:#e9d4a9;background:#f9f1de;color:#916015}.roadmap-note{margin:22px 0 0;color:#767b83;font-size:14px;line-height:1.5}
+  @media(max-width:760px){.roadmap{padding:80px 18px 100px}.roadmap-tabs{margin-top:44px}.roadmap-feature{grid-template-columns:1fr;padding:18px;gap:18px}.roadmap-feature-copy{padding:16px 6px}.roadmap-art{min-height:230px}.roadmap-grid{grid-template-columns:1fr}.roadmap-card{min-height:120px}}@media(max-width:480px){.roadmap-heading h2{font-size:43px}.roadmap-feature h3{font-size:32px}.roadmap-art{min-height:190px}.roadmap-art-symbol{width:100px;height:100px;font-size:62px;border-radius:25px}.roadmap-card{padding:17px;border-radius:20px}.roadmap-icon{width:48px;height:48px;border-radius:14px;font-size:26px}.roadmap-card{grid-template-columns:48px minmax(0,1fr)}}@media(prefers-reduced-motion:reduce){.roadmap-tab{transition:none}}
+</style>
