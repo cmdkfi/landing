@@ -11,7 +11,7 @@ const groups = groupOrder.map((id) => ({ id, label: groupLabel[id], items: featu
       <p>{visual.directoryIntro}</p>
     </div>
     <div class="roadmap-tabs" role="group" aria-label={visual.directoryTitle}>
-      {groups.map((group, index) => <label class="roadmap-tab"><input type="radio" name="concept-roadmap-category" value={group.id} checked={index === 0} /><span>{group.label}</span><span class="roadmap-count">{group.items.length}</span></label>)}
+      {groups.map((group, index) => <label class="roadmap-tab" data-group={group.id}><input type="radio" name="concept-roadmap-category" value={group.id} checked={index === 0} /><span>{group.label}</span><span class="roadmap-count">{group.items.length}</span></label>)}
     </div>
     {groups.map((group) => <div class="roadmap-panel" id={`roadmap-${group.id}`}>
       <div class="roadmap-feature">
@@ -69,6 +69,15 @@ const groups = groupOrder.map((id) => ({ id, label: groupLabel[id], items: featu
   .roadmap-status,.roadmap-card>.roadmap-status,.roadmap-stage-detail[data-status="roadmap"] strong,.roadmap-stage-detail[data-status="exploring"] strong{color:var(--roadmap-status-neutral-ink)}
   .roadmap-status[data-status="live"],.roadmap-card>.roadmap-status[data-status="live"],.roadmap-stage-detail[data-status="live"] strong{color:var(--roadmap-status-live-ink)}
   .roadmap-status[data-status="production"],.roadmap-card>.roadmap-status[data-status="production"],.roadmap-stage-detail[data-status="production"] strong{color:var(--roadmap-status-production-ink)}
-  .roadmap-icon,.roadmap-icon-borrow,.roadmap-icon-venue,.roadmap-icon-chain{border-color:#cad7de;background:linear-gradient(145deg,#dce8ee,#b8cdda 58%,#e7edf1);color:#32576c}
-  .roadmap-window-icon{background:#dce8ee;color:#32576c}
+  .roadmap-panel,.roadmap-tab{--category-soft:#dbeafa;--category-strong:#bdd4f0;--category-ink:#24537d;--category-wash:#f3f8fd}
+  .roadmap-panel[id="roadmap-venue-risk"],.roadmap-tab[data-group="venue-risk"]{--category-soft:#e7e1f5;--category-strong:#cbbce8;--category-ink:#594186;--category-wash:#f8f6fc}
+  .roadmap-panel[id="roadmap-collateral"],.roadmap-tab[data-group="collateral"]{--category-soft:#def0ef;--category-strong:#b9ddda;--category-ink:#24645e;--category-wash:#f3faf9}
+  .roadmap-panel[id="roadmap-borrow"],.roadmap-tab[data-group="borrow"]{--category-soft:#eee4f2;--category-strong:#d9c4e4;--category-ink:#6a467b;--category-wash:#faf7fb}
+  .roadmap-panel[id="roadmap-venue"],.roadmap-tab[data-group="venue"]{--category-soft:#fae5df;--category-strong:#ecc8bb;--category-ink:#754331;--category-wash:#fdf8f6}
+  .roadmap-panel[id="roadmap-chain"],.roadmap-tab[data-group="chain"]{--category-soft:#e4e8f7;--category-strong:#c4cdef;--category-ink:#3a4f83;--category-wash:#f7f8fd}
+  .roadmap-panel[id="roadmap-control"],.roadmap-tab[data-group="control"]{--category-soft:#e6ebef;--category-strong:#c6d1d9;--category-ink:#3f5869;--category-wash:#f7f9fa}
+  .roadmap-panel[id="roadmap-strategy"],.roadmap-tab[data-group="strategy"]{--category-soft:#f6e2ea;--category-strong:#e8c2d0;--category-ink:#793c55;--category-wash:#fcf7f9}
+  .roadmap-tab:has(input:checked){background:var(--category-soft);color:var(--category-ink)}.roadmap-tab:has(input:checked) .roadmap-count{color:var(--category-ink)}
+  .roadmap-icon,.roadmap-icon-borrow,.roadmap-icon-venue,.roadmap-icon-chain{border-color:var(--category-strong);background:linear-gradient(145deg,var(--category-soft),var(--category-strong) 58%,var(--category-soft));color:var(--category-ink)}
+  .roadmap-window-icon{background:var(--category-soft);color:var(--category-ink)}.roadmap-window-row[data-selected]{border-color:var(--category-soft);background:var(--category-wash)}
 </style>
