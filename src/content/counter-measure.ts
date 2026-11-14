@@ -78,6 +78,6 @@ export const counterMeasure = {
 } as const;
 
 export const meadowCopy = {
-  sceneLabel: "A green meadow with trees",
-  posterAlt: "A green meadow with trees, a small pond, and two key-shaped stones beneath the large tree on the left",
+  sceneLabel: "A green meadow with rolling hills and trees",
+  posterAlt: "Rolling green hills with trees, a small pond, and two key-shaped stones beneath the large tree on the left",
 } as const;
