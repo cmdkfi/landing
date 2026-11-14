@@ -1,31 +1,44 @@
 ---
 import PositionWidget from './PositionWidget.astro';
-import { featuresOf, market, visual, statusLabel } from '../../content/landing';
-const items = featuresOf('market');
+import { featuresOf, market, venue, visual, statusLabel } from '../../content/landing';
+interface Props { kind?: 'price' | 'venue' }
+const { kind = 'price' } = Astro.props;
+const migration = kind === 'venue';
+const items = featuresOf(migration ? 'venue-risk' : 'market');
 ---
-<section class="price-protection" aria-label={visual.marketTitle}>
+<section class="price-protection" aria-label={migration ? visual.venueTitle : visual.marketTitle}>
   <div data-protection-page>
   <header class="protection-heading">
-    <h3>{visual.marketSub}</h3>
+    <h3>{migration ? visual.venueSub : visual.marketSub}</h3>
   </header>
-  <PositionWidget />
+  {migration ? <div class="migration-overview">
+    <div class="migration-map" role="img" aria-label="Loan moves from approved market A to approved market B with the same collateral and debt">
+      <div>{visual.venueNodes[0]}</div><span aria-hidden="true">→</span><div>{visual.venueNodes[1]}</div>
+    </div>
+    <p class="protection-note">{visual.venueNote}</p>
+  </div> : <PositionWidget />}
   </div>
   <div class="protection-details" data-protection-page hidden>
-    <h4>{visual.marketDetails}</h4>
+    <h4>{migration ? visual.venueDetails : visual.marketDetails}</h4>
     <ul>
       {items.map(item => <li data-feature-page hidden>
         <div class="feature-heading"><h5>{item.title}</h5><span class="availability" data-status={item.status}>{statusLabel[item.status]}</span></div>
         <p>{item.text}</p>
       </li>)}
     </ul>
-    <div data-feature-page hidden><p class="protection-note">{market.honesty}</p>
+    <div data-feature-page hidden><p class="protection-note">{migration ? venue.limit : market.honesty}</p>
     <a href={market.link.href}>{market.link.label}<span aria-hidden="true"> ↗</span></a>
     </div>
   </div>
-  <nav class="protection-pagination" aria-label="Price protection steps"><button type="button" data-prev disabled>← Back</button><span aria-live="polite" data-page-label>1 / 6</span><button type="button" data-next>Next →</button></nav>
+  <nav class="protection-pagination" aria-label={migration ? "Market migration steps" : "Price protection steps"}><button type="button" data-prev disabled>← Back</button><span aria-live="polite" data-page-label>1 / 6</span><button type="button" data-next>Next →</button></nav>
 </section>
 <style>
   .price-protection { --protection-border: #e3e7eb; color: #273846; background: #fff; }
+  .migration-overview { padding:24px; }
+  .migration-map { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:20px; min-height:270px; }
+  .migration-map div { background:#f1f3f5; border:1px solid #dce1e5; border-radius:16px; padding:28px 14px; text-align:center; font-size:18px; line-height:1.4; }
+  .migration-map>span {font-size:28px;color:#596675}
+  @media(max-width:450px){.migration-map{gap:10px}.migration-map div{font-size:16px;padding:24px 10px}}
   .protection-heading { padding: 24px 24px 0; }
   h3 { margin: 0 0 8px; font-size: 26px; line-height: 1.2; letter-spacing: -.025em; text-wrap: pretty; }
   .availability { display: inline-flex; flex: none; border: 1px solid #d9dfe2; border-radius: 999px; padding: 4px 9px; font: 12px/1.4 var(--font-sans, sans-serif); color: #53616a; background: #f1f3f4; }
@@ -62,8 +75,7 @@ const items = featuresOf('market');
   }
 </style>
 <script>
- const root = document.querySelector<HTMLElement>('.price-protection');
- if(root) {
+ for (const root of document.querySelectorAll<HTMLElement>('.price-protection')) {
  const pages = Array.from(root.querySelectorAll<HTMLElement>('[data-protection-page]'));
  const features = Array.from(root.querySelectorAll<HTMLElement>('[data-feature-page]'));
  const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;

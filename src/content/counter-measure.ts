@@ -95,7 +95,7 @@ export const positionStage = {
   tabs: [
     { title: "Borrow", summary: "Keep your ETH. Borrow USDC.", detail: "Choose your collateral, review the market and set the limits your agent follows before you sign." },
     { title: "When prices fall", summary: "Reduce debt before the liquidation threshold.", detail: "See how the agent acts at 70% LTV and aims to restore the 50% target, while an unprotected position reaches 86%." },
-    { title: "When a market shows stress", summary: "Look beyond the LTV number.", detail: "Oracle delays and limited liquidity can create risk even at a low LTV. This example shows why market conditions also need attention." },
+    { title: "When a market shows stress", summary: "Move the loan between approved markets.", detail: "Same collateral. Same debt, to 0.000002 USDC. Cross-venue moves are roadmap." },
   ],
   steps: [
     { value: "50%", label: "Target", detail: "The LTV your strategy aims to restore." },
