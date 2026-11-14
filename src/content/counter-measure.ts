@@ -1,4 +1,6 @@
-export const counterMeasure = {
+import { readableCopy } from '../utils/typography';
+
+export const counterMeasure = readableCopy({
   scaleTarget: "Target",
   scaleAction: "Agent acts",
   scaleLimit: "Liquidation",
@@ -75,9 +77,63 @@ export const counterMeasure = {
   "text29": "Simulated sample · Morpho + Aave · 2025–2026",
   "text30": "The tab stayed closed.",
   "chartDescription": "LTV scale from 0 to 100 percent. Target 50, CMDK action threshold 70, market liquidation threshold 86. The green pin above the scale shows CMDK; the red pin below shows the unprotected position."
-} as const;
+} as const);
 
-export const meadowCopy = {
-  sceneLabel: "A green meadow with rolling hills and trees",
+export const meadowCopy = readableCopy({
+  sceneLabel: "Illustrative loan position",
   posterAlt: "Rolling green hills with trees, a small pond, and two key-shaped stones beneath the large tree on the left",
-} as const;
+} as const);
+
+export const borrowIntro = readableCopy({
+  sandboxLabel: "Try sandbox",
+  firstLine: "An agent with limits.",
+  secondLine: "A wallet only you control.",
+  subtitle: "Protection is risk management, not insurance. A price gap faster than every layer still liquidates.",
+} as const);
+
+export const positionStage = readableCopy({
+  tabLabel: "How CMDK works",
+  windowTitle: "CMDK / POSITION",
+  title: "Your position. Your limits.",
+  tabs: [
+    { title: "Borrow", summary: "Keep your ETH. Borrow USDC.", detail: "Choose your collateral, review the market and set the limits your agent follows before you sign." },
+    { title: "When prices fall", summary: "Reduce debt before the liquidation threshold.", detail: "See how the agent acts at 70% LTV and aims to restore the 50% target, while an unprotected position reaches 86%." },
+    { title: "When a market shows stress", summary: "Move the loan between approved markets.", detail: "Same collateral. Same debt, to 0.000002 USDC. Cross-venue moves are roadmap." },
+  ],
+  steps: [
+    { value: "50%", label: "Target", detail: "The LTV your strategy aims to restore." },
+    { value: "70%", label: "Agent acts", detail: "The agent repays part of the debt to reduce LTV." },
+    { value: "86%", label: "Liquidation threshold", detail: "The unprotected position reaches the market’s liquidation threshold." },
+  ],
+} as const);
+
+export const storyDemo = readableCopy({
+  "text1": "ILLUSTRATIVE LOAN \u00b7 TESTNET",
+  "text2": "Borrow against what you hold.",
+  "text3": "Collateral",
+  "text4": "0.50 ETH",
+  "text5": "Illustrative value \u00b7 $1,600",
+  "text6": "You borrow",
+  "text7": "800 USDC",
+  "text8": "50% starting LTV",
+  "text9": "Market",
+  "text10": "Morpho \u00b7 Base",
+  "text11": "Agent action threshold",
+  "text12": "70%",
+  "text13": "Liquidation threshold",
+  "text14": "86%",
+  "text15": "Try this in sandbox \u2197",
+  "text16": "ILLUSTRATIVE MARKET STRESS",
+  "text17": "Price is only one signal.",
+  "text18": "Market review needed",
+  "text19": "Oracle updates",
+  "text20": "Delayed",
+  "text21": "A stale price can hide changes in collateral value.",
+  "text22": "Available liquidity",
+  "text23": "Reduced",
+  "text24": "Less liquidity can make an exit harder to execute.",
+  "text25": "Position LTV",
+  "text26": "50.0%",
+  "text27": "A low LTV does not remove every market risk.",
+  "text28": "Illustrative signals, not a live alert. Actions depend on supported markets, permissions and execution conditions."
+} as const);

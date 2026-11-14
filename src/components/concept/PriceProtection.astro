@@ -1,0 +1,99 @@
+---
+import { protectionPlayer } from '../../content/protection-player';
+import PositionWidget from './PositionWidget.astro';
+import { featuresOf, market, venue, visual, statusLabel } from '../../content/concept-landing';
+interface Props { kind?: 'price' | 'venue' }
+const { kind = 'price' } = Astro.props;
+const migration = kind === 'venue';
+const items = featuresOf(migration ? 'venue-risk' : 'market');
+---
+<section data-demo-kind={kind} class="price-protection" aria-label={migration ? visual.venueTitle : visual.marketTitle}>
+  {<div class="borrow-show-controls" role="group" aria-label={migration ? protectionPlayer.migrationLabel : protectionPlayer.controlsLabel}>
+    <button type="button" data-watch aria-pressed="false">{protectionPlayer.watch}</button>
+    <button type="button" data-pause disabled>{protectionPlayer.pause}</button>
+    <button type="button" data-replay>{protectionPlayer.replay}</button>
+  </div>}
+  <div data-protection-page>
+  <header class="protection-heading">
+    <h3>{migration ? visual.venueSub : visual.marketSub}</h3>
+  </header>
+  {migration ? <div class="migration-overview">
+    <div class="migration-map" role="img" aria-label={protectionPlayer.migrationDescription}>
+      <div data-market-a>{visual.venueNodes[0]}</div><span aria-hidden="true">→</span><div data-market-b>{visual.venueNodes[1]}</div>
+      <span class="migration-loan" data-migration-loan>{protectionPlayer.loan}</span>
+    </div>
+    <p class="migration-status" data-migration-status aria-live="polite">{protectionPlayer.migrationBeats[3]}</p>
+    <p class="protection-note">{visual.venueNote}</p>
+  </div> : <PositionWidget />}
+  </div>
+  <div class="protection-details" data-protection-page hidden>
+    <h4>{migration ? visual.venueDetails : visual.marketDetails}</h4>
+    <ul>
+      {items.map((item, index) => <li data-feature-page hidden>
+        <div class="feature-heading"><h5>{item.title}</h5><span class="availability" data-status={item.status}>{statusLabel[item.status]}</span></div>
+        {<div class="feature-scene" aria-hidden="true">
+          <span>{(migration ? protectionPlayer.migrationScenes : protectionPlayer.scenes)[index][0]}</span><span class="scene-arrow">→</span><strong>{(migration ? protectionPlayer.migrationScenes : protectionPlayer.scenes)[index][1]}</strong>
+        </div>}
+        <p>{item.text}</p>
+      </li>)}
+    </ul>
+    <div data-feature-page hidden><p class="protection-note">{migration ? venue.limit : market.honesty}</p>
+    <a href={market.link.href}>{market.link.label}<span aria-hidden="true"> ↗</span></a>
+    </div>
+  </div>
+  <nav class="protection-pagination" aria-label={migration ? "Market migration steps" : "Price protection steps"}><button type="button" data-prev disabled>{protectionPlayer.back}</button><span aria-live="polite" data-page-label>1 / 6</span><button type="button" data-next>{protectionPlayer.next}</button></nav>
+</section>
+<style>
+  .price-protection { --protection-border: #e3e7eb; color: #273846; background: #fff; }
+  .migration-overview { padding:24px; }
+  .migration-map { position:relative; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:20px; min-height:210px; }
+  .migration-map div { background:#f1f3f5; border:1px solid #dce1e5; border-radius:16px; padding:28px 14px; text-align:center; font-size:18px; line-height:1.4; }
+  .migration-map>span:not(.migration-loan) {font-size:28px;color:#596675}
+  .migration-map .migration-loan {position:absolute;top:calc(50% + 50px);left:0;width:calc((100% - 68px)/2);text-align:center;padding:10px 0;background:#273846;color:white;border-radius:10px;font-size:14px;will-change:transform;}
+  .migration-status {font-weight:600;color:#216c4c;min-height:26px;}
+  .feature-scene {text-align:center;}
+  .price-protection[data-demo-kind=venue] .feature-scene {font-size:22px;}
+
+  @media(max-width:450px){.migration-map{gap:10px}.migration-map div{font-size:16px;padding:24px 10px}}
+  .protection-heading { padding: 24px 24px 0; }
+  h3 { margin: 0 0 8px; font-size: 26px; line-height: 1.2; letter-spacing: -.025em; text-wrap: pretty; }
+  .availability { display: inline-flex; flex: none; border: 1px solid #d9dfe2; border-radius: 999px; padding: 4px 9px; font: 12px/1.4 var(--font-sans, sans-serif); color: #53616a; background: #f1f3f4; }
+  .availability[data-status=live] { color: #216c4c; background: #edf5f0; border-color: #cce1d4; }
+  .availability[data-status=production] { color: #805813; background: #faf3e5; border-color: #e8d8b6; }
+  .feature-scene {display:flex;align-items:center;justify-content:center;gap:24px;margin:28px 0;padding:40px 16px;border-radius:16px;background:#f2f3f5;font-size:32px;font-variant-numeric:tabular-nums;}
+  .scene-arrow {font-size:24px;color:#7b858d;}
+  .feature-scene strong {font-weight:500;}
+  .protection-details { padding: 0 24px 28px; }
+  h4 { margin: 0; padding: 24px 0 8px; border-top: 1px solid var(--protection-border); font-size: 18px; font-weight: 600; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { padding: 22px 0; border-bottom: 1px solid var(--protection-border); }
+  .feature-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; }
+  h5 { margin: 0; font-size: 16px; line-height: 1.5; font-weight: 600; }
+  p { margin: 10px 0 0; font-size: 16px; line-height: 1.6; text-wrap: pretty; }
+  .protection-note { color: #596675; margin-top: 24px; }
+  a { display: inline-flex; gap: 4px; align-items: center; min-height: 44px; margin-top: 8px; color: #216c4c; text-underline-offset: 4px; font-size: 16px; }
+  a:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; border-radius: 4px; }
+  @media (hover: hover) and (pointer: fine) { a:hover { color: #154a34; } }
+  @media (max-width: 600px) { .protection-heading { padding: 20px 14px 0; } .protection-details { padding-inline: 14px; } h3 { font-size: 23px; } }
+
+  .price-protection { height:calc(100% - 0px); display:flex; flex-direction:column; }
+  .protection-pagination { margin-top:auto; padding:12px 24px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid #e3e7eb; }
+  .protection-pagination button { min-height:44px; padding:10px 16px; border:0; border-radius:999px; background:#f1f2f4; color:#273846; cursor:pointer; font:inherit; }
+  .protection-pagination button:disabled { opacity:.4; cursor:default; }
+  .protection-pagination button:focus-visible { outline:2px solid #48667d; outline-offset:2px; }
+  .protection-pagination span { font-size:12px; color:#596675; }
+  [hidden] { display:none!important; }
+
+  @media(min-width:1001px) and (max-height:850px) {
+    .protection-heading {padding-top:16px}
+    h3 {font-size:24px}
+    .price-protection :global(.position-label) {padding-top:8px}
+    .price-protection :global(.position-widget) {padding-bottom:8px}
+    .price-protection :global(.ltv-scale) {margin-top:8px}
+    .protection-pagination {padding-block:6px}
+  }
+</style>
+<script>
+ import { initProtectionStory } from './price-protection-story';
+ for (const root of document.querySelectorAll<HTMLElement>('.price-protection')) initProtectionStory(root);
+</script>
