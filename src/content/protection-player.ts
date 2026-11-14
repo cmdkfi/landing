@@ -1,0 +1,15 @@
+export const protectionPlayer = {
+  contextLabel: 'Why a loan needs looking after',
+  controlTitle: 'An agent with limits. A wallet only you control.',
+  controlNote: 'Protection is risk management, not insurance. A price gap faster than every layer still liquidates.',
+  agent: 'Agent can reduce, move and exit within your permissions.',
+  back: '← Back', next: 'Next →',
+  migrationLabel: 'Market migration demo controls',
+  migrationDescription: 'Loan moves from approved market A to approved market B with the same collateral and debt',
+  loan: 'Your loan',
+  migrationBeats: ['Market stress detected', 'Checking your approved market', 'Moving the loan without selling', 'Loan moved · same collateral and debt'],
+  migrationScenes: [['Market A', 'Market B'], ['No approved market', 'Allowed exit'], ['Venue A', 'Venue B'], ['Your holdings', 'Venue limits']],
+  controlsLabel: 'Price protection demo controls',
+  watch: 'Watch demo', pause: 'Pause', replay: 'Replay ↻',
+  scenes: [['ETH', 'USDC'], ['70% LTV', '50% LTV'], ['USDC', 'ETH'], ['Asset A', 'Asset B']],
+};

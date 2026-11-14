@@ -1,5 +1,3 @@
-import { requestMotionFrame, cancelMotionFrame } from '../../scripts/motion-clock';
-import { createPortal } from 'react-dom';
 import './borrow-show/borrow-show.css';
 import { useEffect, useRef, useState } from 'react';
 import { counterMeasure as copy } from '../../content/counter-measure';
@@ -8,44 +6,19 @@ import './ltv-chart.css';
 
 export default function LtvChart() {
   const root = useRef<HTMLDivElement>(null);
-  const controls = useRef({ toggle: () => {}, replay: () => {} });
-  const [state, setState] = useState({ playing: false, phase: 0, reduced: false });
-  const [progress, setProgress] = useState(0);
-  const [toolbar, setToolbar] = useState<HTMLElement | null>(null);
+  const [state, setState] = useState({ phase: 4 });
+  const [progress, setProgress] = useState(3);
   useEffect(() => {
-    const el = root.current!;
-    const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    let elapsed = 0, frame = 0, previous = 0, phase = -1, lastDraw = 0;
-    let visible = false, playing = true, reduced = motion.matches;
-    setToolbar(el.closest('.price-protection')?.querySelector<HTMLElement>('[data-price-controls]') ?? null);
-    const updateState = (next: number) => { phase = next; setState({ playing, phase, reduced }); };
-    const draw = () => {
+    const host = root.current?.closest('.price-protection');
+    const update = () => {
+      const elapsed = Number((host as HTMLElement)?.dataset.demoElapsed ?? DURATION);
       const p = progressAt(elapsed);
-      const next = p < 1 ? 0 : p === 1 ? 1 : p < 2 ? 2 : p < 3 ? 3 : 4;
       setProgress(p);
-      if (next !== phase) updateState(next);
+      setState({ phase: p < 1 ? 0 : p === 1 ? 1 : p < 2 ? 2 : p < 3 ? 3 : 4 });
     };
-    const stop = () => { cancelMotionFrame(frame); previous = 0; };
-    const tick = (now: number) => {
-      if (!playing || !visible || document.hidden || reduced) { stop(); return; }
-      if (previous) elapsed = Math.min(DURATION, elapsed + now - previous);
-      previous = now;
-      if (now - lastDraw >= 32 || elapsed === DURATION) { draw(); lastDraw = now; }
-      if (elapsed === DURATION) { playing = false; updateState(4); stop(); return; }
-      frame = requestMotionFrame(tick);
-    };
-    const schedule = () => { stop(); if (playing && visible && !document.hidden && !reduced) frame = requestMotionFrame(tick); };
-    controls.current = {
-      toggle: () => { if (reduced) return; if (elapsed === DURATION) elapsed = 0; playing = !playing; draw(); updateState(phase); schedule(); },
-      replay: () => { if (reduced) return; elapsed = 0; playing = true; draw(); updateState(phase); schedule(); },
-    };
-    const onMotion = () => { reduced = motion.matches; if (reduced) { elapsed = DURATION; playing = false; } draw(); updateState(phase); schedule(); };
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; schedule(); }, { threshold: .25 });
-    observer.observe(el);
-    document.addEventListener('visibilitychange', schedule);
-    motion.addEventListener('change', onMotion);
-    onMotion();
-    return () => { stop(); observer.disconnect(); document.removeEventListener('visibilitychange', schedule); motion.removeEventListener('change', onMotion); };
+    host?.addEventListener('price-demo-frame', update);
+    update();
+    return () => host?.removeEventListener('price-demo-frame', update);
   }, []);
   const phases = [copy.replayFalling, copy.replayActing, copy.replayRecovering, copy.replaySettled, copy.replayComplete];
   const current = valuesAt(progress);
@@ -54,11 +27,6 @@ export default function LtvChart() {
   const protectedStatus = current.protected >= 70 ? 'Agent acting' : current.protected > 50.1 ? 'Approaching action line' : 'At target';
   const exposedStatus = current.exposed >= 86 ? 'Eligible for liquidation' : current.exposed >= 70 ? 'Beyond action line' : current.exposed > 50.1 ? 'Risk rising' : 'At target';
   return <div className="ltv-scenario" ref={root} data-phase={state.phase}>
-    {toolbar && createPortal(<div className="borrow-show-controls" role="group" aria-label="Price protection demo controls">
-      <button type="button" aria-pressed="true" disabled={state.reduced} onClick={() => controls.current.replay()}>Watch demo</button>
-      <button type="button" disabled={state.reduced || state.phase === 4} onClick={() => controls.current.toggle()}>{state.playing ? 'Pause' : 'Resume'}</button>
-      <button type="button" disabled={state.reduced} onClick={() => controls.current.replay()}>Replay ↻</button>
-    </div>, toolbar)}
     <div className="scenario-values">
       <div><span>{copy.text9}</span><strong>{current.protected.toFixed(1)}%</strong><small>{protectedStatus}</small><small className="ltv-buffer">{protectedBuffer} pp to liquidation</small></div>
       <div><span>{copy.text10}</span><strong>{current.exposed.toFixed(1)}%</strong><small>{exposedStatus}</small><small className="ltv-buffer">{exposedBuffer} pp to liquidation</small></div>
