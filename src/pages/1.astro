@@ -471,7 +471,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
       if(offset>panels.length/2)offset-=panels.length;
       const staticPanel=reduced.matches||story.classList.contains('keyboard-step');
       panel.style.setProperty('--panel-opacity',visible?'1':'0');
-      panel.style.transform='translateX(-50%)';
+      panel.style.transform=reduced.matches?'none':`translateX(-50%) scale(${panelFits[i] ?? 1})`;
       const chart=panel.querySelector<HTMLElement>('.event-chart');
       if(chart){
         const travel=staticPanel?0:Math.max(-1,Math.min(1,offset));
@@ -491,6 +491,18 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     selectStep(selectedStep+offset);
   }
   stops.forEach(button=>button.addEventListener('click',goToStep));
+  let panelFits: number[] = [];
+  function measurePanels() {
+    const wheelTop = dial.querySelector<HTMLElement>('.dial-wheel')!.offsetTop;
+    panelFits = panels.map(panel => {
+      const top = panel.parentElement!.offsetTop - wheelTop + 22 + window.innerHeight * .2 + panel.offsetTop;
+      return Math.min(1, Math.max(240, window.innerHeight - top - 32) / Math.max(1, panel.offsetHeight));
+    });
+    schedule();
+  }
+  const panelObserver = new ResizeObserver(measurePanels);
+  panels.forEach(panel => panelObserver.observe(panel));
+  window.addEventListener('resize', measurePanels);
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
   function selectStep(index:number){
     selectedStep=index;
@@ -549,6 +561,8 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     dial.removeEventListener('touchstart',beginTouch);
     dial.removeEventListener('touchend',endTouch);
     dial.removeEventListener('keydown',horizontalKey);
+    panelObserver.disconnect();
+    window.removeEventListener('resize', measurePanels);
     window.removeEventListener('scroll',schedule);
     window.removeEventListener('resize', schedule);
     reduced.removeEventListener('change', schedule);
