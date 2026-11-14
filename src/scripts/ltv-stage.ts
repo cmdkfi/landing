@@ -22,7 +22,7 @@ export function attachLtvStage() {
     }
     const rect = stage!.getBoundingClientRect();
     const travel = Math.max(1, stage!.offsetHeight - innerHeight);
-    const progress = Math.max(0, Math.min(1, (88 - rect.top) / travel));
+    const progress = Math.max(0, Math.min(1, (112 - rect.top) / travel));
     const eased = progress * progress * (3 - 2 * progress);
     const distance = Math.max(0, (stage!.clientWidth - 48 - card!.offsetWidth) / 2);
     card!.style.transform = `translate3d(${distance * eased}px,0,0)`;
