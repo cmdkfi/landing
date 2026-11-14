@@ -1,64 +1,22 @@
 ---
-import { meadowCopy } from "../../content/counter-measure";
+import { meadowCopy } from '../../content/counter-measure';
 import PositionWidget from './PositionWidget.astro';
 ---
 <section class="meadow-break" aria-label={meadowCopy.sceneLabel}>
-  <img
-    class="meadow-poster"
-    src="/images/meadow-muted.webp"
-    alt={meadowCopy.posterAlt}
-    width="1670"
-    height="942"
-    loading="lazy"
-    decoding="async"
-  />
-  <canvas class="meadow-canvas" aria-hidden="true"></canvas>
   <PositionWidget />
 </section>
 
 <style>
   .meadow-break {
-    position: relative;
+    display: flex;
+    justify-content: center;
     max-width: 1320px;
-    min-height: 820px;
     margin: 120px auto 0;
-    overflow: hidden;
+    padding: 0 24px 48px;
     background: #fff;
   }
 
-  .meadow-break img,
-  .meadow-canvas {
-    display: block;
-    width: 100%;
-    height: 820px;
-    object-fit: cover;
-    mask-image: radial-gradient(ellipse 72% 65% at 50% 50%, #000 52%, transparent 100%);
-  }
-
-  .meadow-canvas {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: auto;
-    opacity: 0;
-    transition: opacity 450ms ease-out;
-    cursor: crosshair;
-  }
-
-  .meadow-break.is-ready .meadow-canvas { opacity: 1; }
-
   @media (max-width: 600px) {
-    .meadow-break { min-height: 620px; margin-top: 72px; }
-    .meadow-break img,
-    .meadow-canvas { width: 145%; height: 620px; max-width: none; margin-left: -22.5%; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .meadow-canvas { display: none; }
+    .meadow-break { margin-top: 72px; padding: 0 12px 32px; }
   }
 </style>
-
-<script>
-  import { setupMeadowScene } from './meadow-scene';
-  setupMeadowScene();
-  document.addEventListener('astro:page-load', setupMeadowScene);
-</script>
