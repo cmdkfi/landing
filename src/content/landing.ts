@@ -437,6 +437,7 @@ export const meta = {
   description:
     'Borrow USDC against what you hold. An AI agent keeps your loan away from liquidation while you are away, inside limits you set, and it cannot move your money. Runs on NEAR testnet and Base Sepolia. Unaudited.', // PRD 5.2; D4; COPY l.7; README l.3
   lang: 'en',
+  ogImageAlt: 'cmdk: Borrow against what you hold. An agent looks after the loan, and it cannot move your money. Live on NEAR testnet and Base Sepolia.',
 };
 
 export const header = {
@@ -444,10 +445,12 @@ export const header = {
   brandLabel: 'cmdk home',
   navLabel: 'Sections',
   anchors: [
-    { href: '#how', label: 'How it works' },
-    { href: '#assets', label: 'Assets and venues' },
+    // Sections of the landing (src/pages/index.astro, formerly /1): the loan-care story, the feature directory, the
+    // agent-and-owner scene, the directory again for statuses.
+    { href: '#counter-measure', label: 'How it works' },
+    { href: '#roadmap', label: 'Assets and venues' },
     { href: '#control', label: 'Security' },
-    { href: '#status', label: 'Status' },
+    { href: '#roadmap', label: 'Status' },
   ], // PRD 5.1 l.99
 };
 

@@ -295,10 +295,12 @@ if (index !== null) {
   const entryScripts = [...index.matchAll(/<script\b[^>]*src=["']([^"']+)["']/g)];
   const js = entryScripts.reduce((sum, match) => sum + scriptSize(match[1]), 0) + inlineJs;
   const html = Buffer.byteLength(index);
-  if (html + css < 100000) ok('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 100,000)`);
-  else check('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 100,000)`);
-  if (js < 5000) ok('dist/index.html', 0, 'weight', `script ${js} bytes (limit 5,000)`);
-  else check('dist/index.html', 0, 'weight', `script ${js} bytes (limit 5,000)`);
+  // Limits raised on 14 Nov 2026 (founder) when the concept page with its 3D and motion scripts became the main page
+  // (was 100,000 and 5,000): measured 458,322 and 815,953 bytes; the limits keep about 10% headroom.
+  if (html + css < 500000) ok('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 500,000)`);
+  else check('dist/index.html', 0, 'weight', `HTML ${html} + CSS ${css} bytes (limit 500,000)`);
+  if (js < 900000) ok('dist/index.html', 0, 'weight', `script ${js} bytes (limit 900,000)`);
+  else check('dist/index.html', 0, 'weight', `script ${js} bytes (limit 900,000)`);
 }
 
 // ---------------------------------------------------------------- 7. no copy in components

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { header, footer, links, cta, testnetLine, walletBrowserCaption, meta, visual, commandMenu } from '../content/landing.ts';
 import CompactFooter from '../components/CompactFooter.astro';
+import SocialMeta from '../components/SocialMeta.astro';
 import CommandMenu from '../components/CommandMenu.astro';
 import AgentPanel from '../components/AgentPanel.astro';
 import AgentBar from '../components/AgentBar.astro';
@@ -14,7 +15,7 @@ const anchorBase = onIndex ? '' : '/';
 <html lang={meta.lang}>
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{title}</title><meta name="description" content={description} /><meta name="robots" content="noindex" />
+    <title>{title}</title><meta name="description" content={description} /><SocialMeta title={title} description={description} /><meta name="robots" content="noindex" />
     <meta name="theme-color" content="#f6f7f5" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/cmdk.woff2" as="font" type="font/woff2" crossorigin />
   </head>
