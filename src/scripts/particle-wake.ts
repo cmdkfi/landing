@@ -1,3 +1,4 @@
+import { motionNow } from './motion-clock';
 import * as THREE from 'three';
 
 // ASCII wake interaction adapted from Bencho's displayed AsciiWake source:
@@ -34,7 +35,7 @@ export function attachParticleWake(surface:HTMLElement){
   const leave=()=>{inside=false;previous=undefined;};
   const move=(e:PointerEvent)=>{
     if(reduced()||e.pointerType==='touch'||e.target instanceof Element&&e.target.closest('a,button,input')){leave();return;}
-    advance(performance.now()/1000);
+    advance(motionNow()/1000);
     const next={x:e.clientX,y:e.clientY},from=previous??next;
     const steps=Math.max(1,Math.ceil(Math.hypot(next.x-from.x,next.y-from.y)/(RADIUS/3)));
     for(let k=1;k<=steps;k++)stamp(from.x+(next.x-from.x)*k/steps,from.y+(next.y-from.y)*k/steps);
@@ -42,7 +43,7 @@ export function attachParticleWake(surface:HTMLElement){
   };
   const down=(e:PointerEvent)=>{
     if(reduced()||e.pointerType==='touch'||e.target instanceof Element&&e.target.closest('a,button,input'))return;
-    rings.push({x:e.clientX,y:e.clientY,t:performance.now()/1000});rings=rings.slice(-8);
+    rings.push({x:e.clientX,y:e.clientY,t:motionNow()/1000});rings=rings.slice(-8);
   };
   surface.addEventListener('pointerenter',move,{passive:true});surface.addEventListener('pointermove',move,{passive:true});surface.addEventListener('pointerdown',down,{passive:true});surface.addEventListener('pointerleave',leave);window.addEventListener('blur',leave);
   return ()=>{surface.removeEventListener('pointerenter',move);surface.removeEventListener('pointermove',move);surface.removeEventListener('pointerdown',down);surface.removeEventListener('pointerleave',leave);window.removeEventListener('blur',leave);leave();heat.fill(0);rings=[];};
@@ -57,7 +58,7 @@ export function createWakeLayer(){
   let field=texture();
   const uniforms={wakeHeat:{value:field},wakeFieldSize:{value:new THREE.Vector2(cols,rows)},wakePointer:{value:new THREE.Vector3()},wakeRings:{value:Array.from({length:8},()=>new THREE.Vector3(-10000,-10000,10))},wakeDeal:{value:0},wakeResolution:{value:new THREE.Vector2(1,1)},wakeOrigin:{value:new THREE.Vector2()},wakeAtlas:{value:atlas}};
   return {uniforms,update(canvas:HTMLCanvasElement){
-    const now=performance.now()/1000;advance(now);
+    const now=motionNow()/1000;advance(now);
     if(field.image.data!==heat){field.dispose();field=texture();uniforms.wakeHeat.value=field;}
     field.needsUpdate=true;
     const rect=canvas.getBoundingClientRect();
