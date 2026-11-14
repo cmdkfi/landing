@@ -7,10 +7,10 @@ type Tree = { x: number; y: number; rx: number; ry: number; phase: number; patch
 type Seed = { x: number; y: number; phase: number; size: number; speed: number };
 
 const trees: Tree[] = [
-  { x: 350, y: 270, rx: 150, ry: 155, phase: .3 },
-  { x: 1100, y: 135, rx: 105, ry: 110, phase: 1.4 },
-  { x: 1440, y: 390, rx: 75, ry: 80, phase: 2.2 },
-  { x: 545, y: 170, rx: 60, ry: 65, phase: 3.8 },
+  { x: 333, y: 337, rx: 75, ry: 65, phase: .3 },
+  { x: 1078, y: 163, rx: 45, ry: 40, phase: 1.4 },
+  { x: 1393, y: 431, rx: 38, ry: 35, phase: 2.2 },
+  { x: 550, y: 184, rx: 28, ry: 28, phase: 3.8 },
 ];
 
 function makePatch(image: HTMLImageElement, tree: Tree): HTMLCanvasElement {
@@ -101,8 +101,8 @@ export function setupMeadowScene() {
         context.fill();
       }
 
-      const pondX = 1090;
-      const pondY = 480;
+      const pondX = 1055;
+      const pondY = 495;
       const glint = Math.sin(time * 1.4) * 9;
       context.beginPath();
       context.ellipse(pondX + glint, pondY, 21, 4, -.28, 0, Math.PI * 2);
@@ -142,7 +142,7 @@ export function setupMeadowScene() {
       const rect = canvas.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width * WIDTH;
       const y = (event.clientY - rect.top) / rect.height * HEIGHT;
-      if (Math.hypot((x - 1090) / 130, (y - 480) / 90) < 1) ripple = { x, y, at: gsap.ticker.time };
+      if (Math.hypot((x - 1055) / 75, (y - 495) / 35) < 1) ripple = { x, y, at: gsap.ticker.time };
     });
     gsap.ticker.add(render);
   });
