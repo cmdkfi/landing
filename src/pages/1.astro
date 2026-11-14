@@ -5,6 +5,7 @@ import BorrowIntro from '../components/concept/BorrowIntro.astro';
 import CounterMeasure from '../components/concept/CounterMeasure.astro';
 import MeadowBreak from '../components/concept/MeadowBreak.astro';
 import PositionDial from '../components/concept/PositionDial.astro';
+import ConceptRoadmap from '../components/concept/ConceptRoadmap.astro';
 import { links, meta, concept } from '../content/concept-landing';
 const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H', '//', 'A', '!=', 'C', '0x', 'K', '&', 'A', '<>', 'T', '{}', 'H', '01', 'O', '=>', 'N'];
 ---
@@ -77,9 +78,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
       <BorrowIntro />
       <MeadowBreak />
       <CounterMeasure />
-      <div class="eyes-block" aria-hidden="true">
-        <span class="eye-capsule"><span class="tracker-gaze"><i></i><i></i></span></span>
-      </div>
+      <ConceptRoadmap />
     </main>
   </body>
 </html>
@@ -98,22 +97,6 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     font-weight: 500;
   }
   .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px max(20px, calc((100% - 1320px) / 2)); display: flex; align-items: center; gap: 16px; background: transparent; }
-  .eyes-block {
-    display: grid;
-    place-items: center;
-    min-height: 100svh;
-    background: #fff;
-  }
-  .eye-capsule {
-    display: grid;
-    place-items: center;
-    width: 60px;
-    height: 40px;
-    border-radius: 999px;
-    background: #17181a;
-  }
-  .tracker-gaze { display:flex; gap:5px; will-change:transform; }
-  .tracker-gaze i { display:block; width:7px; height:7px; border-radius:50%; background:#fafafa; }
   .concept-logo { display: inline-flex; align-items: center; gap: 6px; flex: none; }
   .logo-key { --cta-padding: 0; }
   .logo-key .cta-surface { width: 34px; justify-content: center; }
