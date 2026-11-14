@@ -6,9 +6,10 @@ import './ltv-chart.css';
 
 export default function LtvChart() {
   const root = useRef<HTMLDivElement>(null);
-  const controls = useRef({ toggle: () => {}, replay: () => {}, seek: (_: number) => {} });
+  const controls = useRef({ toggle: () => {}, seek: (_: number) => {} });
   const [state, setState] = useState({ playing: false, phase: 0, reduced: false });
   const [progress, setProgress] = useState(0);
+  const [timeline, setTimeline] = useState(0);
   useEffect(() => {
     const el = root.current!;
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -20,6 +21,7 @@ export default function LtvChart() {
       const p = progressAt(elapsed);
       const next = p < 1 ? 0 : p === 1 ? 1 : p < 2 ? 2 : p < 3 ? 3 : 4;
       setProgress(p);
+      setTimeline(elapsed / DURATION * 100);
       slider.value = String(elapsed);
       if (next !== phase) updateState(next);
     };
@@ -35,7 +37,6 @@ export default function LtvChart() {
     const schedule = () => { stop(); if (playing && visible && !document.hidden && !reduced) frame = requestMotionFrame(tick); };
     controls.current = {
       toggle: () => { if (reduced) return; if (elapsed === DURATION) elapsed = 0; playing = !playing; draw(); updateState(phase); schedule(); },
-      replay: () => { elapsed = reduced ? DURATION : 0; playing = !reduced; draw(); updateState(phase); schedule(); },
       seek: value => { elapsed = value; playing = false; stop(); draw(); updateState(phase); },
     };
     const onMotion = () => { reduced = motion.matches; if (reduced) { elapsed = DURATION; playing = false; } draw(); updateState(phase); schedule(); };
@@ -48,12 +49,16 @@ export default function LtvChart() {
   }, []);
   const phases = [copy.replayFalling, copy.replayActing, copy.replayRecovering, copy.replaySettled, copy.replayComplete];
   const current = valuesAt(progress);
+  const protectedBuffer = Math.max(0, 86 - current.protected).toFixed(1);
+  const exposedBuffer = Math.max(0, 86 - current.exposed).toFixed(1);
+  const protectedStatus = current.protected >= 70 ? 'Agent acting' : current.protected > 50.1 ? 'Approaching action line' : 'At target';
+  const exposedStatus = current.exposed >= 86 ? 'Eligible for liquidation' : current.exposed >= 70 ? 'Beyond action line' : current.exposed > 50.1 ? 'Risk rising' : 'At target';
   return <div className="ltv-scenario" ref={root} data-phase={state.phase}>
     <div className="scenario-values">
-      <div><span>{copy.text9}</span><strong>{current.protected.toFixed(1)}%</strong></div>
-      <div><span>{copy.text10}</span><strong>{current.exposed.toFixed(1)}%</strong></div>
+      <div><span>{copy.text9}</span><strong>{current.protected.toFixed(1)}%</strong><small>{protectedStatus}</small><small className="ltv-buffer">{protectedBuffer} pp to liquidation</small></div>
+      <div><span>{copy.text10}</span><strong>{current.exposed.toFixed(1)}%</strong><small>{exposedStatus}</small><small className="ltv-buffer">{exposedBuffer} pp to liquidation</small></div>
     </div>
-    <div className="ltv-scale" role="img" aria-label={`${copy.chartDescription} ${copy.text9}: ${current.protected.toFixed(1)}%. ${copy.text10}: ${current.exposed.toFixed(1)}%.`}>
+    <div className="ltv-scale" role="img" aria-label={`${copy.chartDescription} ${copy.text9}: ${current.protected.toFixed(1)}%, ${protectedBuffer} percentage points to liquidation. ${copy.text10}: ${current.exposed.toFixed(1)}%, ${exposedBuffer} percentage points to liquidation.`}>
       <div className="ltv-rail" />
       {[50, 70, 86].map((value, i) => <div key={value} className={`ltv-threshold threshold-${i}`} style={{ left: `${value}%` }}><span><b>{value}%</b><small>{[copy.scaleTarget, copy.scaleAction, copy.scaleLimit][i]}</small></span><i /></div>)}
       <div className="ltv-marker marker-protected" style={{ left: `${current.protected}%` }}><i /></div>
@@ -62,14 +67,11 @@ export default function LtvChart() {
     </div>
     <p className="scale-definition">{copy.ltvDefinition}</p>
     <div className="replay-controls">
-    <div className="scenario-toolbar">
-      <p role="status" aria-live="polite">{phases[state.phase]}</p>
-      <div className="scenario-actions">
-        <button type="button" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}><img src={state.playing ? "/cds-icons/pause.svg" : "/cds-icons/play.svg"} width="20" height="20" alt="" /></button>
-        <button type="button" onClick={() => controls.current.replay()} aria-label={copy.replayButton}><img src="/cds-icons/refresh.svg" width="20" height="20" alt="" /></button>
+      <p className="replay-status" role="status" aria-live="polite">{phases[state.phase]}</p>
+      <div className="replay-timeline">
+        <button type="button" className="replay-toggle" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}><img src={state.playing ? "/cds-icons/pause.svg" : "/cds-icons/play.svg"} width="20" height="20" alt="" /></button>
+        <div className="replay-track"><div className="replay-ticks" aria-hidden="true" /><div className="replay-fill" style={{ width: `${timeline}%` }} aria-hidden="true" /><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/></div>
       </div>
-    </div>
-    <label className="scenario-scrub"><span>{copy.scrubLabel}</span><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/></label>
     </div>
   </div>;
 }

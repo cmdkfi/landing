@@ -7,11 +7,22 @@ export const counterMeasure = {
   collateralSymbol: "ETH",
   debtSymbol: "USDC",
   pairDescription: "ETH collateral, USDC debt",
+  collateralTriggerLabel: "Choose collateral; ETH is selected",
+  collateralListLabel: "Collateral availability",
+  collateralCloseLabel: "Close collateral list",
+  collateralChooseLabel: "Choose collateral",
+  collateralOptions: {
+    eth: { symbol: "ETH", status: "Live on testnet" },
+    btc: { icon: "₿", symbol: "BTC", status: "Production release" },
+    near: { icon: "N", symbol: "NEAR", status: "Roadmap" },
+    gold: { icon: "Au", symbol: "Gold", status: "Exploring" },
+    stocks: { icon: "◇", symbol: "Tokenized stocks", status: "Roadmap" },
+  },
   replaySettled: "Target restored · unprotected LTV rises",
   pause: "Pause scenario",
   play: "Play scenario",
   marketStep: "Market falls · LTV rises",
-  ltvDefinition: "LTV · debt / collateral value",
+  ltvDefinition: "LTV = debt ÷ collateral value. Distance to liquidation = 86% − current LTV.",
   actLog: "Agent repays part of the debt",
   settleLog: "Protected position returns to target",
   scrubLabel: "Replay progress",
@@ -57,11 +68,16 @@ export const counterMeasure = {
   "text22": "01 / TARGET RESTORED",
   "text23": "vs 86.0% LTV without protection",
   "text24": "36 pp",
-  "text25": "02 / LTV BUFFER",
-  "text26": "Distance from target to the liquidation threshold",
+  "text25": "02 / ROOM TO THRESHOLD",
+  "text26": "86% liquidation threshold − 50% target LTV",
   "text27": "20/20",
   "text28": "03 / HISTORICAL REPLAY",
   "text29": "Simulated sample · Morpho + Aave · 2025–2026",
   "text30": "The tab stayed closed.",
-  "chartDescription": "LTV scale from 0 to 100 percent. Target 50, CMDK action threshold 70, market liquidation threshold 86. The circle shows CMDK; the diamond shows the unprotected position."
+  "chartDescription": "LTV scale from 0 to 100 percent. Target 50, CMDK action threshold 70, market liquidation threshold 86. The green pin above the scale shows CMDK; the red pin below shows the unprotected position."
+} as const;
+
+export const meadowCopy = {
+  sceneLabel: "A green meadow with trees",
+  posterAlt: "A green meadow seen from above, with leafy trees, a winding path, and a small pond",
 } as const;

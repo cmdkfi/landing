@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import HeaderSearch from '../components/concept/HeaderSearch.astro';
 import CounterMeasure from '../components/concept/CounterMeasure.astro';
+import MeadowBreak from '../components/concept/MeadowBreak.astro';
 import PositionDial from '../components/concept/PositionDial.astro';
 import { links, meta, concept } from '../content/landing.ts';
 const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H', '//', 'A', '!=', 'C', '0x', 'K', '&', 'A', '<>', 'T', '{}', 'H', '01', 'O', '=>', 'N'];
@@ -72,6 +73,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
         </div>
       </section>
       <CounterMeasure />
+      <MeadowBreak />
       <div class="eyes-block" aria-hidden="true">
         <span class="eye-capsule"><span class="tracker-gaze"><i></i><i></i></span></span>
       </div>
@@ -92,7 +94,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .concept-header .concept-header-cta {
     font-weight: 500;
   }
-  .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px max(48px, calc((100% - 1320px) / 2 + 48px)); display: flex; align-items: center; gap: 16px; background: transparent; }
+  .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px max(20px, calc((100% - 1320px) / 2)); display: flex; align-items: center; gap: 16px; background: transparent; }
   .eyes-block {
     display: grid;
     place-items: center;
@@ -185,8 +187,8 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .logo-key:last-child::before { box-shadow: none; }
   .concept-header-cta.header-key { height: 42px; min-height: 42px; border-radius: 999px; }
   .concept-header-cta.header-key::before { display: none; }
-  .concept-header-cta.header-key .cta-surface { height: 40px; border: 0; border-radius: 999px; background: oklch(0.32 0.016 260); color: #fff; box-shadow: none; transform: none; }
-  .testnet-indicator { flex: none; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, oklch(.98 .025 150), oklch(.78 .15 150) 35%, oklch(.48 .14 150) 72%, oklch(.83 .09 150)); box-shadow: 0 1px 3px #0003, 0 0 8px oklch(.66 .15 150 / .3); }
+  .concept-header-cta.header-key .cta-surface { height: 40px; border: 0; border-radius: 999px; background: #111; color: #fff; box-shadow: none; transform: none; }
+  .testnet-indicator { flex: none; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #fff, #d6d6d6 38%, #888 72%, #bbb); box-shadow: 0 1px 3px #0003; }
   .concept-header :global(.header-search) {
     box-shadow: none;
   }
@@ -231,7 +233,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   @media (hover: hover) and (pointer: fine) {
     .header-key:hover .cta-surface { background: #fff; }
     .ask-agent-button.header-key:hover .cta-surface { background: oklch(0.94 0.006 260); }
-    .concept-header-cta.header-key:hover .cta-surface { background: oklch(0.26 0.016 260); }
+    .concept-header-cta.header-key:hover .cta-surface { background: #000; }
   }
   .header-key:active .cta-surface,
     .concept-logo:active .cta-surface { background: #e9ebef; }

@@ -109,13 +109,56 @@
 .position-widget .scale-definition { margin: 8px 0; }
 @media(max-width:600px) { .position-widget .ltv-threshold b { font-size: 18px; } .position-widget .ltv-threshold small { font-size: 10px; white-space: normal; max-width: 60px; } }
 
-/* Reference spectrum: decorative color, with risk defined by labelled thresholds. */
+/* Risk rises from the safe zone through the agent threshold to liquidation. */
 .position-widget .ltv-rail {
   height: 14px;
-  background: linear-gradient(90deg, #ff4a19 0%, #ffab24 31%, #e2eee4 51%, #a7c9f6 66%, #6245d6 100%);
-  box-shadow: 0 0 0 7px #f1f2f366, 0 0 12px #b7c4cc55;
+  background: linear-gradient(90deg, #b7d8c3 0%, #b7d8c3 50%, #ead9b8 70%, #e6bbb7 86%, #d9918b 100%);
+  box-shadow: 0 0 0 7px #f5f6f880, 0 0 12px #7b879433;
 }
 .position-widget .ltv-rail::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit;
   background: inherit; filter: blur(6px); opacity: .6; pointer-events: none;
 }
+
+.position-widget .replay-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; padding-top: 8px; }
+.replay-status { margin: 0; font: 11px/1.4 var(--font-technical); color: #596675; }
+.replay-timeline { display: flex; align-items: center; gap: 8px; height: 42px; padding: 4px; border-radius: 13px; background: var(--ltv-track, #e9ebee); }
+.replay-toggle { flex: none; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 9px; background: #566a83; cursor: pointer; touch-action: manipulation; }
+.replay-toggle img { display: block; filter: brightness(0) invert(1); }
+.replay-toggle:active { transform: scale(.96); }
+.replay-toggle:focus-visible, .replay-track input:focus-visible { outline: 2px solid #273846; outline-offset: 2px; }
+.replay-toggle:disabled { opacity: .5; cursor: default; }
+.replay-track { position: relative; flex: 1; height: 30px; overflow: hidden; border-radius: 7px; }
+.replay-ticks { position: absolute; inset: 7px 2px; background: repeating-linear-gradient(90deg, #aeb5c0 0 1px, transparent 1px 24px); opacity: .8; pointer-events: none; }
+.replay-fill { position: absolute; inset: 0 auto 0 0; background: #566a8320; border-right: 2px solid #566a83; pointer-events: none; }
+.replay-track input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: .01; cursor: ew-resize; }
+@media (prefers-reduced-motion: reduce) { .replay-toggle:active { transform: none; } }
+
+/* Two tactile pins keep the protected and unprotected positions legible on the spectrum. */
+.position-widget .marker-protected { color: var(--ltv-safe); }
+.position-widget .marker-exposed { color: var(--ltv-danger); }
+.position-widget .threshold-0 { color: var(--ltv-safe-text); }
+.position-widget .threshold-0 > i { border-color: var(--ltv-safe); }
+.position-widget .threshold-1 { color: var(--ltv-warning); }
+.position-widget .threshold-1 > i { border-color: var(--ltv-warning); }
+.position-widget .threshold-2 { color: var(--ltv-danger); }
+.position-widget .threshold-2 > i { border-color: var(--ltv-danger); }
+.position-widget .ltv-marker::after { width: 2px; background: currentColor; opacity: .78; }
+.position-widget .ltv-marker > i {
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 24%, #b7d8c3 0%, #5b9b76 36%, var(--ltv-safe) 72%, var(--ltv-safe-text) 100%);
+  box-shadow: 0 0 0 1px var(--ltv-safe-text), 0 2px 5px #183d2f55, inset 0 1px 1px #ffffffa6;
+}
+.position-widget .marker-exposed > i {
+  transform: none;
+  background: radial-gradient(circle at 32% 24%, #f1c9c6 0%, #cb6e69 36%, var(--ltv-danger) 72%, #722b2b 100%);
+  box-shadow: 0 0 0 1px var(--ltv-danger), 0 2px 5px #5c272955, inset 0 1px 1px #ffffffa6;
+}
+.position-widget .scenario-values > div:first-child span::before { background: var(--ltv-safe); }
+.position-widget .scenario-values > div:first-child strong { color: var(--ltv-safe-text); }
+.position-widget .scenario-values > div:last-child span::before { background: var(--ltv-danger); }
+.position-widget .scenario-values > div:last-child strong { color: var(--ltv-danger); }
+.position-widget .scenario-values small { min-height: 1.2em; color: var(--ltv-muted); font: 11px/1.2 var(--font-technical); }
+.position-widget .scenario-values .ltv-buffer { font-size: 12px; font-weight: 600; color: var(--ltv-ink); }
+.position-widget .scenario-values > div:last-child .ltv-buffer { color: var(--ltv-danger); }
