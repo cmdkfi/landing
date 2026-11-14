@@ -35,7 +35,8 @@ export function attachLtvStage() {
     });
     const movement = Math.max(0, Math.min(1, (progress - .28) / .55));
     const eased = movement * movement * (3 - 2 * movement);
-    const distance = Math.max(0, (stage!.clientWidth - 48 - card!.offsetWidth) / 2);
+    const availableWidth = stage!.querySelector<HTMLElement>('.ltv-stage-sticky')!.clientWidth;
+    const distance = Math.max(0, (availableWidth - card!.offsetWidth) / 2);
     card!.style.transform = `translate3d(${distance * eased}px,0,0)`;
     const reveal = Math.max(0, Math.min(1, (progress - .48) / .35));
     copy!.style.opacity = String(reveal);

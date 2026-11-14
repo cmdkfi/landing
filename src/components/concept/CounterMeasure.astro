@@ -24,8 +24,8 @@ const audience = readableCopy(forWhom);
   </div>
 </section>
 <style>
-.origin-map{position:relative;isolation:isolate;overflow:hidden;max-width:1320px;margin:120px auto 0;padding:48px;border-radius:32px;color:#102b42;background:radial-gradient(ellipse at 70% 18%,#eaf8ff 0%,#a7daf8 34%,#79bee8 67%,#417da7 100%);scroll-margin-top:90px;}
-.care-layout{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.25fr;align-items:center;gap:48px;}
+.origin-map{position:relative;isolation:isolate;overflow:hidden;width:var(--page-width);max-width:none;margin:var(--section-space) auto 0;padding:var(--panel-inset);border-radius:32px;color:#102b42;background:radial-gradient(ellipse at 70% 18%,#eaf8ff 0%,#a7daf8 34%,#79bee8 67%,#417da7 100%);scroll-margin-top:90px;}
+.care-layout{position:relative;z-index:1;display:grid;grid-template-columns:var(--demo-columns);align-items:center;gap:var(--grid-gap);}
 .care-intro h2{font-size:clamp(28px,3.2vw,44px);line-height:1.12;letter-spacing:-.04em;text-wrap:balance;max-width:18ch;}
 .care-intro p{font-size:15px;line-height:1.6;}.care-closing{color:white;}
 .care-story{display:flex;flex-direction:column;min-width:0;min-height:490px;background:white;border-radius:24px;overflow:hidden;color:#273846;box-shadow:0 12px 36px #102b4215;}

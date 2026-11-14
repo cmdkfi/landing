@@ -1,0 +1,51 @@
+---
+import TestnetShow from './try-today/TestnetShow';
+const copy = {
+  status: 'LIVE ON TESTNET',
+  title: 'What you can try today.',
+  intro: 'Your ETH. Your limits. Three steps to your first loan.',
+  caption: 'On testnet today: ETH to USDC on Morpho with preset limits.',
+  opening: 'Two transactions and three signatures for a fresh open.',
+  cta: 'Open testnet',
+};
+const steps = [
+  ['Choose', 'Choose an amount of ETH on testnet.'],
+  ['Sign', 'Review the limits and sign with your wallet.'],
+  ['Monitor', 'Review the loan and the agent’s actions.'],
+];
+---
+<section id="try-today" class="try-today" aria-labelledby="try-today-title">
+  <p class="eyebrow">{copy.status}</p>
+  <h2 id="try-today-title">{copy.title}</h2>
+  <p class="intro">{copy.intro}</p>
+  <div class="guided">
+    <ol class="steps">
+      {steps.map(([title, description], index) => <li>
+        <span class="eyebrow" aria-hidden="true">0{index + 1}</span>
+        <h3>{title}</h3><p>{description}</p>
+      </li>)}
+    </ol>
+    <div class="show"><TestnetShow client:visible /></div>
+  </div>
+  <footer>
+    <p>{copy.caption}<br />{copy.opening}</p>
+    <a href="https://testnet.cmdk.fi/#start">{copy.cta} <span aria-hidden="true">↗</span></a>
+  </footer>
+</section>
+<style>
+.try-today{width:calc(var(--page-width) - 2 * var(--panel-inset));max-width:none;margin:var(--section-space) auto;padding:0;color:#263442;font-family:Mluvka, sans-serif;scroll-margin-top:96px}
+.eyebrow{font-size:11px;line-height:1.5;letter-spacing:.1em}
+h2{font-family:Kecal,sans-serif;font-size:clamp(36px,5vw,64px);font-weight:650;line-height:1.08;letter-spacing:-.04em;margin:14px 0;text-wrap:balance}
+.intro{color:#637080;font-size:18px;line-height:1.6;margin:20px 0 48px}
+.guided{display:grid;grid-template-columns:var(--demo-columns);gap:var(--grid-gap);align-items:center}
+.steps{list-style:none;margin:0;padding:0}.steps li{border-top:1px solid #e7e8ea;padding:24px 0}.steps .eyebrow{color:#637080}
+h3{font-size:24px;line-height:1.25;letter-spacing:-.025em;margin:20px 0 16px;font-weight:650}
+.steps p{font-size:16px;line-height:1.6;color:#637080;margin:0;text-wrap:pretty}
+.show{min-width:0;border:1px solid #e7e8ea;border-radius:24px;overflow:hidden;background:white}
+footer{max-width:none;margin-inline:auto;display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:32px;font-size:13px;line-height:1.7;color:#637080}
+footer a{display:inline-flex;gap:6px;align-items:center;background:#14171b;color:white;padding:14px 24px;border-radius:30px;text-decoration:none;white-space:nowrap;min-height:44px}
+footer a:focus-visible{outline:2px solid #4275bd;outline-offset:4px}footer a:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){footer a:hover{background:#30343a}}
+@media(max-width:1100px){.guided{grid-template-columns:1fr;max-width:none}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}footer{max-width:none}}
+@media(max-width:700px){.steps{display:block}.try-today{margin:var(--section-space) auto;padding:0}.guided{grid-template-columns:1fr;gap:24px}.intro{margin-bottom:32px}footer{align-items:start;flex-direction:column}}
+</style>

@@ -1,0 +1,33 @@
+---
+import { limits, visual } from '../../content/landing';
+const risksLabel = 'Risks';
+const titles = ['Recovery costs', 'Service outages', 'Agent compromise', 'Fast price gaps'];
+---
+
+<section id="limits" aria-labelledby="limits-title">
+  <h2 id="limits-title">{visual.limitsTitle}</h2>
+  <ul aria-label={risksLabel}>
+    {limits.honesty.map((risk, i) => <li><strong>{titles[i]}</strong><p>{risk}</p></li>)}
+  </ul>
+  <div class="questions">
+    <h3>{limits.faqHeading}</h3>
+    {limits.faq.map(({ q, a }) => <details><summary>{q}</summary><p>{a}</p></details>)}
+  </div>
+</section>
+
+<style>
+  section { width: var(--page-width); margin: var(--section-space) auto; scroll-margin-top: 96px; color: #263442; font-family: Mluvka, sans-serif; }
+  h2 { font: 650 clamp(2.5rem, 5vw, 4.5rem)/1.05 Kecal, sans-serif; letter-spacing: -.045em; margin: 0 0 36px; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  li { border: 1px solid #dce1e6; border-radius: 24px; padding: 22px; }
+  p { color: #505f6f; line-height: 1.55; text-wrap: pretty; }
+  li p { margin: 6px 0 0; }
+  .questions { max-width: 780px; margin: var(--grid-gap) auto 0; }
+  h3 { margin: 0 0 16px; font-size: 1.5rem; }
+  details { border-top: 1px solid #dce1e6; }
+  summary { cursor: pointer; padding: 14px 2px; min-height: 48px; }
+  summary:focus-visible { outline: 2px solid #425e74; outline-offset: 3px; }
+  details p { margin: 0 0 16px; max-width: 66ch; }
+  @media (max-width: 1000px) { ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { ul { grid-template-columns: minmax(0, 1fr); } }
+</style>

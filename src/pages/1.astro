@@ -1,7 +1,12 @@
 ---
 import '../styles/global.css';
+import '../styles/concept-grid.css';
 import HeaderSearch from '../components/concept/HeaderSearch.astro';
 import BorrowIntro from '../components/concept/BorrowIntro.astro';
+import TryToday from '../components/concept/TryToday.astro';
+import ConceptEvidence from '../components/concept/ConceptEvidence.astro';
+import ConceptLimits from '../components/concept/ConceptLimits.astro';
+import ConceptRoadmap from '../components/concept/ConceptRoadmap.astro';
 import CounterMeasure from '../components/concept/CounterMeasure.astro';
 import MeadowBreak from '../components/concept/MeadowBreak.astro';
 import PositionDial from '../components/concept/PositionDial.astro';
@@ -78,7 +83,10 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
       <BorrowIntro />
       <MeadowBreak />
       <CounterMeasure />
+      <TryToday />
+      <ConceptEvidence />
       <ConceptRoadmap />
+      <ConceptLimits />
     </main>
   </body>
 </html>
@@ -96,7 +104,7 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   .concept-header .concept-header-cta {
     font-weight: 500;
   }
-  .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px max(20px, calc((100% - 1320px) / 2)); display: flex; align-items: center; gap: 16px; background: transparent; }
+  .concept-header { position: fixed; top: 0; z-index: 10; width: 100%; min-height: 72px; margin: 0; padding: 4px var(--page-edge); display: flex; align-items: center; gap: 16px; background: transparent; }
   .concept-logo { display: inline-flex; align-items: center; gap: 6px; flex: none; }
   .logo-key { --cta-padding: 0; }
   .logo-key .cta-surface { width: 34px; justify-content: center; }
@@ -333,9 +341,6 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
   const codeSurface = document.querySelector<HTMLElement>('.hands-sticky');
   const disposeCodePointer = codeSurface ? attachCodePointer(codeSurface) : undefined;
   document.addEventListener('astro:before-swap', () => disposeCodePointer?.(), { once: true });
-  import { attachHeaderEyes } from '../scripts/header-eyes';
-  const disposeEyes = attachHeaderEyes();
-  document.addEventListener('astro:before-swap', disposeEyes, { once:true });
 
   import { attachParticleWake } from '../scripts/particle-wake';
   const wakeSurface=document.querySelector<HTMLElement>('.hands-sticky');
@@ -534,7 +539,6 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     pageMotion.dispose();
     textReveal.dispose();
     disposeCodePointer?.();
-    disposeEyes();
     dial.removeEventListener('wheel',horizontalWheel);
     dial.removeEventListener('touchstart',beginTouch);
     dial.removeEventListener('touchend',endTouch);
