@@ -48,13 +48,6 @@ export default function LtvChart() {
   const phases = [copy.replayFalling, copy.replayActing, copy.replayRecovering, copy.replaySettled, copy.replayComplete];
   const current = valuesAt(progress);
   return <div className="ltv-scenario" ref={root} data-phase={state.phase}>
-    <div className="scenario-toolbar">
-      <p role="status" aria-live="polite">{phases[state.phase]}</p>
-      <div className="scenario-actions">
-        <button type="button" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}><img src={state.playing ? "/cds-icons/pause.svg" : "/cds-icons/play.svg"} width="20" height="20" alt="" /></button>
-        <button type="button" onClick={() => controls.current.replay()} aria-label={copy.replayButton}><img src="/cds-icons/refresh.svg" width="20" height="20" alt="" /></button>
-      </div>
-    </div>
     <div className="scenario-values">
       <div><span>{copy.text9}</span><strong>{current.protected.toFixed(1)}%</strong></div>
       <div><span>{copy.text10}</span><strong>{current.exposed.toFixed(1)}%</strong></div>
@@ -70,7 +63,15 @@ export default function LtvChart() {
       <span>{copy.targetLabel}</span><span>{copy.actLabel}</span><span>{copy.liquidationLabel}</span>
     </div>
     <p className="scale-definition">{copy.ltvDefinition}</p>
+    <div className="replay-controls">
+    <div className="scenario-toolbar">
+      <p role="status" aria-live="polite">{phases[state.phase]}</p>
+      <div className="scenario-actions">
+        <button type="button" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}><img src={state.playing ? "/cds-icons/pause.svg" : "/cds-icons/play.svg"} width="20" height="20" alt="" /></button>
+        <button type="button" onClick={() => controls.current.replay()} aria-label={copy.replayButton}><img src="/cds-icons/refresh.svg" width="20" height="20" alt="" /></button>
+      </div>
+    </div>
     <label className="scenario-scrub"><span>{copy.scrubLabel}</span><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/><span>{copy.compressedTime}</span></label>
-
+    </div>
   </div>;
 }

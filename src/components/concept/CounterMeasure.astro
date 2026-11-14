@@ -17,7 +17,7 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 </div>
 <div class="map-mat">
 <div class="liquid-field" aria-hidden="true"><i></i><i></i><i></i></div>
-<div class="map-card">
+<div class="map-card position-widget">
 <div class="label">{copy.positionLabel}</div>
 <div class="position-pair" aria-label={copy.pairDescription}>
 <span><img src="/token-icons/eth.svg" alt="" width="36" height="36" />{copy.collateralSymbol}</span>
@@ -134,6 +134,12 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   .origin-map { padding-block: 16px; scroll-margin-top: 72px; }
   .map-mat { padding: 16px; }
   .map-card { padding: 16px 20px; border-radius: 16px; }
+  .position-widget { --panel: #f0f3f6; --surface: #fff; }
+  .position-widget .position-pair { margin-block: 8px; }
+  .position-widget .position-pair > span:not(.pair-arrow) { background: var(--panel); border-radius: 24px; padding: 6px 12px 6px 6px; gap: 8px; font-size: 20px; }
+  .position-widget .position-pair img { width: 28px; height: 28px; }
+  .position-widget .position-pair .pair-arrow img { width: 20px; height: 20px; }
+
   .position-pair { margin-top: 8px; gap: 16px; }
   .position-pair .pair-arrow img { width: 24px; height: 24px; }
   .map-note { font: 12px/1.45 inherit; margin-top: 10px; padding-top: 10px; }

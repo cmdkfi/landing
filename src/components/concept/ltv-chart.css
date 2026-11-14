@@ -69,3 +69,24 @@
 .scenario-log { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 4px; }
 .scenario-log li { grid-template-columns: 1fr; gap: 2px; padding: 6px 0 0; border: 0; font-size: 12px; line-height: 1.35; }
 @media(max-width:600px) { .scenario-log { grid-template-columns: 1fr; gap: 0; } .scenario-log li { grid-template-columns: 26px 1fr; } }
+
+/* Outcome panels follow the paired amount panels in the Uniswap reference. */
+.position-widget .scenario-values { gap: 8px; padding-top: 0; }
+.position-widget .scenario-values > div { background: var(--panel); border-radius: 12px; padding: 12px 16px; gap: 8px; }
+.position-widget .scenario-values strong { font-size: 32px; line-height: 1.1; }
+.position-widget .ltv-scale { margin-top: 12px; }
+.position-widget .scenario-toolbar { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--chart-grid); }
+.position-widget .scenario-toolbar p { font-family: inherit; font-size: 12px; max-width: 32ch; }
+.position-widget .scenario-actions button { border: 0; background: var(--panel); border-radius: 50%; }
+.position-widget .scenario-scrub { margin-top: 8px; }
+.position-widget .scale-definition { margin-bottom: 8px; }
+@media (hover:hover) and (pointer:fine) { .position-widget .scenario-actions button:hover { background: var(--chart-grid); } }
+@media (max-width:600px) { .position-widget .scenario-values > div { padding: 12px; } .position-widget .scenario-values strong { font-size: 28px; } }
+
+.position-widget .replay-controls { display: grid; grid-template-columns: auto 1fr; column-gap: 16px; border-top: 1px solid var(--chart-grid); padding-top: 8px; margin-top: 8px; }
+.position-widget .scenario-toolbar { display: contents; }
+.position-widget .scenario-toolbar p { grid-column: 1/-1; max-width: none; min-height: 20px; margin-bottom: 4px; }
+.position-widget .scenario-actions { grid-column: 1; grid-row: 2; align-self: center; }
+.position-widget .scenario-scrub { grid-column: 2; grid-row: 2; margin: 0; column-gap: 8px; }
+.position-widget .scenario-scrub input { height: 32px; }
+.position-widget .scenario-values > div { padding-block: 8px; }

@@ -23,3 +23,10 @@ Validation: build and content checks pass. Browser inspection confirms both mark
 Removed the redundant card headline, scenario subtitle and repeated step list. The current phase remains visible in the playback toolbar; the short market/strategy qualification sits in the left column. Reduced panel padding and result spacing while retaining 12px threshold labels, 24px current LTV values and 44px playback targets. At a measured 1366×767 CSS viewport, section height is 677.7px and fixed header height is 72px, leaving room for the full section on a 768px-high desktop. The scale remains 511.8px wide. Mobile keeps the stacked layout and scrolls.
 
 Play, pause, refresh and arrowRight SVGs are from Coinbase CDS, served locally with their Apache-2.0 license. ETH/USDC retain the requested color token assets. Build, copy checks and diff checks passed; the complete section and all three bottom figures were verified in the rendered desktop view.
+
+
+## Position card grouping — 2026-11-14
+
+Only the right position card changed. Mobbin's Uniswap screen f6df1b99-91e7-4bf3-9076-31c7140da276 informed paired soft amount panels and compact token grouping. Base search returned no relevant Base screen. Replay controls sit below the scale (local adaptation), preserving every control and label. The scale mechanics, data, incident charts and outer section styling are unchanged.
+
+Validation: build, check and diff whitespace checks passed. Browser measured the section at 688.74 CSS px at a 1366 × 767 viewport, leaving room for the 72 px header. Keyboard End on the replay slider yields protected 50.0% and unprotected 86.0%.
