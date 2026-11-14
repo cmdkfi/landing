@@ -1,0 +1,43 @@
+---
+import PositionWidget from './PositionWidget.astro';
+import { featuresOf, market, visual, statusLabel } from '../../content/landing';
+const items = featuresOf('market');
+---
+<section class="price-protection" aria-label={visual.marketTitle}>
+  <header class="protection-heading">
+    <span class="availability" data-status="live">{statusLabel.live}</span>
+    <h3>{visual.marketSub}</h3>
+  </header>
+  <PositionWidget />
+  <div class="protection-details">
+    <h4>{visual.marketDetails}</h4>
+    <ul>
+      {items.map(item => <li>
+        <div class="feature-heading"><h5>{item.title}</h5><span class="availability" data-status={item.status}>{statusLabel[item.status]}</span></div>
+        <p>{item.text}</p>
+      </li>)}
+    </ul>
+    <p class="protection-note">{market.honesty}</p>
+    <a href={market.link.href}>{market.link.label}<span aria-hidden="true"> ↗</span></a>
+  </div>
+</section>
+<style>
+  .price-protection { --protection-border: #e3e7eb; color: #273846; background: #fff; }
+  .protection-heading { padding: 24px 24px 0; }
+  h3 { margin: 12px 0 8px; font-size: 26px; line-height: 1.2; letter-spacing: -.025em; text-wrap: pretty; }
+  .availability { display: inline-flex; flex: none; border: 1px solid #d9dfe2; border-radius: 999px; padding: 4px 9px; font: 12px/1.4 var(--font-sans, sans-serif); color: #53616a; background: #f1f3f4; }
+  .availability[data-status=live] { color: #216c4c; background: #edf5f0; border-color: #cce1d4; }
+  .availability[data-status=production] { color: #805813; background: #faf3e5; border-color: #e8d8b6; }
+  .protection-details { padding: 0 24px 28px; }
+  h4 { margin: 0; padding: 24px 0 8px; border-top: 1px solid var(--protection-border); font-size: 18px; font-weight: 600; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { padding: 22px 0; border-bottom: 1px solid var(--protection-border); }
+  .feature-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; }
+  h5 { margin: 0; font-size: 16px; line-height: 1.5; font-weight: 600; }
+  p { margin: 10px 0 0; font-size: 16px; line-height: 1.6; text-wrap: pretty; }
+  .protection-note { color: #596675; margin-top: 24px; }
+  a { display: inline-flex; gap: 4px; align-items: center; min-height: 44px; margin-top: 8px; color: #216c4c; text-underline-offset: 4px; font-size: 16px; }
+  a:focus-visible { outline: 2px solid #4b657a; outline-offset: 4px; border-radius: 4px; }
+  @media (hover: hover) and (pointer: fine) { a:hover { color: #154a34; } }
+  @media (max-width: 600px) { .protection-heading { padding: 20px 14px 0; } .protection-details { padding-inline: 14px; } h3 { font-size: 23px; } }
+</style>
