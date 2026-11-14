@@ -162,3 +162,9 @@
 .position-widget .scenario-values small { min-height: 1.2em; color: var(--ltv-muted); font: 11px/1.2 var(--font-technical); }
 .position-widget .scenario-values .ltv-buffer { font-size: 12px; font-weight: 600; color: var(--ltv-ink); }
 .position-widget .scenario-values > div:last-child .ltv-buffer { color: var(--ltv-danger); }
+@media (max-width: 600px) {
+  .position-widget .ltv-scale { margin-inline: 4px; }
+  .position-widget .ltv-threshold small { max-width: 58px; line-height: 1.15; }
+  .position-widget .threshold-2 > span { top: -19px; }
+  .position-widget .scale-definition { font-size: 11px; line-height: 1.45; }
+}

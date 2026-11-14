@@ -12,6 +12,7 @@ import { meadowCopy } from "../../content/counter-measure";
     decoding="async"
   />
   <canvas class="meadow-canvas" aria-hidden="true"></canvas>
+  <p class="meadow-transition">{meadowCopy.transition}</p>
 </section>
 
 <style>
@@ -41,11 +42,13 @@ import { meadowCopy } from "../../content/counter-measure";
   }
 
   .meadow-break.is-ready .meadow-canvas { opacity: 1; }
+  .meadow-transition { position: relative; z-index: 1; margin: -48px auto 56px; width: fit-content; max-width: calc(100% - 40px); padding: 12px 18px; border: 1px solid #dfe6e0; border-radius: 999px; background: #fff; color: #273846; font: 500 15px/1.35 "Kecal", sans-serif; text-align: center; }
 
   @media (max-width: 600px) {
     .meadow-break { margin-top: 72px; }
     .meadow-break img,
     .meadow-canvas { width: 145%; max-width: none; margin-left: -22.5%; }
+    .meadow-transition { margin-top: -18px; font-size: 13px; }
   }
 
   @media (prefers-reduced-motion: reduce) {

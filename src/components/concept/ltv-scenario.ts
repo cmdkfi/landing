@@ -1,5 +1,5 @@
 // A compressed illustrative timeline. Geometry is event-based, not a live price feed.
-export const DURATION = 10000;
+export const DURATION = 11200;
 export function progressAt(ms: number) {
   if (ms <= 3000) return Math.max(0, ms / 3000);
   if (ms <= 4200) return 1;

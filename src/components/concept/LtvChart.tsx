@@ -7,19 +7,19 @@ import './ltv-chart.css';
 export default function LtvChart() {
   const root = useRef<HTMLDivElement>(null);
   const controls = useRef({ toggle: () => {}, seek: (_: number) => {} });
-  const [state, setState] = useState({ playing: false, phase: 0, reduced: false });
-  const [progress, setProgress] = useState(0);
-  const [timeline, setTimeline] = useState(0);
+  const [state, setState] = useState({ playing: false, phase: 4, reduced: false });
+  const [progress, setProgress] = useState(3);
+  const [timeline, setTimeline] = useState(100);
   useEffect(() => {
     const el = root.current!;
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    let elapsed = 0, frame = 0, previous = 0, phase = -1, lastDraw = 0;
-    let visible = false, playing = true, reduced = motion.matches;
+    let elapsed = DURATION, frame = 0, previous = 0, phase = 4, lastDraw = 0;
+    let visible = false, playing = false, reduced = motion.matches;
     const slider = el.querySelector<HTMLInputElement>('input')!;
     const updateState = (next: number) => { phase = next; setState({ playing, phase, reduced }); };
     const draw = () => {
       const p = progressAt(elapsed);
-      const next = p < 1 ? 0 : p === 1 ? 1 : p < 2 ? 2 : p < 3 ? 3 : 4;
+      const next = elapsed === DURATION ? 4 : p < 1 ? 0 : p === 1 ? 1 : p < 2 ? 2 : 3;
       setProgress(p);
       setTimeline(elapsed / DURATION * 100);
       slider.value = String(elapsed);
@@ -47,7 +47,7 @@ export default function LtvChart() {
     onMotion();
     return () => { stop(); observer.disconnect(); document.removeEventListener('visibilitychange', schedule); motion.removeEventListener('change', onMotion); };
   }, []);
-  const phases = [copy.replayFalling, copy.replayActing, copy.replayRecovering, copy.replaySettled, copy.replayComplete];
+  const phases = [copy.replayFalling, copy.replayActing, copy.replayRecovering, copy.replaySettled, copy.replayPoster];
   const current = valuesAt(progress);
   const protectedBuffer = Math.max(0, 86 - current.protected).toFixed(1);
   const exposedBuffer = Math.max(0, 86 - current.exposed).toFixed(1);
@@ -70,7 +70,7 @@ export default function LtvChart() {
       <p className="replay-status" role="status" aria-live="polite">{phases[state.phase]}</p>
       <div className="replay-timeline">
         <button type="button" className="replay-toggle" disabled={state.reduced} onClick={() => controls.current.toggle()} aria-label={state.playing ? copy.pause : copy.play}><img src={state.playing ? "/cds-icons/pause.svg" : "/cds-icons/play.svg"} width="20" height="20" alt="" /></button>
-        <div className="replay-track"><div className="replay-ticks" aria-hidden="true" /><div className="replay-fill" style={{ width: `${timeline}%` }} aria-hidden="true" /><input type="range" min="0" max={DURATION} step="10" defaultValue="0" aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/></div>
+        <div className="replay-track"><div className="replay-ticks" aria-hidden="true" /><div className="replay-fill" style={{ width: `${timeline}%` }} aria-hidden="true" /><input type="range" min="0" max={DURATION} step="10" defaultValue={DURATION} aria-label={copy.scrubLabel} onChange={e=>controls.current.seek(Number(e.target.value))}/></div>
       </div>
     </div>
   </div>;
