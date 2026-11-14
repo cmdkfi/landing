@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  liveline@0.0.7: 18e9923f6f07113aa84d90a058ed90eebe45281fbaa16aedcf1a280a5800e2ca
+  liveline@0.0.7: 4ecbcc7cffcd19f299ef62a57f2200734630520d25af3f6101a71cfd73668813
 
 importers:
 
@@ -22,7 +22,7 @@ importers:
         version: 5.18.2(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.67.2)(supports-color@10.2.2)(typescript@5.9.3)
       liveline:
         specifier: ^0.0.7
-        version: 0.0.7(patch_hash=18e9923f6f07113aa84d90a058ed90eebe45281fbaa16aedcf1a280a5800e2ca)(react@19.3.1)
+        version: 0.0.7(patch_hash=4ecbcc7cffcd19f299ef62a57f2200734630520d25af3f6101a71cfd73668813)(react@19.3.1)
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -4184,7 +4184,7 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
-  liveline@0.0.7(patch_hash=18e9923f6f07113aa84d90a058ed90eebe45281fbaa16aedcf1a280a5800e2ca)(react@19.3.1):
+  liveline@0.0.7(patch_hash=4ecbcc7cffcd19f299ef62a57f2200734630520d25af3f6101a71cfd73668813)(react@19.3.1):
     dependencies:
       react: 19.3.1
 

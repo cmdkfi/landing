@@ -1,26 +1,17 @@
-# Counter-measure direction
+# Counter-measure and incident charts
 
-Chosen: Origin-inspired text/chart split, Aave-inspired large result figures, using /1 Kecal typography and neutral surfaces.
+The /1 section follows an Origin-inspired text/chart split with large comparative results. It keeps the page's Kecal type, technical mono labels, white surfaces, slate #4b657a and liquidation red #b44440. A continuous, subdued green liquid backdrop sits outside the chart card; reduced-motion disables it.
 
-Rejected: equal-width script columns were too long; dark Night watch interrupted the light page. The full-width chart was replaced with a compact chart beside the narrative.
+## Liveline integration
 
-The chart is a static illustrative comparison, not measured market history. No entrance animation or prototype controls ship. Scenario figures come from the supplied brief.
+All four charts use Liveline 0.0.7. The existing pnpm package patch preserves Kecal and adds optional `time`, `timeRange`, and `valueRange` props for controlled historical rendering. Omitted props retain the original live behavior. Both ESM and CJS builds and declarations are patched. Controlled time disables interpolation of live values, preventing previous samples and keyboard seeks from drifting.
 
-## Typography and chart refinement
+The LTV timeline plays once on visibility for ten seconds, including a 1.2-second hold at 70%. Protected LTV returns to 50%; unprotected LTV reaches 86%. A fixed domain prevents autoscaling from obscuring the comparison. Pause, replay, and a native keyboard-accessible range control inspect the scenario. Rendering updates at most roughly 30 times per second; playback stops offscreen and while the document is hidden. Reduced-motion immediately shows the outcome without autoplay. Timestamps are illustrative and time is compressed by event, not proportional to wall-clock time.
 
-- Reuse incident chart slate #4b657a, paper #fbfcfe, grid #d7dfe8 and shell #e9ebee. Reserve #b44440 for the liquidation path. Solid and dashed strokes distinguish scenarios independently of color.
-- Kecal section heading: 36–58px, weight 540, line height 1.08; 36px on mobile. Card heading: 22–28px, weight 540.
-- Body: inherited Kecal, 16px/1.6. Legend: 13px. Supporting copy: 14px/1.5.
-- Technical labels and notes: shared --font-technical, 12px. Result numbers use the same family, tabular figures, 32–52px; 40px on mobile.
-- Remove decorative dots. Stack result metrics on small screens to retain legible figures.
-- Static chart: no motion needed; keyboard and reduced-motion users receive the same information.
+Incident charts use the existing verified block samples through the write-off block, with exact before/after metrics retained. Later asset movements are excluded so the plotted endpoint agrees with REMAINING. Lines between sampled blocks are explicitly described as visual guides, not additional measurements. Decorative pulse and interpolated hover tooltips are disabled. The historic clock never advances with today's time.
 
-## Liveline comparison
+## Evidence and arithmetic
 
-Selected Multi-series from https://benji.org/liveline: overlapping scenario lines, endpoint labels, inspection crosshair, and series toggles. A fixed 70% reference identifies intervention. The illustrative paths are paused rather than supplied with invented live ticks. The unprotected LTV ends at 86%; liquidation is not depicted as a meaningful subsequent LTV of zero. Reduced-motion users retain the static SVG comparison. The green liquid backdrop remains.
+The public cmdkfi/app backtest at 11f9e2ff8f26638051b9afcfdd7d6833bd02479e supports 20/20 simulated positions from Morpho and Aave across October 2025 and Jan–Feb 2026, using a two-minute execution delay. It does not establish the supplied exact timestamps, a 12-second intervention, a $4,810 penalty, or a 3.2% sale. The illustration is labeled separately and links to the source for the historical metric.
 
-Validation: build and content checks passed; rendered settled chart and toggles verified in the browser.
-
-## Scenario playback
-
-The comparison now plays once when visible, pauses at the 70% intervention moment, and reveals the protected return to 50% while the other series reaches 86%. Replay restarts it. The illustrative timeline advances three seconds per sample (12 scenario seconds between intervention and liquidation), accelerated for presentation. Timers stop while the page is hidden or chart leaves view. Reduced-motion retains the static outcome.
+For constant-price collateral sale and debt repayment, (0.70 - x) / (1 - x) = 0.50 gives x = 0.40. The illustration therefore shows 40% sold and 60% retained, excluding fees/slippage. It does not advertise 96.8% retained for that operation. The unsupported 12% market-drop caption was removed.

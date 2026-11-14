@@ -8,6 +8,11 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 <div class="eyebrow">{copy.text1}</div>
 <h2 id="counter-measure-title">{copy.text2}<br>{copy.text3}</h2>
 <p>{copy.text4}</p>
+<dl class="corridor-rules">
+<div><dt>{copy.text13}</dt><dd>{copy.targetMeaning}</dd></div>
+<div><dt>{copy.text12}</dt><dd>{copy.actMeaning}</dd></div>
+<div><dt>{copy.text11}</dt><dd>{copy.lltvMeaning}</dd></div>
+</dl>
 <div class="micro">{copy.text5}<br>{copy.text6}</div>
 </div>
 <div class="map-mat">
@@ -15,30 +20,8 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 <div class="map-card">
 <div class="label">{copy.text7}</div>
 <h2>{copy.text8}</h2>
-<div class="ltv-interactive"><LtvChart client:visible /></div>
-<div class="ltv-static"><div class="legend">
-<span>{copy.text9}</span>
-<span>{copy.text10}</span>
-</div>
-<svg class="map-plot" viewBox="0 0 460 290" role="img" aria-label={copy.chartDescription}>
-<g stroke="var(--chart-grid)" stroke-width="1">
-<path d="M48 40H440M48 125H440M48 232H440"/>
-</g>
-<text x="0" y="44">{copy.text11}</text>
-<text x="0" y="129">{copy.text12}</text>
-<text x="0" y="236">{copy.text13}</text>
-<path d="M48 232L112 218L179 181L245 125L294 89L350 40L350 250" fill="none" stroke="var(--chart-danger)" stroke-width="2" stroke-dasharray="4 5"/>
-<path d="M48 232L112 218L179 181L245 125L290 232L440 232" fill="none" stroke="var(--chart-ink)" stroke-width="2.7" stroke-linejoin="round"/>
-<circle cx="245" cy="125" r="5" fill="var(--chart-ink)" stroke="white" stroke-width="2"/>
-<circle cx="350" cy="40" r="4" fill="var(--chart-danger)"/>
-<circle cx="440" cy="232" r="4" fill="var(--chart-ink)"/>
-<text class="red-text" x="276" y="23">{copy.text14}</text>
-<text class="green-text" x="159" y="109">{copy.text15}</text>
-<text class="green-text" x="313" y="216">{copy.text16}</text>
-<text x="48" y="278">{copy.text17}</text>
-<text x="326" y="278">{copy.text18}</text>
-</svg></div>
-<div class="ltv-thresholds"><span>{copy.targetLabel}</span><span>{copy.liquidationLabel}</span></div>
+<div class="scenario-label">{copy.scenarioLabel}</div>
+<LtvChart client:visible />
 <div class="map-note">{copy.text19}<br>{copy.text20}</div>
 </div>
 </div>
@@ -59,6 +42,7 @@ import { counterMeasure as copy } from "../../content/counter-measure";
 <strong>{copy.text27}</strong>
 <div class="label">{copy.text28}</div>
 <p>{copy.text29}</p>
+<a class="backtest-link" href={copy.sourceUrl}>{copy.sourceLabel}</a>
 </div>
 </div>
 <div class="foot">
@@ -80,7 +64,8 @@ import { counterMeasure as copy } from "../../content/counter-measure";
     scroll-margin-top: 90px;
     font-synthesis: none;
   }
-  .origin-grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: 64px; align-items: center; }
+  .origin-grid > *, .map-card { min-width: 0; box-sizing: border-box; }
+  .origin-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: 64px; align-items: center; }
   .eyebrow, .label, .micro, .map-note, .proof { font-family: var(--font-technical); color: var(--muted); }
   .eyebrow, .label { font-size: 12px; line-height: 1.5; letter-spacing: .06em; }
   .origin-copy h2 { font-size: clamp(36px, 4vw, 58px); font-weight: 540; letter-spacing: -.055em; line-height: 1.08; margin: 20px 0 24px; text-wrap: balance; }
@@ -89,14 +74,6 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   .map-mat { padding: 24px; border-radius: 22px; background: #fff; border: 1px solid #e1e3e7; }
   .map-card { padding: 24px; border-radius: 20px; background: #fff; border: 1px solid #dfe3e8; box-shadow: 0 12px 30px #26364c12, 0 1px 2px #26364c0c; }
   .map-card h2 { font-size: clamp(22px, 2vw, 28px); font-weight: 540; letter-spacing: -.045em; line-height: 1.15; margin: 14px 0 18px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 12px 20px; font-size: 13px; line-height: 1.4; color: var(--muted); }
-  .legend span { display: inline-flex; align-items: center; gap: 7px; }
-  .legend span::before { content: ''; width: 16px; border-top: 2.5px solid var(--chart-ink); }
-  .legend span + span::before { border-color: var(--chart-danger); border-top-style: dashed; }
-  .map-plot { width: 100%; height: auto; display: block; margin-top: 24px; overflow: visible; }
-  .map-plot text { font-family: var(--font-technical); font-size: 12px; fill: var(--muted); font-variant-numeric: tabular-nums; }
-  .map-plot .green-text { fill: var(--chart-ink); }
-  .map-plot .red-text { fill: var(--chart-danger); }
   .map-note { font-size: 12px; line-height: 1.65; border-top: 1px solid var(--chart-grid); padding-top: 16px; margin-top: 12px; }
   .map-results { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 32px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--chart-grid); }
   .map-stat { min-width: 0; }
@@ -106,7 +83,7 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   .foot { margin-top: 28px; }
   .proof { font-size: 12px; line-height: 1.5; }
   @media (max-width: 900px) {
-    .origin-grid { grid-template-columns: 1fr; gap: 32px; }
+    .origin-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
     .origin-copy > p { max-width: 55ch; }
     .map-mat { max-width: 650px; width: 100%; }
   }
@@ -116,7 +93,6 @@ import { counterMeasure as copy } from "../../content/counter-measure";
     .map-mat { padding: 12px; border-radius: 22px; }
     .map-card { padding: 18px 14px; border-radius: 12px; }
     .map-card h2 { font-size: 24px; }
-    .map-plot text { font-size: 15px; }
     .map-results { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
     .map-stat + .map-stat { border-top: 1px solid var(--chart-grid); padding-top: 24px; }
     .map-stat strong { font-size: 40px; }
@@ -134,15 +110,18 @@ import { counterMeasure as copy } from "../../content/counter-measure";
   @media (max-width: 600px) { .map-mat { padding: 22px 16px; } }
   @media (prefers-reduced-motion: reduce) { .liquid-field i { animation: none; } }
 
-  .ltv-static { display: none; }
-  .ltv-interactive { height: 370px; margin-top: 20px; }
-  .ltv-interactive :global(.ltv-live) { height: 100%; }
-  .ltv-interactive :global(button) { min-height: 44px; font-family: inherit; }
-  .ltv-interactive :global(button:focus-visible) { outline: 2px solid #4b657a; outline-offset: 2px; }
-  .ltv-thresholds { display: flex; justify-content: space-between; gap: 12px; font: 11px/1.5 var(--font-technical); color: var(--muted); }
-  @media (prefers-reduced-motion: reduce) { .ltv-interactive { display: none; } .ltv-static { display: block; } }
 
-  .ltv-interactive :global(.ltv-replay-bar) { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font: 11px/1.4 var(--font-technical); color: var(--muted); }
-  .ltv-interactive :global(.ltv-replay-bar button) { flex-shrink: 0; padding: 8px 10px; border: 1px solid #d7dfe8; border-radius: 8px; background: #fff; color: #273846; cursor: pointer; }
-  .ltv-interactive :global(.ltv-replay-bar button:disabled) { opacity: .55; cursor: default; }
+
+  .corridor-rules { margin: 26px 0; font: 12px/1.6 var(--font-technical); }
+  .corridor-rules > div { display: grid; grid-template-columns: 66px 1fr; gap: 14px; padding: 12px 0; border-top: 1px solid #d7dfe8; }
+  .corridor-rules dt { color: #273846; font-weight: 500; }
+  .corridor-rules dd { color: #596675; margin: 0; }
+  .scenario-label { font: 11px/1.5 var(--font-technical); color: #596675; margin: -8px 0 8px; }
+  .map-card h2 { font-family: var(--font-technical); font-weight: 400; letter-spacing: -.04em; }
+  .map-stat { border-left: 1px solid #d7dfe8; padding-left: 24px; }
+  .map-stat:first-child { border-left: 0; padding-left: 0; }
+  .backtest-link { display: inline-block; font: 12px/1.5 var(--font-technical); color: #4b657a; text-underline-offset: 4px; padding: 12px 0; }
+  .backtest-link:focus-visible { outline: 2px solid #555; outline-offset: 3px; }
+  .liquid-field { opacity: .65; }
+  @media(max-width:600px) { .map-stat { border-left: 0; padding-left: 0; } }
 </style>
