@@ -1,12 +1,16 @@
-/* Shared alignment for /1; full-bleed artwork stays outside this container. */
+/* Shared alignment for the landing page; full-bleed artwork stays outside this container. */
 body.concept-page {
   --page-gutter: 24px;
   --page-width: min(1320px, calc(100% - 2 * var(--page-gutter)));
   --page-edge: max(var(--page-gutter), calc((100% - 1320px) / 2));
   --grid-gap: 48px;
   --panel-inset: 48px;
+  --section-inset: var(--panel-inset);
   --demo-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   --section-space: 120px;
+}
+@media (max-width: 800px) {
+  body.concept-page { --section-inset: 16px; }
 }
 @media (max-width: 700px) {
   body.concept-page {
