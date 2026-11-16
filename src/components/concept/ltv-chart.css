@@ -162,3 +162,8 @@
 .position-widget .scenario-values small { min-height: 1.2em; color: var(--ltv-muted); font: 11px/1.2 var(--font-technical); }
 .position-widget .scenario-values .ltv-buffer { font-size: 12px; font-weight: 600; color: var(--ltv-ink); }
 .position-widget .scenario-values > div:last-child .ltv-buffer { color: var(--ltv-danger); }
+
+/* Give the chart's explanations a consistent reading size on both layouts. */
+.position-widget .scenario-toolbar p,.position-widget .scenario-values span,.position-widget .scale-definition,.position-widget .ltv-threshold small{font-size:13px;line-height:1.45}
+.position-widget .scenario-values small,.replay-status{font-size:12px;line-height:1.45}
+@media(max-width:600px){.position-widget .ltv-threshold small{font-size:12px;max-width:76px}.position-widget .scenario-toolbar p{font-size:13px}}

@@ -297,12 +297,18 @@ const atmosphereGlyphs = ['{}', 'N', '()', 'E', '01', 'A', '=>', 'R', '[]', 'H',
     font-variant-numeric: tabular-nums;
   }
   .hands-heading-first .hands-subtitle { max-width: 44ch; }
+  .hands-heading-first .hands-subtitle {
+    width: fit-content;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background: color-mix(in srgb, white 82%, transparent);
+  }
   .hands-copy-head .concept-eyebrow { white-space: nowrap; }
   .hands-heading span { color: inherit; }
   .hands-copy-head { opacity: calc(1 - var(--hero-exit,0)); }
   .hands-heading-first { opacity: calc(var(--first-heading-opacity,1) * (1 - var(--hero-exit,0))); }
   .hands-heading-second { opacity: calc(var(--second-heading-opacity,0) * (1 - var(--hero-exit,0))); }
-  .hands-heading-second .hands-title { line-height: 1; }
+  .hands-heading-second .hands-title { line-height: 1.08; }
   .hands-webgl { position: absolute; inset: -20% 0 -12%; z-index: 1; pointer-events: none; }
   .hands-webgl :global(canvas) { width: 100%; height: 100%; display: block; }
   :global(.hands-light-backdrop) { position: absolute; top: 11.2%; height: 97.68%; width: 100%; left: 0; z-index: 1; pointer-events: none; opacity: var(--hands-opacity, 1); }
