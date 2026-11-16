@@ -56,8 +56,8 @@ const { home, agentDialog = false } = Astro.props;
     background: #535d6d;
     mask: var(--glyph) center / contain no-repeat;
   }
-  .command { --glyph: url('/cmdk-mark-flat.svg#svgView(viewBox(-31,-32,439,439))'); }
-  .letter { --glyph: url('/cmdk-mark-flat.svg#svgView(viewBox(422,-28,439,439))'); }
+  .command { --glyph: url('/cmdk-mark-command.svg'); }
+  .letter { --glyph: url('/cmdk-mark-k.svg'); }
   @media (forced-colors: active) {
     .key::after { forced-color-adjust: none; background: LinkText; }
   }
